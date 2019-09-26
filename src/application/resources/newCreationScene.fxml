@@ -8,14 +8,14 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CreationController">
    <children>
-      <Text layoutX="216.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Creation">
+      <Text layoutX="218.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Creation">
          <font>
             <Font size="18.0" />
          </font></Text>
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" text="Cancel Creation" />
-      <TextField layoutX="358.0" layoutY="166.0" />
-      <Text layoutX="82.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
+      <TextField fx:id="enterSearchTermTextInput" layoutX="358.0" layoutY="166.0" />
+      <Text fx:id="enterSearchTerm" layoutX="82.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
       <Text fx:id="searchProgress" layoutX="238.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." />
-      <Button layoutX="244.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleSearchButton" text="Search Wikipedia" />
+      <Button fx:id="searchWikipediaButton" layoutX="244.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleSearchButton" text="Search Wikipedia" />
    </children>
 </AnchorPane>
