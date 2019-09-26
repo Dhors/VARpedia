@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
@@ -8,5 +9,6 @@
    <children>
       <Text layoutX="232.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current creations" />
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleListReturnButton" text="Return" />
+      <ListView fx:id="listViewCreations" layoutX="51.0" layoutY="86.0" prefHeight="200.0" prefWidth="498.0" />
    </children>
 </AnchorPane>

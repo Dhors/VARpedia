@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class Main extends Application {
 	
 	public static void main(String[] args) {
@@ -15,6 +17,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        File creationsfolder = new File(System.getProperty("user.dir")+"/creations");
+        if (!creationsfolder.exists()) {
+            creationsfolder.mkdirs();
+        }
+
+
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("resources/Home.fxml"));
         Parent layout = loader.load();
@@ -22,5 +31,29 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

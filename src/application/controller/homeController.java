@@ -29,6 +29,22 @@ public class homeController {
             window.show();
         }
 
+
+
+    @FXML
+    private void handlePlayCreationButton(ActionEvent event) throws IOException {
+
+        Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/PlayerScene.fxml"));
+        Scene creationViewScene = new Scene(creationViewParent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        window.setScene(creationViewScene);
+        window.show();
+    }
+
+
+
     @FXML
     private void handleListButton(ActionEvent event) throws IOException {
 
