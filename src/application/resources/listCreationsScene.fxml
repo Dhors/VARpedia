@@ -11,6 +11,6 @@
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleListReturnButton" text="Return" />
       <ListView fx:id="listViewCreations" layoutX="51.0" layoutY="86.0" onMouseClicked="#handleSelectedCreation" prefHeight="200.0" prefWidth="498.0" />
       <Button layoutX="214.0" layoutY="302.0" mnemonicParsing="false" onAction="#handlePlayButton" text="Play" />
-      <Button layoutX="289.0" layoutY="302.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="289.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete" />
    </children>
 </AnchorPane>

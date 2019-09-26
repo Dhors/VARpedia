@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 public class ListController {
 
@@ -50,11 +53,26 @@ public class ListController {
         }
     }
 
-    /*@FXML
+    @FXML
     private void handleDeleteButton(){
+        if (_selectedCreation == null ) {
+            //do nothing
+        }  else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete");
+            alert.setHeaderText(" delete " + _selectedCreation);
+            alert.setContentText("Are you sure?.");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                getSelectedFile().delete();
+                ListCurrentFiles();
+            }
 
 
-    }*/
+        }
+
+    }
 
 
     @FXML
