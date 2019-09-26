@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.homeController">
    <children>
-      <Text layoutX="221.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Texsssrtt" />
+      <Button layoutX="199.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleCreationButton" text="create" />
+      <Button layoutX="300.0" layoutY="113.0" mnemonicParsing="false" text="list" />
+      <Text fx:id="titleText" layoutX="230.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wikispeak.sh" />
    </children>
 </AnchorPane>
