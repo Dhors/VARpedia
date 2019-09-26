@@ -11,7 +11,6 @@
          <children>
             <Button layoutX="232.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleCreationButton" text="New Creation" />
             <Button layoutX="56.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleListButton" text="List Creations" />
-            <Button layoutX="132.0" layoutY="117.0" mnemonicParsing="false" onAction="#handlePlayCreationButton" text="PlayCreation" />
          </children>
       </AnchorPane>
    </children>

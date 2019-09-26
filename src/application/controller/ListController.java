@@ -23,7 +23,7 @@ public class ListController {
     private ListView listViewCreations;
 
     @FXML
-    private String _selectedCreation;
+    private static String _selectedCreation;
 
     public void initialize(){
 
@@ -40,7 +40,6 @@ public class ListController {
         if (_selectedCreation == null ) {
         //do nothing
         }  else {
-
 
             //change scene to playerScene
             Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/PlayerScene.fxml"));
@@ -119,6 +118,20 @@ public class ListController {
 
         //return CreationsListView;
     }
+
+
+    public static File getSelectedFile(){
+
+
+        // Removal of the index on the creation name
+        // and creating it as a file to be played or deleted.
+        String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
+        File _selectedfile = new File(System.getProperty("user.dir")+"/creations/"+ fileName +".mp4");
+
+        return _selectedfile;
+
+    }
+
 
 
 

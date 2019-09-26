@@ -2,12 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.playerController">
    <children>
-      <Text layoutX="242.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player" />
+      <Text layoutX="280.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player" />
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Return" />
+      <Pane fx:id="_player" layoutX="72.0" layoutY="54.0" prefHeight="292.0" prefWidth="457.0" />
    </children>
 </AnchorPane>
