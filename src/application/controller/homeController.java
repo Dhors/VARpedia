@@ -2,8 +2,10 @@ package application.controller;
 
 
 import application.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,24 +17,30 @@ import java.io.IOException;
 public class homeController {
 
         @FXML
-        private void handleCreationButton() throws IOException {
-            titleText.setText("the change to commit");
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("resources/CreationStage.fxml"));
-            Parent layout = loader.load();
-            Scene scene = new Scene(layout);
-            Stage creationStage = new Stage();
-            creationStage.setScene(scene);
-            creationStage.show();
-
-           // Parent CreationViewParent = FXMLLoader.load(getClass().getResource("resources/CreationStage.fxml"));
-           // Scene CreationViewScene = new Scene(CreationViewParent )
+        private void handleCreationButton(ActionEvent event) throws IOException {
 
 
+            Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/newCreationScene.fxml"));
+            Scene creationViewScene = new Scene(creationViewParent);
 
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+            window.setScene(creationViewScene);
+            window.show();
         }
 
+    @FXML
+    private void handleListButton(ActionEvent event) throws IOException {
 
+
+        Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
+        Scene listViewScene = new Scene(listViewParent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        window.setScene(listViewScene);
+        window.show();
+    }
 
         @FXML
         private Text titleText;

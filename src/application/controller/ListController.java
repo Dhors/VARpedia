@@ -11,20 +11,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class CreationController {
+public class ListController {
+
 
     @FXML
-    private void handleCreationCancelButton(ActionEvent event) throws IOException {
+    private void handleListReturnButton(ActionEvent event) throws IOException {
 
-        Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
-        Scene creationViewScene = new Scene(creationViewParent);
+        Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
+        Scene listViewScene = new Scene(listViewParent);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 
-        window.setScene(creationViewScene);
+        window.setScene(listViewScene);
         window.show();
     }
-
 
 
 }

@@ -6,8 +6,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.homeController">
    <children>
-      <Button layoutX="199.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleCreationButton" text="create" />
-      <Button layoutX="300.0" layoutY="113.0" mnemonicParsing="false" text="list" />
-      <Text fx:id="titleText" layoutX="230.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wikispeak.sh" />
+      <Text fx:id="titleText" layoutX="258.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wikispeak.sh" />
+      <AnchorPane layoutX="109.0" layoutY="107.0" prefHeight="200.0" prefWidth="382.0">
+         <children>
+            <Button layoutX="232.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleCreationButton" text="New Creation" />
+            <Button layoutX="56.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleListButton" text="List Creations" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
