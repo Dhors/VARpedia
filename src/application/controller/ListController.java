@@ -25,6 +25,37 @@ public class ListController {
     @FXML
     private String _selectedCreation;
 
+    public void initialize(){
+
+        //ListView listViewCreations =
+        ListCurrentFiles();
+
+        System.out.println( "fuck initialze"+  listViewCreations );
+    }
+
+
+    @FXML
+    private void handlePlayButton(ActionEvent event) throws IOException {
+
+        if (_selectedCreation == null ) {
+        //do nothing
+        }  else {
+
+
+            //change scene to playerScene
+            Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/PlayerScene.fxml"));
+            Scene listViewScene = new Scene(listViewParent);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(listViewScene);
+            window.show();
+        }
+    }
+
+    /*@FXML
+    private void handleDeleteButton(){
+
+
+    }*/
 
 
     @FXML
@@ -45,13 +76,7 @@ public class ListController {
     }
 
 
-    public void initialize(){
 
-        //ListView listViewCreations =
-        ListCurrentFiles();
-
-        System.out.println( "fuck initialze"+  listViewCreations );
-    }
 
 
 
