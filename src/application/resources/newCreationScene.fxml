@@ -20,7 +20,7 @@
       <Text fx:id="enterSearchTerm" layoutX="82.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
       <TextField fx:id="enterSearchTermTextInput" layoutX="358.0" layoutY="166.0" />
       <Button fx:id="searchWikipediaButton" layoutX="244.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" text="Search Wikipedia" />
-      <Text fx:id="searchInProgress" layoutX="238.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." />
+      <Text fx:id="searchInProgress" layoutX="238.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
       <Text fx:id="termNotFound" fill="RED" layoutX="210.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Term not found, please try again." visible="false" />
       <TextArea fx:id="searchResultTextArea" layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="224.0" visible="false" />
       <ListView fx:id="chunkList" layoutX="373.0" layoutY="87.0" prefHeight="200.0" prefWidth="200.0" visible="false" />

@@ -67,7 +67,24 @@ public class CreationController {
 
 	@FXML
     private void handleSearchWikipedia(ActionEvent event) throws IOException {
-	
+		displayChunkSelection();
 	}
 
+    private void displayChunkSelection() {
+    	enterSearchTerm.setVisible(false);
+    	enterSearchTermTextInput.setVisible(false);
+    	searchWikipediaButton.setVisible(false);
+    	searchInProgress.setVisible(false);
+        termNotFound.setVisible(false);
+        
+        searchResultTextArea.setVisible(true); 
+        previewChunk.setVisible(true);
+    	saveChunk.setVisible(true);
+    	voiceLabel.setVisible(true);
+    	voiceDropDownMenu.setVisible(true);
+    	chunkList.setVisible(true);
+    	numImagesSlider.setVisible(true);
+        creationNameTextField.setVisible(true);
+        finalCreate.setVisible(true);
+    }
 }
