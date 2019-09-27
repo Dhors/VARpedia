@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class FlickrImagesTask extends Task<Void> {
+public class ImageVideoTask extends Task<Void> {
 
 
     private String _searchTerm;
@@ -18,7 +18,7 @@ public class FlickrImagesTask extends Task<Void> {
     private int _numberOfImages;
 
 
-    FlickrImagesTask(String searchTerm, String creationName, int numberOfImages) {
+    public ImageVideoTask(String searchTerm, String creationName, int numberOfImages) {
         _searchTerm =searchTerm;
         _creationName =  creationName;
         _numberOfImages =numberOfImages;
@@ -34,8 +34,8 @@ public class FlickrImagesTask extends Task<Void> {
 
             Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
 
-            String query = "bicycle";
-            int resultsPerPage = 5;
+            String query = _searchTerm;
+            int resultsPerPage = _numberOfImages;
             int page = 0;
 
             PhotosInterface photos = flickr.getPhotosInterface();
@@ -54,10 +54,17 @@ public class FlickrImagesTask extends Task<Void> {
 
                     //String filename = query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() + "-" + photo.getId() + ".jpg";
                     String filename = ("" + count+".jpeg");
-                    File outputfile = new File(System.getProperty("user.dir")+"/creations/"+ _creationName+ "/"+filename );
-                   // File outputfile = new File("downloads", filename);
-                    ImageIO.write(image, "jpg", outputfile);
-                   // System.out.println("Downloaded " + filename);
+
+                    // fix this somehow
+                    File outputfile = new File(System.getProperty("user.dir")+"/creations/"+ _creationName);
+                    if (!outputfile.exists()) {
+                        outputfile.mkdirs();
+                    }
+
+                    File imagefile = new File(System.getProperty("user.dir")+"/creations/"+ _creationName+ "/"+filename );
+                    // File outputfile = new File("downloads", filename);
+                    ImageIO.write(image, "jpg", imagefile);
+                    // System.out.println("Downloaded " + filename);
                     count++;
 
                 } catch (FlickrException fe) {

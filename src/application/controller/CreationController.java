@@ -1,33 +1,42 @@
 package application.controller;
 
+import application.ImageVideoTask;
 import application.Main;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 
 import java.awt.*;
 import java.io.File;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CreationController {
 
-	@FXML
+
+    private ExecutorService threadWorker = Executors.newSingleThreadExecutor();
+
+    int numberOfImages;
+
+
+    @FXML
     private Text enterSearchTerm;
 	@FXML
     private TextField enterSearchTermTextInput;
@@ -35,9 +44,9 @@ public class CreationController {
     private Button searchWikipediaButton;
 	@FXML
     private Text searchProgress;
-	
-	
-	
+
+
+
 	@FXML
     private TextArea searchResultTextArea;
 	@FXML
@@ -62,6 +71,9 @@ public class CreationController {
 
 
     @FXML
+    private TextField _NumberOfImagesTextField;
+
+    @FXML
     private void handleCreationCancelButton(ActionEvent event) throws IOException {
 
         Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
@@ -76,12 +88,15 @@ public class CreationController {
 
     @FXML
     private void handleCheckCreationButton() {
-        if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || _creationNameTextField.getText().isEmpty()) {
+        System.out.println("got to here at least");
+        if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
             // throw alerts
-        } else if (!validCreationName(_creationNameTextField.getText())) {
+        } else if (!validCreationName(creationNameTextField.getText())) {
             // throw alerts
+
+
             //override existing file name
-            String creationName = _creationNameTextField.getText();
+            String creationName = creationNameTextField.getText();
             File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
             _existingfile.delete();
 
@@ -91,20 +106,57 @@ public class CreationController {
 
 
 
-        } else {
-
-            String creationName = _creationNameTextField.getText();
+        } else { //on success
+           // FlickrImagesTask
+            // need to check valid number and search term
+            String creationName = creationNameTextField.getText();
             File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
+            //int numberOfImages =  Integer.parseInt(_NumberOfImagesTextField.getText());
 
+            System.out.println(""+ enterSearchTermTextInput.getText() + creationNameTextField.getText() + numberOfImages );
+
+            ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
+            threadWorker.submit(flickrImagesTask);
+            flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent event) {
+                    //yay
+                }
+                });
             //CreationVideoTask makeVid = new CreationVideoTask(_term, creationName, splitWikiSearchOutput, selectedLineNum);
-            //threadWorker.submit(makeVid);
+            //
 
 
         }
     }
 
 
+    @FXML
+    private void handleNumberOfImagesButton() {
+        if (_NumberOfImagesTextField.getText().isEmpty()){
+            return;
+        }
+        int num = Integer.parseInt(_NumberOfImagesTextField.getText());
+        if (num <=0||num>10){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid number of images");
+            //alert.setHeaderText(" delete " + _selectedCreation);
+            alert.setContentText("Please enter a valid number between 1 nd 10");
+            alert.showAndWait();
+            return;
+
+        }
+        //possibly let the user continue on from this point
+        // if successful let them see the create button
+        // and set transparency of number of items to lower.
+
+        numberOfImages =  Integer.parseInt(_NumberOfImagesTextField.getText());
+    }
+
+
+
         private boolean validCreationName(String creationName){
+
             File folder = new File(System.getProperty("user.dir")+"/creations/");
             for (final File fileName : folder.listFiles()) {
                 if (fileName.getName().equals("" + creationName + ".mp4")) {
