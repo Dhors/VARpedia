@@ -18,6 +18,12 @@
          </font></Text>
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" text="Cancel Creation" />
 
+      <TextField layoutX="93.0" layoutY="103.0" />
+      <Text layoutX="275.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search" />
+      <Button layoutX="269.0" layoutY="151.0" mnemonicParsing="false" text="checkCreationName" />
+      <TextField layoutX="104.0" layoutY="151.0" />
+      <Text layoutX="300.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="please eneter a creation name" />
+
       <TextField fx:id="enterSearchTermTextInput" layoutX="358.0" layoutY="166.0" visible="false" />
       <Text fx:id="enterSearchTerm" layoutX="82.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" visible="false" />
       <Text fx:id="searchProgress" layoutX="238.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
