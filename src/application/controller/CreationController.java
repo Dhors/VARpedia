@@ -28,7 +28,9 @@ public class CreationController {
 	@FXML
     private Button searchWikipediaButton;
 	@FXML
-    private Text searchProgress;
+    private Text searchInProgress;
+	@FXML
+    private Text termNotFound;
 	
 	
 	
@@ -63,6 +65,9 @@ public class CreationController {
         window.show();
     }
 
-
+	@FXML
+    private void handleSearchWikipedia(ActionEvent event) throws IOException {
+	
+	}
 
 }
