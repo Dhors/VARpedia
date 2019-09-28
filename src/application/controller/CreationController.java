@@ -32,7 +32,6 @@ public class CreationController {
 
 
     private ExecutorService threadWorker = Executors.newSingleThreadExecutor();
-
     int numberOfImages;
 
 
@@ -132,8 +131,6 @@ public class CreationController {
                     //yay
                 }
                 });
-            //CreationVideoTask makeVid = new CreationVideoTask(_term, creationName, splitWikiSearchOutput, selectedLineNum);
-            //
 
 
         }

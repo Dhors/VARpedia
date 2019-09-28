@@ -119,25 +119,17 @@ public class ImageVideoTask extends Task<Void> {
             length =  length*2;
         }
 
-          /*String imagesCommand = "ffmpeg -y -framerate " + length + " -start_number 1 -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
-                    "-r 25 " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
-                    + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
 
-        safecopy*/
        String imagesCommand = "ffmpeg -y -framerate " + length + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
                 "-pix_fmt yuv420p -r 25 -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
                 + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
 
 
-        //ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash", "-c", (imagesCommand + ";" + addTextCommand));
+
         ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",imagesCommand);
-        System.out.println(imagesCommand);
-        //ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",imagesCommand);
+
         Process videoBuilderProcess = videoBuilder.start();
         int exit = videoBuilderProcess.waitFor();
-        System.out.println("exit code: " + exit);
-
-
 
 
         return;
