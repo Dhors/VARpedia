@@ -39,11 +39,11 @@ delete() {
 
 search() {
 	# Create a fresh temporary directory (in case there was an error in previous functioning)
-	if [ -d "$TMP_DIR" ]
-	then
-		rm -rf $TMP_DIR
-	fi
-	mkdir $TMP_DIR	
+#	if [ -d "$TMP_DIR" ]
+#	then
+#		rm -rf $TMP_DIR
+#	fi
+#	mkdir $TMP_DIR	
 
 	search_term=$1
 	search_result=`wikit $search_term`
@@ -58,14 +58,16 @@ search() {
 		echo "(Term not found)"
 	else
 		# Separate each sentence into a new line
-		echo $search_result | sed 's/\. /.\n/g' > $FULL_SEARCH_DIR
-		
+#		echo $search_result | sed 's/\. /.\n/g' > $FULL_SEARCH_DIR
+	
 		# Count and print the number of lines
-		total_sentences=`cat $FULL_SEARCH_DIR | wc -l`
-		echo $total_sentences
+#		total_sentences=`cat $FULL_SEARCH_DIR | wc -l`
+#		echo $total_sentences
 		
 		# Print the search result with lines numbered
-		cat -n $FULL_SEARCH_DIR
+#		cat -n $FULL_SEARCH_DIR
+		
+		echo $search_result
 	fi
 }
 

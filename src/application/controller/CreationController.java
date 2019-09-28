@@ -132,13 +132,13 @@ public class CreationController {
         				 * If the term was not found, returns a list with only one element: "(Term not found)"
         				 */
         				List<String> searchResult = bashCommand.get();
-    
+        				
         				if (searchResult.get(0).equals("(Term not found)")) {
         					searchInProgress.setVisible(false);
         					termNotFound.setVisible(true);
         				} else {
         					displayChunkSelection();
-//        			        searchResultTextArea.setText(searchResult);
+        			        searchResultTextArea.setText(searchResult.get(0));
         				}
     
         			} catch (InterruptedException e) {
