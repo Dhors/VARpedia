@@ -93,22 +93,9 @@ public class CreationController {
     private void handlePreviewChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
 		
-		int numberOfWords = countWords(chunk);
-		if (numberOfWords == 0) {
-			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
-			alert.showAndWait();
-			
-		} else if (numberOfWords > 30) {
-			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
-			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
-			
-			// Display the confirmation alert and store the button pressed
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.isPresent() && result.get() == ButtonType.YES) {
-				createPreview(chunk);
-			}
-		} else {
-			createPreview(chunk);
+		boolean isValidChunk = checkForValidChunk(chunk);
+		if (isValidChunk) {
+			System.out.println(chunk);
 		}
 	}
 	
@@ -191,6 +178,28 @@ public class CreationController {
     	}
     }
     
+    private boolean checkForValidChunk(String chunk) {
+    	int numberOfWords = countWords(chunk);
+		if (numberOfWords == 0) {
+			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
+			alert.showAndWait();
+			return false;
+		} else if (numberOfWords > 30) {
+			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
+			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
+			
+			// Display the confirmation alert and store the button pressed
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+    }
+    
     private int countWords(String input) {
     	if (input == null || input.isEmpty()) {
     		return 0;
@@ -198,9 +207,5 @@ public class CreationController {
 
     	String[] words = input.split("\\s+");
     	return words.length;
-    }
-    
-    private void createPreview(String chunk) {
-    	System.out.println(chunk);
     }
 }
