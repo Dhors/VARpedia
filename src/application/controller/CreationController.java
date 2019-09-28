@@ -98,7 +98,7 @@ public class CreationController {
             //override existing file name
             String creationName = creationNameTextField.getText();
             File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
-            _existingfile.delete();
+           // _existingfile.delete();
 
             //CreationVideoTask makeVid = new CreationVideoTask(_term, creationName, splitWikiSearchOutput, selectedLineNum);
             //threadWorker.submit(makeVid);
@@ -110,13 +110,22 @@ public class CreationController {
            // FlickrImagesTask
             // need to check valid number and search term
             String creationName = creationNameTextField.getText();
-            File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
-            //int numberOfImages =  Integer.parseInt(_NumberOfImagesTextField.getText());
+
+
+
+            File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
+
+            if (!creationFolder.exists()) {
+                creationFolder.mkdirs();
+            }
+
 
             System.out.println(""+ enterSearchTermTextInput.getText() + creationNameTextField.getText() + numberOfImages );
 
             ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
             threadWorker.submit(flickrImagesTask);
+
+
             flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent event) {

@@ -10,5 +10,9 @@
       <Text layoutX="280.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player" />
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Return" />
       <Pane fx:id="_player" layoutX="72.0" layoutY="54.0" prefHeight="292.0" prefWidth="457.0" />
+      <Button layoutX="256.0" layoutY="351.0" mnemonicParsing="false" onAction="#handlePausePlayButton" text="pause/play" />
+      <Button layoutX="375.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleForwardButton" text="&gt;&gt;" />
+      <Button layoutX="187.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleBackwardsButton" text="&lt;&lt;" />
+      <Button layoutX="98.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleMuteButton" text="mute" />
    </children>
 </AnchorPane>

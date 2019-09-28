@@ -11,6 +11,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 
 
 public class ImageVideoTask extends Task<Void> {
@@ -40,6 +45,7 @@ public class ImageVideoTask extends Task<Void> {
         System.out.println("video creation isnt working fuck me");
 
         mergeAudioAndVideo();
+        cleanFolder();
         return null;
 
 
@@ -68,22 +74,59 @@ public class ImageVideoTask extends Task<Void> {
         int audioLength = ((int) Double.parseDouble(audioLengthDouble) /*+ 1*/);
         double length = audioLength;
 
+
+
         length = (_numberOfImages / length);
         //double lengthOfOneImage = (double)((audioLength -1)/_numberOfImages);
 
         System.out.println("fucking end me");
 
+        // ffmpeg is buggy I didnt want to deal with it either.
+        if (_numberOfImages==1){
+            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
 
-        String imagesCommand = "ffmpeg -y -framerate " + length + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
-                "-r 25 " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
-                + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
+            File file2 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
+            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            file2.createNewFile();
+            file3.createNewFile();
+            file4.createNewFile();
 
-     //   String imagesCommand2 = ""+ System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg | ffmpeg -f image2pipe -framerate "+ length + "-r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
-        //                + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
-       /* safecopy
+            Path source2 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
+            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, source3, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, source4, StandardCopyOption.REPLACE_EXISTING);
+
+
+            length =  length*4;
+        }else if (_numberOfImages==2){
+            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
+            Path source2 = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+
+            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
+            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            file3.createNewFile();
+            file4.createNewFile();
+
+            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
+            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            Files.copy(source2, source3, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source2, source4, StandardCopyOption.REPLACE_EXISTING);
+
+            Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
+            length =  length*2;
+        }
+
+          /*String imagesCommand = "ffmpeg -y -framerate " + length + " -start_number 1 -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
+                    "-r 25 " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
+                    + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
+
+        safecopy*/
        String imagesCommand = "ffmpeg -y -framerate " + length + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
-                "-r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
-                + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4"; */
+                "-pix_fmt yuv420p -r 25 -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
+                + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
 
 
         //ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash", "-c", (imagesCommand + ";" + addTextCommand));
@@ -94,18 +137,9 @@ public class ImageVideoTask extends Task<Void> {
         int exit = videoBuilderProcess.waitFor();
         System.out.println("exit code: " + exit);
 
-        // Video creation followed by creation completion by merging audio and video using bash commands
 
-        /** time to merge and put in creations folder as completed */
-      /*  String createCommand = "ffmpeg -y -i " +System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4" +" -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav " + System.getProperty("user.dir") + "/creations/" + _creationName+".mp4";
-        // String cleanCommand = "rm text audio.wav video.mp4";
-        // String combinedCommand = (""+ videoCommand+";"+createCommand+";"+cleanCommand);
 
-        ProcessBuilder finalVideoBuilder = new ProcessBuilder("/bin/bash","-c",createCommand);
-        Process finalVideoBuilderProcess = finalVideoBuilder.start();
-        int exitFinal = finalVideoBuilderProcess.waitFor();
-        System.out.println("exit code of final: " + exitFinal);
-        System.out.println("merge audio and video");*/
+
         return;
 
     }
@@ -113,7 +147,7 @@ public class ImageVideoTask extends Task<Void> {
     private void mergeAudioAndVideo() {
         /** time to merge and put in creations folder as completed */
         try {
-            String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav " + System.getProperty("user.dir") + "/creations/" + _creationName + "/"+ _creationName + ".mp4";
+            String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav " + System.getProperty("user.dir") + "/creations/" + _creationName + ".mp4";
             // String cleanCommand = "rm text audio.wav video.mp4";
             // String combinedCommand = (""+ videoCommand+";"+createCommand+";"+cleanCommand);
 
@@ -133,7 +167,18 @@ public class ImageVideoTask extends Task<Void> {
         return;
     }
 
+    private void cleanFolder() {
+        // The creations directory where all creations are stored.
+        final File folder = new File(System.getProperty("user.dir") + "/creations/" + _creationName + "/" );
+        //ArrayList<String> listFilesNames = new ArrayList<String>();
+        //ArrayList<String> listCreationNames = new ArrayList<String>();
 
+        for (final File fileName : folder.listFiles()) {
+            fileName.delete();
+        }
+        folder.delete();
+
+        }
 
 
 
@@ -146,9 +191,15 @@ public class ImageVideoTask extends Task<Void> {
 
             Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
 
+            int _fixNumberOfImages = _numberOfImages;
+
+            if (_numberOfImages==1){
+                _fixNumberOfImages=2;
+            }
+
             String query = _searchTerm;
-            int resultsPerPage = _numberOfImages;
-            //int resultsPerPage = 3;
+            int resultsPerPage = _fixNumberOfImages;
+
             int page = 0;
 
             PhotosInterface photos = flickr.getPhotosInterface();
@@ -160,7 +211,7 @@ public class ImageVideoTask extends Task<Void> {
             PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
             System.out.println("Retrieving " + results.size() + " results");
 
-            int count = 0;
+            int count = 1;
             for (Photo photo : results) {
                 try {
                     BufferedImage image = photos.getImage(photo, Size.LARGE);
