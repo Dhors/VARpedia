@@ -84,10 +84,30 @@ public class CreationController {
 
 	@FXML
     private void handleSearchWikipedia(ActionEvent event) throws IOException {
-//		displayChunkSelection();
 		getSearchResult();
 	}
 
+	@FXML
+    private void handlePreviewChunk(ActionEvent event) throws IOException {
+
+	}
+	
+	@FXML
+    private void handleSaveChunk(ActionEvent event) throws IOException {
+
+	}
+	
+	@FXML
+    private void handleCreateCreation(ActionEvent event) throws IOException {
+
+	}
+	
+	@FXML
+    private void handleSliderDragged(ActionEvent event) throws IOException {
+
+	}
+	
+	
     private void displayChunkSelection() {
     	// Hide search elements
     	enterSearchTerm.setVisible(false);
