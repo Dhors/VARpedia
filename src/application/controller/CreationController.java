@@ -11,12 +11,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-//import wikisearch.EventHandler;
-//import wikisearch.WorkerStateEvent;
-//import wikisearch.EventHandler;
-//import wikisearch.WikiSearchTask;
-//import wikisearch.WorkerStateEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -26,12 +25,15 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CreationController {
 	private ExecutorService team = Executors.newFixedThreadPool(3);
+	
+	private String _searchTerm;
 	
 	@FXML
     private Text enterSearchTerm;
@@ -55,9 +57,9 @@ public class CreationController {
 	@FXML
     private Text voiceLabel;
 	@FXML
-    private ChoiceBox voiceDropDownMenu;
+    private ChoiceBox<String> voiceDropDownMenu;
 	@FXML
-    private ListView chunkList;
+    private ListView<CheckBox> chunkList;
 	@FXML
     private Slider numImagesSlider;
 	@FXML
@@ -89,12 +91,31 @@ public class CreationController {
 
 	@FXML
     private void handlePreviewChunk(ActionEvent event) throws IOException {
-
+		String chunk = searchResultTextArea.getSelectedText();
+		
+		int numberOfWords = countWords(chunk);
+		if (numberOfWords == 0) {
+			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
+			alert.showAndWait();
+			
+		} else if (numberOfWords > 30) {
+			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
+			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
+			
+			// Display the confirmation alert and store the button pressed
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				createPreview(chunk);
+			}
+		} else {
+			createPreview(chunk);
+		}
 	}
 	
 	@FXML
     private void handleSaveChunk(ActionEvent event) throws IOException {
-
+		String chunk = searchResultTextArea.getSelectedText();
+		System.out.println(chunk);
 	}
 	
 	@FXML
@@ -129,14 +150,14 @@ public class CreationController {
     }
 
     private void getSearchResult() {
-    	String searchTerm = enterSearchTermTextInput.getText();
-    	if (searchTerm.equals("") || searchTerm.equals(null)) {
+    	_searchTerm = enterSearchTermTextInput.getText();
+    	if (_searchTerm.equals("") || _searchTerm.equals(null)) {
     		termNotFound.setVisible(true);
     	} else {
     		termNotFound.setVisible(false);
     		searchInProgress.setVisible(true);
     		
-    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh s " + searchTerm};
+    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh s " + _searchTerm};
 			BashCommand bashCommand = new BashCommand(command);
 			team.submit(bashCommand);
 			
@@ -146,10 +167,9 @@ public class CreationController {
 				public void handle(WorkerStateEvent event) {
 					try {
         				/**
-        				 * Returns a list containing the results of the wiki search of the specified term,
-        				 * with one sentence per line
-        				 * The first element contains the number of sentences
-        				 * If the term was not found, returns a list with only one element: "(Term not found)"
+        				 * Returns a list with only one element
+        				 * If the term was not found, the element is "(Term not found)"
+        				 * Otherwise the element is the search result
         				 */
         				List<String> searchResult = bashCommand.get();
         				
@@ -169,5 +189,18 @@ public class CreationController {
 				}
 			});
     	}
+    }
+    
+    private int countWords(String input) {
+    	if (input == null || input.isEmpty()) {
+    		return 0;
+    	}
+
+    	String[] words = input.split("\\s+");
+    	return words.length;
+    }
+    
+    private void createPreview(String chunk) {
+    	System.out.println(chunk);
     }
 }
