@@ -95,14 +95,21 @@ public class CreationController {
 		
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
-			System.out.println(chunk);
+			// Run bash script
+    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
+			BashCommand bashCommand = new BashCommand(command);
+			team.submit(bashCommand);
 		}
 	}
 	
 	@FXML
     private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-		System.out.println(chunk);
+		
+		boolean isValidChunk = checkForValidChunk(chunk);
+		if (isValidChunk) {
+			System.out.println(chunk);
+		}
 	}
 	
 	@FXML
@@ -144,11 +151,12 @@ public class CreationController {
     		termNotFound.setVisible(false);
     		searchInProgress.setVisible(true);
     		
-    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh s " + _searchTerm};
+    		// Run bash script that uses wikit and returns the the result of the search
+    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh search " + _searchTerm};
 			BashCommand bashCommand = new BashCommand(command);
 			team.submit(bashCommand);
 			
-			
+			// Using concurrency allows the user to cancel the creation if the search takes too long
 			bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
@@ -178,12 +186,17 @@ public class CreationController {
     	}
     }
     
+    /**
+     * @return whether or not the chunk is valid
+     * valid if 0 < number of words <= 30, or the chunk is too long but the user confirms anyway
+     */
     private boolean checkForValidChunk(String chunk) {
     	int numberOfWords = countWords(chunk);
 		if (numberOfWords == 0) {
 			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
 			alert.showAndWait();
 			return false;
+			
 		} else if (numberOfWords > 30) {
 			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
 			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
@@ -205,6 +218,7 @@ public class CreationController {
     		return 0;
     	}
 
+    	// Splits the input at any instance of one or more whitespace character, then counts the number of splits
     	String[] words = input.split("\\s+");
     	return words.length;
     }

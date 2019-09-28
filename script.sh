@@ -123,7 +123,7 @@ case $1 in
 		selected_creation=$2
 		delete $selected_creation
 		;;
-	s)
+	search)
 		search_term=$2
 		search $search_term
 		;;
@@ -132,6 +132,18 @@ case $1 in
 		included_sentences=$3
 		creation_name=$4
 		create $search_term $included_sentences $creation_name
+		;;
+	preview)
+		rm -f input.txt
+		for i in $@
+		do
+			if [ "$i" != "./script.sh" ] && [ "$i" != "preview" ]
+			then
+				echo "$i " >> input.txt
+			fi
+		done
+		festival --tts "input.txt"
+		rm -f input.txt
 		;;
 	*)
 		echo "Invalid selection." >&2
