@@ -15,7 +15,7 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="26.0" prefWidth="99.0" text="Cancel Creation" />
+      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" text="Cancel Creation" />
      
       <Text fx:id="enterSearchTerm" layoutX="75.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
       <TextField fx:id="enterSearchTermTextInput" layoutX="75.0" layoutY="157.0" prefHeight="26.0" prefWidth="200.0" />
@@ -29,7 +29,7 @@
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="220.0" layoutY="274.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
       <Text fx:id="voiceSelectDescription" layoutX="16.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select voice of chunk to be saved:" visible="false" />
       <TextField fx:id="creationNameTextField" layoutX="167.0" layoutY="189.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
-      <Button fx:id="finalCreate" layoutX="338.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" prefHeight="26.0" prefWidth="96.0" text="Create" visible="false" />
+      <Button fx:id="finalCreate" layoutX="338.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" text="Create" visible="false" />
 
 
 
@@ -37,8 +37,8 @@
   
       
       <TextField fx:id="_NumberOfImagesTextField" layoutX="167.0" layoutY="159.0" promptText="Number of images" visible="false" />
-      <Button fx:id="_numberImagesButton" layoutX="338.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" prefHeight="26.0" prefWidth="96.0" text="Confirm" visible="false" />
-      <Button fx:id="selectButton" layoutX="422.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="26.0" prefWidth="149.0" text="Confirm Selected Chunks" visible="false" />
+      <Button fx:id="_numberImagesButton" layoutX="338.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" text="Confirm" visible="false" />
+      <Button fx:id="selectButton" layoutX="422.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected Chunks" visible="false" />
       <Text fx:id="numberOfImagesPrompt" layoutX="137.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the number of images for the creation." visible="false" />
       <Text fx:id="creationNamePrompt" layoutX="170.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the name of the creation." visible="false" />
       <Text fx:id="textSelectDescription" layoutX="76.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit and highlight text to create chunks. " visible="false" />
