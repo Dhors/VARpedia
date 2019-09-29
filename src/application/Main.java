@@ -25,7 +25,7 @@ public class Main extends Application {
 
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("resources/home.fxml"));
+        loader.setLocation(this.getClass().getResource("resources/listCreationsScene.fxml"));
         Parent layout = loader.load();
         Scene scene = new Scene(layout);
         stage.setScene(scene);

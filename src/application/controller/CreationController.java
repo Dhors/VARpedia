@@ -89,7 +89,8 @@ public class CreationController {
     private TextField creationNameTextField;
 	@FXML
     private Button finalCreate;
-
+	@FXML
+	private Button selectButton;
 
 
 	@FXML
@@ -103,15 +104,16 @@ public class CreationController {
 	}
 	
     @FXML
-    private TextField _creationNameTextField;
-
+    private Text numberOfImagesPrompt;
+	@FXML
+	private Text creationNamePrompt;
 
 
 
     @FXML
     private void handleCreationCancelButton(ActionEvent event) throws IOException {
 
-        Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
+        Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
         Scene creationViewScene = new Scene(creationViewParent);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -183,12 +185,7 @@ public class CreationController {
 			}
 		});
 	}
-	
-	@FXML
-    private void handleSliderDragged(ActionEvent event) throws IOException {
 
-	}
-	
 	
     private void displayChunkSelection() {
     	// Hide search elements
@@ -205,14 +202,11 @@ public class CreationController {
     	voiceLabel.setVisible(true);
     	voiceDropDownMenu.setVisible(true);
     	chunkList.setVisible(true);
+		selectButton.setVisible(true);
 
-        creationNameTextField.setVisible(true);
-        finalCreate.setVisible(true);
 
-        // show flickr creation options
 
-		_NumberOfImagesTextField.setVisible(true);
-		_numberImagesButton.setVisible(true);
+
 
         
         voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
@@ -220,7 +214,48 @@ public class CreationController {
 		updateChunkList();
 		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
-    @FXML
+
+
+
+
+
+	@FXML
+	private void handleSelectButton(){
+
+		// Hide chunk elements
+		searchResultTextArea.setVisible(false);
+		previewChunk.setVisible(false);
+		saveChunk.setVisible(false);
+		voiceLabel.setVisible(false);
+		voiceDropDownMenu.setVisible(false);
+		chunkList.setVisible(false);
+		selectButton.setVisible(false);
+
+		creationNameTextField.setVisible(true);
+		creationNameTextField.setDisable(true);
+
+		finalCreate.setVisible(true);
+		finalCreate.setDisable(true);
+
+		// show flickr creation options
+		_NumberOfImagesTextField.setVisible(true);
+		//_NumberOfImagesTextField.setDisable(true);
+
+		_numberImagesButton.setVisible(true);
+		//_numberImagesButton.setDisable(true);
+
+
+		//maybe add text
+		numberOfImagesPrompt.setVisible(true);
+
+		//_NumberOfImagesTextField.setDisable(false);
+		//_numberImagesButton.setDisable(false);
+
+
+	}
+
+
+    @FXML	// this method actually starts the creation bad name
     private void handleCheckCreationButton(ActionEvent event) throws IOException  {
         System.out.println("got to here at least");
         if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
@@ -252,10 +287,10 @@ public class CreationController {
                 creationFolder.mkdirs();
             }
 
-          combineAudioChunks(creationName);
+           combineAudioChunks(creationName);
 
 			// return to main menu
-			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
+			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
 			Scene creationViewScene = new Scene(creationViewParent);
 
 			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -285,24 +320,33 @@ public class CreationController {
   }
     @FXML
     private void handleNumberOfImagesButton() {
-        if (_NumberOfImagesTextField.getText().isEmpty()){
-            return;
-        }
-        int num = Integer.parseInt(_NumberOfImagesTextField.getText());
-        if (num <=0||num>10){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Invalid number of images");
-            //alert.setHeaderText(" delete " + _selectedCreation);
-            alert.setContentText("Please enter a valid number between 1 nd 10");
-            alert.showAndWait();
-            return;
+        if (!(_NumberOfImagesTextField.getText().isEmpty())) {
 
-        }
-        //possibly let the user continue on from this point
-        // if successful let them see the create button
-        // and set transparency of number of items to lower.
+			int num = Integer.parseInt(_NumberOfImagesTextField.getText());
+			if (num <= 0 || num > 10) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Invalid number of images");
+				//alert.setHeaderText(" delete " + _selectedCreation);
+				alert.setContentText("Please enter a valid number between 1 nd 10");
+				alert.showAndWait();
+				return;
+			}
+			//possibly let the user continue on from this point
+			// if successful let them see the create button
+			// and set transparency of number of items to lower.
 
-        numberOfImages =  Integer.parseInt(_NumberOfImagesTextField.getText());
+			numberOfImages = Integer.parseInt(_NumberOfImagesTextField.getText());
+
+			_NumberOfImagesTextField.setDisable(true);
+			_numberImagesButton.setDisable(true);
+			numberOfImagesPrompt.setVisible(false);
+
+			creationNamePrompt.setVisible(true);
+			creationNameTextField.setDisable(false);
+			finalCreate.setDisable(false);
+
+
+		}
     }
 
 
@@ -389,7 +433,17 @@ public class CreationController {
 			return true;
 		}
     }
-    
+
+
+
+
+
+
+
+
+
+
+
     private int countWords(String input) {
     	if (input == null || input.isEmpty()) {
     		return 0;

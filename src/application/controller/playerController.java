@@ -91,7 +91,7 @@ public class playerController {
     private void handleReturnButton(ActionEvent event) throws IOException {
         _mediaPlayer.stop();
 
-        Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
+        Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
         Scene listViewScene = new Scene(listViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(listViewScene);

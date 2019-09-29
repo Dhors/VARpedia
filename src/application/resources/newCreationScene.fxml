@@ -28,16 +28,19 @@
       <Button fx:id="saveChunk" layoutX="248.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="244.0" layoutY="187.0" prefHeight="25.0" prefWidth="124.0" visible="false" />
       <Text fx:id="voiceLabel" layoutX="327.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voice" visible="false" />
-      <TextField fx:id="creationNameTextField" layoutX="240.0" layoutY="347.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
-      <Button fx:id="finalCreate" layoutX="411.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" prefHeight="26.0" prefWidth="96.0" text="Create" visible="false" />
+      <TextField fx:id="creationNameTextField" layoutX="167.0" layoutY="189.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
+      <Button fx:id="finalCreate" layoutX="338.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" prefHeight="26.0" prefWidth="96.0" text="Create" visible="false" />
 
 
 
 
   
       
-      <TextField fx:id="_NumberOfImagesTextField" layoutX="240.0" layoutY="317.0" promptText="Number of images" visible="false" />
-      <Button fx:id="_numberImagesButton" layoutX="411.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" prefHeight="26.0" prefWidth="96.0" text="Confirm" visible="false" />
+      <TextField fx:id="_NumberOfImagesTextField" layoutX="167.0" layoutY="159.0" promptText="Number of images" visible="false" />
+      <Button fx:id="_numberImagesButton" layoutX="338.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" prefHeight="26.0" prefWidth="96.0" text="Confirm" visible="false" />
+      <Button fx:id="selectButton" layoutX="442.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected" visible="false" />
+      <Text fx:id="numberOfImagesPrompt" layoutX="137.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the number of images for the creation." visible="false" />
+      <Text fx:id="creationNamePrompt" layoutX="170.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the name of the creation." visible="false" />
 
 
 
