@@ -27,7 +27,7 @@
       <Button fx:id="previewChunk" layoutX="17.0" layoutY="311.0" mnemonicParsing="false" onAction="#handlePreviewChunk" text="Preview Chunk" visible="false" />
       <Button fx:id="saveChunk" layoutX="241.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="220.0" layoutY="274.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
-      <Text fx:id="voiceSelectDescription" layoutX="16.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select voice of chunk to be saved:" visible="false" />
+      <Text fx:id="voiceSelectDescription" layoutX="16.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select voice of chunk:" visible="false" />
       <TextField fx:id="creationNameTextField" layoutX="167.0" layoutY="189.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
       <Button fx:id="finalCreate" layoutX="338.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" text="Create" visible="false" />
 
@@ -41,8 +41,8 @@
       <Button fx:id="selectButton" layoutX="422.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected Chunks" visible="false" />
       <Text fx:id="numberOfImagesPrompt" layoutX="137.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the number of images for the creation." visible="false" />
       <Text fx:id="creationNamePrompt" layoutX="170.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the name of the creation." visible="false" />
-      <Text fx:id="textSelectDescription" layoutX="76.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit and highlight text to create chunks. " visible="false" />
-      <Text fx:id="chunkSelectDescription" layoutX="389.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select one or more chunks to combine into a creation" textAlignment="CENTER" visible="false" wrappingWidth="164.3994140625" />
+      <Text fx:id="textSelectDescription" layoutX="13.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highlight text to create chunks. " visible="false" />
+      <Text fx:id="chunkSelectDescription" layoutX="371.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select one or more chunks to combine" visible="false" wrappingWidth="200.73046875" />
 
 
 
