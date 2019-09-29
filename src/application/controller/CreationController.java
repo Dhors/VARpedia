@@ -63,7 +63,11 @@ public class CreationController {
 	@FXML
 	private Button saveChunk;
 	@FXML
-	private Text voiceLabel;
+	private Text voiceSelectDescription;
+	@FXML
+	private Text textSelectDescription;
+	@FXML
+	private Text chunkSelectDescription;
 	@FXML
 	private ChoiceBox<String> voiceDropDownMenu;
 	@FXML
@@ -310,7 +314,9 @@ public class CreationController {
 		searchResultTextArea.setVisible(true); 
 		previewChunk.setVisible(true);
 		saveChunk.setVisible(true);
-		voiceLabel.setVisible(true);
+		voiceSelectDescription.setVisible(true);
+		textSelectDescription.setVisible(true);
+		chunkSelectDescription.setVisible(true);
 		voiceDropDownMenu.setVisible(true);
 		chunkList.setVisible(true);
 		selectButton.setVisible(true);
@@ -339,7 +345,9 @@ public class CreationController {
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
 		saveChunk.setVisible(false);
-		voiceLabel.setVisible(false);
+		voiceSelectDescription.setVisible(false);
+		textSelectDescription.setVisible(false);
+		chunkSelectDescription.setVisible(false);
 		voiceDropDownMenu.setVisible(false);
 		chunkList.setVisible(false);
 		selectButton.setVisible(false);
