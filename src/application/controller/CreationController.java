@@ -89,7 +89,14 @@ public class CreationController {
     private TextField creationNameTextField;
 	@FXML
     private Button finalCreate;
-	
+
+
+
+	@FXML
+	private TextField _NumberOfImagesTextField;
+	@FXML
+	private Button _numberImagesButton;
+
 	@FXML
 	private void initialize() {
 		
@@ -99,8 +106,7 @@ public class CreationController {
     private TextField _creationNameTextField;
 
 
-    @FXML
-    private TextField _NumberOfImagesTextField;
+
 
     @FXML
     private void handleCreationCancelButton(ActionEvent event) throws IOException {
@@ -199,9 +205,15 @@ public class CreationController {
     	voiceLabel.setVisible(true);
     	voiceDropDownMenu.setVisible(true);
     	chunkList.setVisible(true);
-    	numImagesSlider.setVisible(true);
+
         creationNameTextField.setVisible(true);
         finalCreate.setVisible(true);
+
+        // show flickr creation options
+
+		_NumberOfImagesTextField.setVisible(true);
+		_numberImagesButton.setVisible(true);
+
         
         voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
 		voiceDropDownMenu.setValue("Default");
@@ -209,7 +221,7 @@ public class CreationController {
 		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
     @FXML
-    private void handleCheckCreationButton() {
+    private void handleCheckCreationButton(ActionEvent event) throws IOException  {
         System.out.println("got to here at least");
         if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
             // throw alerts
@@ -222,8 +234,7 @@ public class CreationController {
             File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
            // _existingfile.delete();
 
-            //CreationVideoTask makeVid = new CreationVideoTask(_term, creationName, splitWikiSearchOutput, selectedLineNum);
-            //threadWorker.submit(makeVid);
+
 
 
 
@@ -243,7 +254,14 @@ public class CreationController {
 
           combineAudioChunks(creationName);
 
-            
+			// return to main menu
+			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
+			Scene creationViewScene = new Scene(creationViewParent);
+
+			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+			window.setScene(creationViewScene);
+			window.show();
 
 
         }
@@ -259,7 +277,9 @@ public class CreationController {
             flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent event) {
-                    //yay
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("Creation:  "+ creationNameTextField.getText() +"is finished");
+					alert.showAndWait();
                 }
                 });
   }
@@ -298,6 +318,7 @@ public class CreationController {
             }
             return true;
         }
+
 
     private void getSearchResult() {
     	_searchTerm = enterSearchTermTextInput.getText();

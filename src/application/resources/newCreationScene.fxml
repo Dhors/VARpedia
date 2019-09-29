@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,9 +17,9 @@
          </font></Text>
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" text="Cancel Creation" />
      
-      <Text fx:id="enterSearchTerm" layoutX="82.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
-      <TextField fx:id="enterSearchTermTextInput" layoutX="358.0" layoutY="166.0" />
-      <Button fx:id="searchWikipediaButton" layoutX="244.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" text="Search Wikipedia" />
+      <Text fx:id="enterSearchTerm" layoutX="75.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
+      <TextField fx:id="enterSearchTermTextInput" layoutX="75.0" layoutY="157.0" prefHeight="26.0" prefWidth="200.0" />
+      <Button fx:id="searchWikipediaButton" layoutX="275.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" text="Search Wikipedia" />
       <Text fx:id="searchInProgress" layoutX="238.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
       <Text fx:id="termNotFound" fill="RED" layoutX="210.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Term not found, please try again." visible="false" />
       <TextArea fx:id="searchResultTextArea" layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="224.0" visible="false" wrapText="true" />
@@ -29,17 +28,16 @@
       <Button fx:id="saveChunk" layoutX="248.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="244.0" layoutY="187.0" prefHeight="25.0" prefWidth="124.0" visible="false" />
       <Text fx:id="voiceLabel" layoutX="327.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voice" visible="false" />
-      <TextField fx:id="creationNameTextField" layoutX="308.0" layoutY="334.0" promptText="Name of Creation" onAction="#handleCheckCreationButton" visible="false" />
-      <Button fx:id="finalCreate" layoutX="521.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" text="Create" visible="false" />
-      <Slider fx:id="numImagesSlider" blockIncrement="1.0" layoutX="312.0" layoutY="296.0" max="10.0" onDragDone="#handleSliderDragged" showTickLabels="true" showTickMarks="true" value="3.0" visible="false" />
+      <TextField fx:id="creationNameTextField" layoutX="240.0" layoutY="347.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
+      <Button fx:id="finalCreate" layoutX="411.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" prefHeight="26.0" prefWidth="96.0" text="Create" visible="false" />
 
 
 
 
   
       
-      <TextField fx:id="_NumberOfImagesTextField" layoutX="27.0" layoutY="328.0" promptText="number of images" />
-      <Button layoutX="198.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" text="NumberImages" />
+      <TextField fx:id="_NumberOfImagesTextField" layoutX="240.0" layoutY="317.0" promptText="Number of images" visible="false" />
+      <Button fx:id="_numberImagesButton" layoutX="411.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" prefHeight="26.0" prefWidth="96.0" text="Confirm" visible="false" />
 
 
 

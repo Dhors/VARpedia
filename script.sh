@@ -219,7 +219,7 @@ case $1 in
 		done
 		
 		# Currently only saves creations as test.wav, can use text field here
-		sox ${chunksList}./creations/${creationName}/combinedAudio.wav
+		sox ${chunksList}./creations/${creationName}/${creationName}.wav
 		;;
 	*)
 		echo "Invalid selection." >&2
