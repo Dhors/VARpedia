@@ -155,7 +155,7 @@ public class CreationController {
 	}
 	
 	@FXML
-    private void combineAudioChunks() {
+    private void combineAudioChunks(String creationName) {
 		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
 		
 		String args = "";
@@ -166,17 +166,14 @@ public class CreationController {
 		args += selectedChunks.get(numChunksSelected-1);
 		
 		// Run bash script to create a combined audio of each selected chunk
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + args};
+		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + args};		
 		BashCommand bashCommand = new BashCommand(command);
 		team.submit(bashCommand);
 		
 		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				// ==============================Call method for flickr stuff===============================
-        createVideo()
-				// Currently only saves creations as test.wav
-				System.out.println("done");
+				createVideo();
 			}
 		});
 	}
@@ -244,7 +241,7 @@ public class CreationController {
                 creationFolder.mkdirs();
             }
 
-          combineAudioChunks()
+          combineAudioChunks(creationName);
 
             
 
