@@ -97,8 +97,7 @@ public class CreationController {
 
 		window.setScene(creationViewScene);
 		window.show();
-
-
+		
 		// chunck clean
 		File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
 		if (folderChunk.exists()) {
