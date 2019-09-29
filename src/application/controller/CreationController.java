@@ -70,6 +70,7 @@ public class CreationController {
 	@FXML
 	private void initialize() {
 		voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
+		voiceDropDownMenu.setValue("Default");
 	}
 	
     @FXML
