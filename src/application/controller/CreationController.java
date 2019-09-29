@@ -38,11 +38,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CreationController {
-	private ExecutorService team = Executors.newFixedThreadPool(3);
+	private ExecutorService team = Executors.newFixedThreadPool(5);
 
 	private String _searchTerm;
 
-	private ExecutorService threadWorker = Executors.newSingleThreadExecutor();
 	int numberOfImages;
 
 	@FXML
@@ -93,7 +92,7 @@ public class CreationController {
 
 	@FXML
 	private void handleCreationCancelButton(ActionEvent event) throws IOException {
-
+		// Return to main menu
 		Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
 		Scene creationViewScene = new Scene(creationViewParent);
 
@@ -102,7 +101,7 @@ public class CreationController {
 		window.setScene(creationViewScene);
 		window.show();
 		
-		// chunck clean
+		// Cleanup chunks folder
 		File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
 		if (folderChunk.exists()) {
 			for (final File fileNameChunk : folderChunk.listFiles()) {
@@ -164,7 +163,7 @@ public class CreationController {
 		
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
-			// Remove brackets from the chunk to prevent error
+			// Remove brackets from the chunk, some voices can't speak with brackets
 			chunk = chunk.replace("(", "").replace(")", "");
 
 			// Run bash script using festival tts to speak the selected text to the user
@@ -182,7 +181,7 @@ public class CreationController {
 		if (isValidChunk) {
 			String voiceChoice = voiceDropDownMenu.getValue();
 
-			// Remove brackets from the chunk to prevent error
+			// Remove brackets from the chunk, some voices can't speak with brackets
 			chunk = chunk.replace("(", "").replace(")", "");
 
 			// Run bash script using festival to save a .wav file containing the spoken selected text
@@ -216,13 +215,16 @@ public class CreationController {
 			String[] words = chunk.split("\\s+");
 			numberOfWords = words.length;
 		}
+		
 		if (numberOfWords == 0) {
 			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
 			alert.showAndWait();
 			return false;
 
 		} else if (numberOfWords > 30) {
-			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
+			// Let the user confirm if they want a longer chunk
+			
+			String warningMessage = "Chunks longer than 30 words can result in a lower sound quality. Are you sure you want to create this chunk?";
 			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
 
 			// Display the confirmation alert and store the button pressed
@@ -241,13 +243,11 @@ public class CreationController {
 	private void updateChunkList() {
 		// The chunks directory where all chunks are stored.
 		final File chunksFolder = new File(System.getProperty("user.dir")+"/chunks/");
-
-		List<String> fileNamesList = new ArrayList<String>();
-		List<String> chunkNamesList = new ArrayList<String>();
-
 		if (!chunksFolder.exists()) {
 			chunksFolder.mkdirs();
 		}
+		
+		List<String> chunkNamesList = new ArrayList<String>();
 
 		/**
 		 * Checks every file in the chunks directory. If a file is .wav format,
@@ -262,10 +262,11 @@ public class CreationController {
 		}
 
 		// Sort the files by chunk name in alphabetical order.
-		Collections.sort(fileNamesList);
+		Collections.sort(chunkNamesList);
 
 		if (numChunks == 0) {
 			chunkNamesList.add("No Chunks Found.");
+			// Prevent the user from selecting "No Chunks Found" as a chunk
 			chunkList.setDisable(true);
 		} else {
 			chunkList.setDisable(false);
@@ -274,31 +275,6 @@ public class CreationController {
 		// Turns the list of chunk names into an ObservableList<String> and displays to the GUI.
 		ObservableList<String> observableListChunkNames = FXCollections.observableArrayList(chunkNamesList);
 		chunkList.setItems(observableListChunkNames);
-	}
-
-	private void combineAudioChunks(String creationName) {
-		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
-
-		// Convert the ObservableList of chunks into a single string, with each element separated by a space
-		String chunksAsString = "";
-		int numChunksSelected = selectedChunks.size();
-		for (int i = 0; i < numChunksSelected - 1; i++) {
-			chunksAsString += selectedChunks.get(i) + " ";
-		}
-		// Last element should not have a space after it
-		chunksAsString += selectedChunks.get(numChunksSelected-1);
-
-		// Run bash script to create a combined audio of each selected chunk
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
-
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-			@Override
-			public void handle(WorkerStateEvent event) {
-				createVideo();
-			}
-		});
 	}
 
 	private void displayChunkSelection() {		
@@ -414,11 +390,36 @@ public class CreationController {
 		}
 	}
 
+	private void combineAudioChunks(String creationName) {
+		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
+
+		// Convert the ObservableList of chunks into a single string, with each element separated by a space
+		String chunksAsString = "";
+		int numChunksSelected = selectedChunks.size();
+		for (int i = 0; i < numChunksSelected - 1; i++) {
+			chunksAsString += selectedChunks.get(i) + " ";
+		}
+		// Last element should not have a space after it
+		chunksAsString += selectedChunks.get(numChunksSelected - 1);
+
+		// Run bash script to create a combined audio of each selected chunk
+		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
+		BashCommand bashCommand = new BashCommand(command);
+		team.submit(bashCommand);
+
+		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				createVideo();
+			}
+		});
+	}
+
 	private void createVideo() {
 		System.out.println(""+ enterSearchTermTextInput.getText() + creationNameTextField.getText() + numberOfImages );
 
 		ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
-		threadWorker.submit(flickrImagesTask);
+		team.submit(flickrImagesTask);
 
 
 		flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
