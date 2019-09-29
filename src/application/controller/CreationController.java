@@ -6,6 +6,8 @@ import javafx.beans.property.ListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
+import application.ImageVideoTask;
+import application.Main;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,7 +26,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+
+
+import java.awt.*;
+import java.io.File;
+
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -35,6 +45,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -43,7 +55,11 @@ public class CreationController {
 	
 	private String _searchTerm;
 	
-	@FXML
+    private ExecutorService threadWorker = Executors.newSingleThreadExecutor();
+    int numberOfImages;
+
+
+    @FXML
     private Text enterSearchTerm;
 	@FXML
     private TextField enterSearchTermTextInput;
@@ -53,7 +69,6 @@ public class CreationController {
     private Text searchInProgress;
 	@FXML
     private Text termNotFound;
-	
 	
 	
 	@FXML
@@ -80,6 +95,13 @@ public class CreationController {
 		
 	}
 	
+    @FXML
+    private TextField _creationNameTextField;
+
+
+    @FXML
+    private TextField _NumberOfImagesTextField;
+
     @FXML
     private void handleCreationCancelButton(ActionEvent event) throws IOException {
 
@@ -133,7 +155,7 @@ public class CreationController {
 	}
 	
 	@FXML
-    private void handleCreateCreation(ActionEvent event) throws IOException {
+    private void combineAudioChunks() {
 		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
 		
 		String args = "";
@@ -152,6 +174,7 @@ public class CreationController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				// ==============================Call method for flickr stuff===============================
+        createVideo()
 				// Currently only saves creations as test.wav
 				System.out.println("done");
 			}
@@ -188,6 +211,96 @@ public class CreationController {
 		updateChunkList();
 		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
+    @FXML
+    private void handleCheckCreationButton() {
+        System.out.println("got to here at least");
+        if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
+            // throw alerts
+        } else if (!validCreationName(creationNameTextField.getText())) {
+            // throw alerts
+
+
+            //override existing file name
+            String creationName = creationNameTextField.getText();
+            File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
+           // _existingfile.delete();
+
+            //CreationVideoTask makeVid = new CreationVideoTask(_term, creationName, splitWikiSearchOutput, selectedLineNum);
+            //threadWorker.submit(makeVid);
+
+
+
+
+        } else { //on success
+           // FlickrImagesTask
+            // need to check valid number and search term
+            String creationName = creationNameTextField.getText();
+
+
+
+            File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
+
+            if (!creationFolder.exists()) {
+                creationFolder.mkdirs();
+            }
+
+          combineAudioChunks()
+
+            
+
+
+        }
+    }
+
+  private void createVideo() {
+    System.out.println(""+ enterSearchTermTextInput.getText() + creationNameTextField.getText() + numberOfImages );
+
+            ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
+            threadWorker.submit(flickrImagesTask);
+
+
+            flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent event) {
+                    //yay
+                }
+                });
+  }
+    @FXML
+    private void handleNumberOfImagesButton() {
+        if (_NumberOfImagesTextField.getText().isEmpty()){
+            return;
+        }
+        int num = Integer.parseInt(_NumberOfImagesTextField.getText());
+        if (num <=0||num>10){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid number of images");
+            //alert.setHeaderText(" delete " + _selectedCreation);
+            alert.setContentText("Please enter a valid number between 1 nd 10");
+            alert.showAndWait();
+            return;
+
+        }
+        //possibly let the user continue on from this point
+        // if successful let them see the create button
+        // and set transparency of number of items to lower.
+
+        numberOfImages =  Integer.parseInt(_NumberOfImagesTextField.getText());
+    }
+
+
+
+        private boolean validCreationName(String creationName){
+
+            File folder = new File(System.getProperty("user.dir")+"/creations/");
+            for (final File fileName : folder.listFiles()) {
+                if (fileName.getName().equals("" + creationName + ".mp4")) {
+                    // An already existing creation name is invalid.
+                    return false;
+                }
+            }
+            return true;
+        }
 
     private void getSearchResult() {
     	_searchTerm = enterSearchTermTextInput.getText();
