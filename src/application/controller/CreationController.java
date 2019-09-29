@@ -69,7 +69,7 @@ public class CreationController {
 	
 	@FXML
 	private void initialize() {
-		
+		voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
 	}
 	
     @FXML
@@ -108,7 +108,19 @@ public class CreationController {
 		
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
-			System.out.println(chunk);
+			String voice = voiceDropDownMenu.getValue();
+			
+			// Run bash script
+    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voice + " " + chunk};
+			BashCommand bashCommand = new BashCommand(command);
+			team.submit(bashCommand);
+			
+			bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+				@Override
+				public void handle(WorkerStateEvent event) {
+					updateChunkList();
+				}
+			});
 		}
 	}
 	
@@ -221,5 +233,9 @@ public class CreationController {
     	// Splits the input at any instance of one or more whitespace character, then counts the number of splits
     	String[] words = input.split("\\s+");
     	return words.length;
+    }
+    
+    private void updateChunkList() {
+    	System.out.println("done");
     }
 }

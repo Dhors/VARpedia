@@ -145,6 +145,43 @@ case $1 in
 		festival --tts "input.txt"
 		rm -f input.txt
 		;;
+	save)
+		# Make directory to store chunks if necessary
+		if [ ! -d "./chunks" ]
+		then
+			mkdir "chunks"
+		fi
+
+		voiceChoice=$2
+		voice="akl_nz_cw_cg_cg"
+
+		argNum=0
+		name=""
+		rm -f input.txt
+		for i in $@
+		do
+			# Only store words from the "chunk" input
+			if [ $argNum -gt 1 ]
+			then
+				echo "$i " >> input.txt
+				if [ $argNum -lt 7 ]
+				then
+					name="${name}$i-"
+				fi
+			fi
+			argNum=$(($argNum + 1))
+		done
+
+		extension=1
+		while [ -e "chunks/${name}${extension}.wav" ]
+		do
+			extension=$(($extension + 1))
+		done
+		name="${name}${extension}"
+
+		text2wave -o chunks/$name.wav -eval "(voice_$voice)" input.txt
+		rm -f input.txt
+		;;
 	*)
 		echo "Invalid selection." >&2
 		;;
