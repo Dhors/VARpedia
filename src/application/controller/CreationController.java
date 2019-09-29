@@ -433,7 +433,8 @@ public class CreationController {
 			public void handle(WorkerStateEvent event) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setTitle("Creation completed");
-				alert.setContentText("Creation completed: "+ creationNameTextField.getText() +" is finished");
+				alert.setHeaderText("Creation completed: "+ creationNameTextField.getText() +" is finished");
+				alert.setContentText("Please refresh the list of creations");
 				alert.showAndWait();
 			}
 		});
