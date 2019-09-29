@@ -15,19 +15,19 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" text="Cancel Creation" />
+      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="26.0" prefWidth="99.0" text="Cancel Creation" />
      
       <Text fx:id="enterSearchTerm" layoutX="75.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
       <TextField fx:id="enterSearchTermTextInput" layoutX="75.0" layoutY="157.0" prefHeight="26.0" prefWidth="200.0" />
       <Button fx:id="searchWikipediaButton" layoutX="275.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" text="Search Wikipedia" />
-      <Text fx:id="searchInProgress" layoutX="238.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
-      <Text fx:id="termNotFound" fill="RED" layoutX="210.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Term not found, please try again." visible="false" />
-      <TextArea fx:id="searchResultTextArea" layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="224.0" visible="false" wrapText="true" />
-      <ListView fx:id="chunkList" layoutX="373.0" layoutY="87.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
-      <Button fx:id="previewChunk" layoutX="248.0" layoutY="87.0" mnemonicParsing="false" onAction="#handlePreviewChunk" text="Preview Chunk" visible="false" />
-      <Button fx:id="saveChunk" layoutX="248.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
-      <ChoiceBox fx:id="voiceDropDownMenu" layoutX="244.0" layoutY="187.0" prefHeight="25.0" prefWidth="124.0" visible="false" />
-      <Text fx:id="voiceLabel" layoutX="327.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voice" visible="false" />
+      <Text fx:id="searchInProgress" layoutX="235.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
+      <Text fx:id="termNotFound" fill="RED" layoutX="208.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Term not found, please try again." visible="false" />
+      <TextArea fx:id="searchResultTextArea" layoutX="13.0" layoutY="90.0" prefHeight="180.0" prefWidth="340.0" visible="false" wrapText="true" />
+      <ListView fx:id="chunkList" layoutX="371.0" layoutY="90.0" prefHeight="265.0" prefWidth="200.0" visible="false" />
+      <Button fx:id="previewChunk" layoutX="17.0" layoutY="311.0" mnemonicParsing="false" onAction="#handlePreviewChunk" text="Preview Chunk" visible="false" />
+      <Button fx:id="saveChunk" layoutX="241.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
+      <ChoiceBox fx:id="voiceDropDownMenu" layoutX="220.0" layoutY="274.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
+      <Text fx:id="voiceSelectDescription" layoutX="16.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select voice of chunk to be saved:" visible="false" />
       <TextField fx:id="creationNameTextField" layoutX="167.0" layoutY="189.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
       <Button fx:id="finalCreate" layoutX="338.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" prefHeight="26.0" prefWidth="96.0" text="Create" visible="false" />
 
@@ -38,9 +38,11 @@
       
       <TextField fx:id="_NumberOfImagesTextField" layoutX="167.0" layoutY="159.0" promptText="Number of images" visible="false" />
       <Button fx:id="_numberImagesButton" layoutX="338.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" prefHeight="26.0" prefWidth="96.0" text="Confirm" visible="false" />
-      <Button fx:id="selectButton" layoutX="442.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected" visible="false" />
+      <Button fx:id="selectButton" layoutX="422.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="26.0" prefWidth="149.0" text="Confirm Selected Chunks" visible="false" />
       <Text fx:id="numberOfImagesPrompt" layoutX="137.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the number of images for the creation." visible="false" />
       <Text fx:id="creationNamePrompt" layoutX="170.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the name of the creation." visible="false" />
+      <Text fx:id="textSelectDescription" layoutX="76.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit and highlight text to create chunks. " visible="false" />
+      <Text fx:id="chunkSelectDescription" layoutX="389.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select one or more chunks to combine into a creation" textAlignment="CENTER" visible="false" wrappingWidth="164.3994140625" />
 
 
 
