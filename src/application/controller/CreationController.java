@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,6 +101,16 @@ public class CreationController {
 
 		window.setScene(creationViewScene);
 		window.show();
+		
+		// chunck clean
+		File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
+		if (folderChunk.exists()) {
+			for (final File fileNameChunk : folderChunk.listFiles()) {
+				fileNameChunk.delete();
+			}
+			folderChunk.delete();
+		}
+
 	}
 
 	@FXML
