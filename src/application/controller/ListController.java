@@ -68,10 +68,7 @@ public class ListController {
                 getSelectedFile().delete();
                 ListCurrentFiles();
             }
-
-
         }
-
     }
 
 
@@ -89,19 +86,13 @@ public class ListController {
     @FXML
     private void handleSelectedCreation(){
         _selectedCreation =  (String) listViewCreations.getSelectionModel().getSelectedItem();
-        System.out.println( ""+  _selectedCreation );
     }
-
-
-
-
 
 
 
     // This will return a list of all current creations in the creations directory.
     // This list will be displayed to the user in the view interface.
     private void ListCurrentFiles(){
-
         // The creations directory where all creations are stored.
         final File folder = new File(System.getProperty("user.dir")+"/creations/");
         ArrayList<String> listFilesNames = new ArrayList<String>();
@@ -115,7 +106,6 @@ public class ListController {
         }
         // Sort the files by creation name in alphabetical order.
         Collections.sort(listFilesNames);
-
 
         // Will get every file in the creations directory and create an indexed
         // list of file names.
@@ -132,9 +122,6 @@ public class ListController {
         ObservableList<String> listViewFiles = FXCollections.observableArrayList(listCreationNames);
         //ListView CreationsListView = new ListView();
         listViewCreations.setItems(listViewFiles);
-       // CreationsListView.setPrefHeight(300);
-
-        //return CreationsListView;
     }
 
 

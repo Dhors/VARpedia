@@ -17,6 +17,7 @@
             <Font size="18.0" />
          </font></Text>
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" text="Cancel Creation" />
+     
       <Text fx:id="enterSearchTerm" layoutX="82.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the term you would like to search:" />
       <TextField fx:id="enterSearchTermTextInput" layoutX="358.0" layoutY="166.0" />
       <Button fx:id="searchWikipediaButton" layoutX="244.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" text="Search Wikipedia" />
@@ -28,8 +29,19 @@
       <Button fx:id="saveChunk" layoutX="248.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="244.0" layoutY="187.0" prefHeight="25.0" prefWidth="124.0" visible="false" />
       <Text fx:id="voiceLabel" layoutX="327.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voice" visible="false" />
-      <TextField fx:id="creationNameTextField" layoutX="308.0" layoutY="334.0" promptText="Name of Creation" visible="false" />
-      <Button fx:id="finalCreate" layoutX="521.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCreateCreation" text="Create" visible="false" />
+      <TextField fx:id="creationNameTextField" layoutX="308.0" layoutY="334.0" promptText="Name of Creation" onAction="#handleCheckCreationButton" visible="false" />
+      <Button fx:id="finalCreate" layoutX="521.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" text="Create" visible="false" />
       <Slider fx:id="numImagesSlider" blockIncrement="1.0" layoutX="312.0" layoutY="296.0" max="10.0" onDragDone="#handleSliderDragged" showTickLabels="true" showTickMarks="true" value="3.0" visible="false" />
+
+
+
+
+  
+      
+      <TextField fx:id="_NumberOfImagesTextField" layoutX="27.0" layoutY="328.0" promptText="number of images" />
+      <Button layoutX="198.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" text="NumberImages" />
+
+
+
    </children>
 </AnchorPane>

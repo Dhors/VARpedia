@@ -1,5 +1,77 @@
 #!/bin/bash
 
+search() {
+	# Create a fresh temporary directory (in case there was an error in previous functioning)
+#	if [ -d "$TMP_DIR" ]
+#	then
+#		rm -rf $TMP_DIR
+#	fi
+#	mkdir $TMP_DIR	
+
+	search_term=$1
+	search_result=`wikit $search_term`
+	
+	# If a search is invalid it returns "[search term] not found :^("
+	echo $search_result | grep "not found :^(" &> /dev/null
+	# If there was an instance of the above then $? is 0
+	search_is_invalid=$?
+
+	if	[ "$search_is_invalid" -eq 0 ]
+	then
+		echo "(Term not found)"
+	else
+		# Separate each sentence into a new line
+#		echo $search_result | sed 's/\. /.\n/g' > $FULL_SEARCH_DIR
+	
+		# Count and print the number of lines
+#		total_sentences=`cat $FULL_SEARCH_DIR | wc -l`
+#		echo $total_sentences
+		
+		# Print the search result with lines numbered
+#		cat -n $FULL_SEARCH_DIR
+		
+		echo $search_result
+	fi
+}
+
+save() {
+	voiceChoice=$1	
+	name=$2
+
+	# Make directory to store chunks if necessary
+	if [ ! -d "./chunks" ]
+	then
+		mkdir "chunks"
+	fi
+	
+	voice=""
+	case $voiceChoice in
+		Default)
+			voice="kal_diphone"
+			;;
+		NZ-Man)
+			voice="akl_nz_jdt_diphone"
+			;;
+		NZ-Woman)
+			voice="akl_nz_cw_cg_cg"
+			;;
+		*)
+			echo "Invalid selection." >&2
+			return 1
+			;;
+	esac
+
+	extension=1
+	while [ -e "chunks/${name}${extension}.wav" ]
+	do
+		extension=$(($extension + 1))
+	done
+	name="${name}${extension}"
+
+	text2wave -o chunks/$name.wav -eval "(voice_$voice)" input.txt
+	rm -f input.txt
+}
+
 list() {
 	# If there is no creations folder then there are no creations
 	if [ ! -d "$CREATIONS_DIR" ]
@@ -36,41 +108,6 @@ delete() {
 	
 	rm -f $selected_creation_dir
 }
-
-search() {
-	# Create a fresh temporary directory (in case there was an error in previous functioning)
-#	if [ -d "$TMP_DIR" ]
-#	then
-#		rm -rf $TMP_DIR
-#	fi
-#	mkdir $TMP_DIR	
-
-	search_term=$1
-	search_result=`wikit $search_term`
-	
-	# If a search is invalid it returns "[search term] not found :^("
-	echo $search_result | grep "not found :^(" &> /dev/null
-	# If there was an instance of the above then $? is 0
-	search_is_invalid=$?
-
-	if	[ "$search_is_invalid" -eq 0 ]
-	then
-		echo "(Term not found)"
-	else
-		# Separate each sentence into a new line
-#		echo $search_result | sed 's/\. /.\n/g' > $FULL_SEARCH_DIR
-	
-		# Count and print the number of lines
-#		total_sentences=`cat $FULL_SEARCH_DIR | wc -l`
-#		echo $total_sentences
-		
-		# Print the search result with lines numbered
-#		cat -n $FULL_SEARCH_DIR
-		
-		echo $search_result
-	fi
-}
-
 create() {
 	search_term=$1
 	included_sentences=$2
@@ -123,7 +160,7 @@ case $1 in
 		selected_creation=$2
 		delete $selected_creation
 		;;
-	s)
+	search)
 		search_term=$2
 		search $search_term
 		;;
@@ -133,7 +170,61 @@ case $1 in
 		creation_name=$4
 		create $search_term $included_sentences $creation_name
 		;;
+	preview)
+		rm -f input.txt
+		for i in $@
+		do
+			if [ "$i" != "./script.sh" ] && [ "$i" != "preview" ]
+			then
+				echo "$i " >> input.txt
+			fi
+		done
+		festival --tts "input.txt"
+		rm -f input.txt
+		;;
+	save)
+		argNum=0
+		name=""
+		rm -f input.txt
+
+		for i in $@
+		do
+			# Only store words from the "chunk" input
+			if [ $argNum -gt 1 ]
+			then
+				echo "$i " >> input.txt
+				if [ $argNum -lt 7 ]
+				then
+					name="${name}$i-"
+				fi
+			fi
+			argNum=$(($argNum + 1))
+		done
+
+		voiceChoice=$2
+		save $voiceChoice $name
+		;;
+	create)
+		argNum=0
+		chunksList=""
+
+		for i in $@
+		do
+			#
+			if [ $argNum -gt 0 ]
+			then
+				chunksList="$chunksList./chunks/$i.wav "
+			fi
+			argNum=$(($argNum + 1))
+		done
+		
+		# Currently only saves creations as test.wav, can use text field here
+		creationName="test"
+
+		sox ${chunksList}./creations/${creationName}.wav
+		;;
 	*)
 		echo "Invalid selection." >&2
+		exit 1
 		;;
 esac
