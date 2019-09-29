@@ -36,6 +36,8 @@ public class ImageVideoTask extends Task<Void> {
     @Override
     protected Void call() throws Exception {
 
+
+
         // System.out.println("ffmpeg -y -framerate "+0.5+" -i "+System.getProperty("user.dir")+"/creations/" + _creationName +"/"+"image{1..10}.jpg -r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" "+System.getProperty("user.dir")+"/creations/" + _creationName +"/"+"tempVideo.mp4");
         getFlickrImages();
         System.out.println("got flickr");
@@ -167,6 +169,14 @@ public class ImageVideoTask extends Task<Void> {
         }
         folder.delete();
 
+        // chunck clean
+        final File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
+
+        for (final File fileNameChunk : folderChunk.listFiles()) {
+            fileNameChunk.delete();
+
+        }
+        folderChunk.delete();
         }
 
 
