@@ -205,13 +205,13 @@ case $1 in
 		save $voiceChoice $name
 		;;
 	create)
-		argNum=0
+		creationName=$2
 		chunksList=""
-
+		argNum=0
 		for i in $@
 		do
 			#
-			if [ $argNum -gt 0 ]
+			if [ $argNum -gt 1 ]
 			then
 				chunksList="$chunksList./chunks/$i.wav "
 			fi
@@ -219,9 +219,7 @@ case $1 in
 		done
 		
 		# Currently only saves creations as test.wav, can use text field here
-		creationName="test"
-
-		sox ${chunksList}./creations/${creationName}.wav
+		sox ${chunksList}./creations/${creationName}/combinedAudio.wav
 		;;
 	*)
 		echo "Invalid selection." >&2
