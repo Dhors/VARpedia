@@ -2,6 +2,10 @@ package application.controller;
 
 import application.BashCommand;
 import application.Main;
+import javafx.beans.property.ListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,12 +22,16 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -59,7 +67,7 @@ public class CreationController {
 	@FXML
     private ChoiceBox<String> voiceDropDownMenu;
 	@FXML
-    private ListView<CheckBox> chunkList;
+    private ListView<String> chunkList;
 	@FXML
     private Slider numImagesSlider;
 	@FXML
@@ -69,8 +77,7 @@ public class CreationController {
 	
 	@FXML
 	private void initialize() {
-		voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
-		voiceDropDownMenu.setValue("Default");
+		
 	}
 	
     @FXML
@@ -154,6 +161,11 @@ public class CreationController {
     	numImagesSlider.setVisible(true);
         creationNameTextField.setVisible(true);
         finalCreate.setVisible(true);
+        
+        voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
+		voiceDropDownMenu.setValue("Default");
+		updateChunkList();
+		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void getSearchResult() {
@@ -237,6 +249,29 @@ public class CreationController {
     }
     
     private void updateChunkList() {
-    	System.out.println("done");
+    	// The chunks directory where all chunks are stored.
+        final File folder = new File(System.getProperty("user.dir")+"/chunks/");
+        
+        List<String> listFileNames = new ArrayList<String>();
+        for (final File fileName : folder.listFiles()) {
+            if (fileName.getName().endsWith(".wav")) {
+                listFileNames.add(fileName.getName());
+            }
+        }
+        // Sort the files by chunk name in alphabetical order.
+        Collections.sort(listFileNames);
+
+        List<String> listChunkNames = new ArrayList<String>();
+        // Will get every file in the creations directory and create an indexed
+        // list of file names.
+        for (final String chunk : listFileNames) {
+            if (chunk.endsWith(".wav")) {
+                listChunkNames.add(chunk.replace(".wav", ""));
+            }
+        }
+        // Turning the list of chunk names into an ObservableList<String> for the GUI.
+        ObservableList<String> observableListChunkNames = FXCollections.observableArrayList(listChunkNames);
+        
+        chunkList.setItems(observableListChunkNames);
     }
 }
