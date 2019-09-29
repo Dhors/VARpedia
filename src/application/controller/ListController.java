@@ -94,16 +94,6 @@ public class ListController {
     }
 
 
-        @FXML
-    private void handleListReturnButton(ActionEvent event) throws IOException {
-
-        Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
-        Scene listViewScene = new Scene(listViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(listViewScene);
-        window.show();
-    }
-
 
     @FXML
     private void handleSelectedCreation(){
@@ -161,7 +151,11 @@ public class ListController {
 
     }
 
-
+    public static String getSelectedCreationName(){
+        // Removal of the index on the creation name
+        String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
+        return fileName;
+    }
 
 
 
