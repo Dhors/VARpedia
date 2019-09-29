@@ -204,6 +204,25 @@ case $1 in
 		voiceChoice=$2
 		save $voiceChoice $name
 		;;
+	create)
+		argNum=0
+		chunksList=""
+
+		for i in $@
+		do
+			#
+			if [ $argNum -gt 0 ]
+			then
+				chunksList="$chunksList./chunks/$i.wav "
+			fi
+			argNum=$(($argNum + 1))
+		done
+		
+		# Currently only saves creations as test.wav, can use text field here
+		creationName="test"
+
+		sox ${chunksList}./creations/${creationName}.wav
+		;;
 	*)
 		echo "Invalid selection." >&2
 		exit 1

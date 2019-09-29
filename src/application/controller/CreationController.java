@@ -134,7 +134,28 @@ public class CreationController {
 	
 	@FXML
     private void handleCreateCreation(ActionEvent event) throws IOException {
-
+		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
+		
+		String args = "";
+		int numChunksSelected = selectedChunks.size();
+		for (int i = 0; i < numChunksSelected - 1; i++) {
+			args += selectedChunks.get(i) + " ";
+		}
+		args += selectedChunks.get(numChunksSelected-1);
+		
+		// Run bash script to create a combined audio of each selected chunk
+		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + args};
+		BashCommand bashCommand = new BashCommand(command);
+		team.submit(bashCommand);
+		
+		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				// ==============================Call method for flickr stuff===============================
+				// Currently only saves creations as test.wav
+				System.out.println("done");
+			}
+		});
 	}
 	
 	@FXML
