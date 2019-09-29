@@ -160,7 +160,7 @@ public class ImageVideoTask extends Task<Void> {
 
     private void cleanFolder() {
         // The creations directory where all creations are stored.
-        final File folder = new File(System.getProperty("user.dir") + "/creations/" + _creationName + "/" );
+        File folder = new File(System.getProperty("user.dir") + "/creations/" + _creationName + "/" );
         //ArrayList<String> listFilesNames = new ArrayList<String>();
         //ArrayList<String> listCreationNames = new ArrayList<String>();
 
@@ -170,7 +170,7 @@ public class ImageVideoTask extends Task<Void> {
         folder.delete();
 
         // chunck clean
-        final File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
+        File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
 
         for (final File fileNameChunk : folderChunk.listFiles()) {
             fileNameChunk.delete();
