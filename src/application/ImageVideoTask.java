@@ -83,18 +83,18 @@ public class ImageVideoTask extends Task<Void> {
 
         // ffmpeg is buggy I didnt want to deal with it either.
         if (_numberOfImages==1){
-            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
+            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "0.jpg");
 
-            File file2 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
-            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            File file2 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
+            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
             file2.createNewFile();
             file3.createNewFile();
             file4.createNewFile();
 
-            Path source2 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
-            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            Path source2 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
+            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
             Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
             Files.copy(source, source3, StandardCopyOption.REPLACE_EXISTING);
             Files.copy(source, source4, StandardCopyOption.REPLACE_EXISTING);
@@ -102,16 +102,16 @@ public class ImageVideoTask extends Task<Void> {
 
             length =  length*4;
         }else if (_numberOfImages==2){
-            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
-            Path source2 = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "0.jpg");
+            Path source2 = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
 
-            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
             file3.createNewFile();
             file4.createNewFile();
 
-            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "4.jpg");
+            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
+            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
             Files.copy(source2, source3, StandardCopyOption.REPLACE_EXISTING);
             Files.copy(source2, source4, StandardCopyOption.REPLACE_EXISTING);
 
@@ -120,17 +120,16 @@ public class ImageVideoTask extends Task<Void> {
         }
 
 
-       String imagesCommand = "ffmpeg -y -framerate " + length + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
-                "-pix_fmt yuv420p -r 25 -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
-                + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
+       String imagesCommand = "ffmpeg -y -framerate " + length + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " + "-r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" "+System.getProperty("user.dir") + "/creations/" + _creationName + "/tempVideo.mp4";
+        String textCommand = "ffmpeg -y -i " +System.getProperty("user.dir") + "/creations/" + _creationName + "/tempVideo.mp4" + " -vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
 
 
-
-        ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",imagesCommand);
+        System.out.println("command: " + imagesCommand);
+        ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",(imagesCommand+";"+textCommand));
 
         Process videoBuilderProcess = videoBuilder.start();
         int exit = videoBuilderProcess.waitFor();
-
+        System.out.println("exit code 1st: " + exit);
 
         return;
 
@@ -203,7 +202,7 @@ public class ImageVideoTask extends Task<Void> {
             PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
             System.out.println("Retrieving " + results.size() + " results");
 
-            int count = 1;
+            int count = 0;
             for (Photo photo : results) {
                 try {
                     BufferedImage image = photos.getImage(photo, Size.LARGE);

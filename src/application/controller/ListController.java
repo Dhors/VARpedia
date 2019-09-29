@@ -94,7 +94,7 @@ public class ListController {
     }
 
 
-      /*  @FXML
+        @FXML
     private void handleListReturnButton(ActionEvent event) throws IOException {
 
         Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
@@ -102,7 +102,7 @@ public class ListController {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(listViewScene);
         window.show();
-    }*/
+    }
 
 
     @FXML
