@@ -2,12 +2,9 @@ package application.controller;
 
 import application.BashCommand;
 import application.Main;
-import javafx.beans.property.ListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import application.ImageVideoTask;
-import application.Main;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,20 +18,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
-
-
-import java.awt.*;
-import java.io.File;
-
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -45,53 +33,48 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CreationController {
 	private ExecutorService team = Executors.newFixedThreadPool(3);
-	
+
 	private String _searchTerm;
-	
-    private ExecutorService threadWorker = Executors.newSingleThreadExecutor();
-    int numberOfImages;
 
+	private ExecutorService threadWorker = Executors.newSingleThreadExecutor();
+	int numberOfImages;
 
-    @FXML
-    private Text enterSearchTerm;
 	@FXML
-    private TextField enterSearchTermTextInput;
+	private Text enterSearchTerm;
 	@FXML
-    private Button searchWikipediaButton;
+	private TextField enterSearchTermTextInput;
 	@FXML
-    private Text searchInProgress;
+	private Button searchWikipediaButton;
 	@FXML
-    private Text termNotFound;
-	
-	
+	private Text 	searchInProgress;
 	@FXML
-    private TextArea searchResultTextArea;
+	private Text termNotFound;
+
 	@FXML
-    private Button previewChunk;
+	private TextArea searchResultTextArea;
 	@FXML
-    private Button saveChunk;
+	private Button previewChunk;
 	@FXML
-    private Text voiceLabel;
+	private Button saveChunk;
 	@FXML
-    private ChoiceBox<String> voiceDropDownMenu;
+	private Text voiceLabel;
 	@FXML
-    private ListView<String> chunkList;
+	private ChoiceBox<String> voiceDropDownMenu;
 	@FXML
-    private Slider numImagesSlider;
+	private ListView<String> chunkList;
 	@FXML
-    private TextField creationNameTextField;
+	private Slider numImagesSlider;
 	@FXML
-    private Button finalCreate;
+	private TextField creationNameTextField;
+	@FXML
+	private Button finalCreate;
 	@FXML
 	private Button selectButton;
-
 
 	@FXML
 	private TextField _NumberOfImagesTextField;
@@ -99,85 +82,203 @@ public class CreationController {
 	private Button _numberImagesButton;
 
 	@FXML
-	private void initialize() {
-		
-	}
-	
-    @FXML
-    private Text numberOfImagesPrompt;
+	private Text numberOfImagesPrompt;
 	@FXML
 	private Text creationNamePrompt;
 
-
-
-    @FXML
-    private void handleCreationCancelButton(ActionEvent event) throws IOException {
-
-        Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-        Scene creationViewScene = new Scene(creationViewParent);
-
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        window.setScene(creationViewScene);
-        window.show();
-    }
-
 	@FXML
-    private void handleSearchWikipedia(ActionEvent event) throws IOException {
-		getSearchResult();
+	private void handleCreationCancelButton(ActionEvent event) throws IOException {
+
+		Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
+		Scene creationViewScene = new Scene(creationViewParent);
+
+		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+		window.setScene(creationViewScene);
+		window.show();
 	}
 
 	@FXML
-    private void handlePreviewChunk(ActionEvent event) throws IOException {
+	private void handleSearchWikipedia(ActionEvent event) throws IOException {
+		_searchTerm = enterSearchTermTextInput.getText();
+
+		if (_searchTerm.equals("") || _searchTerm.equals(null)) {
+			termNotFound.setVisible(true);
+		} else {
+			termNotFound.setVisible(false);
+			searchInProgress.setVisible(true);
+
+			// Run bash script that uses wikit and returns the the result of the search
+			String[] command = new String[]{"/bin/bash", "-c", "./script.sh search " + _searchTerm};
+			BashCommand bashCommand = new BashCommand(command);
+			team.submit(bashCommand);
+
+			// Using concurrency allows the user to cancel the creation if the search takes too long
+			bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+				@Override
+				public void handle(WorkerStateEvent event) {
+					try {
+						/**
+						 * Returns a list with only one element
+						 * If the term was not found, the element is "(Term not found)"
+						 * Otherwise the element is the search result
+						 */
+						List<String> result = bashCommand.get();
+						String searchResult = result.get(0);
+
+						if (searchResult.equals("(Term not found)")) {
+							searchInProgress.setVisible(false);
+							termNotFound.setVisible(true);
+						} else {
+							searchResultTextArea.setText(searchResult);
+							displayChunkSelection();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+	}
+
+	@FXML
+	private void handlePreviewChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-		
+
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
-			// Run bash script
-    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
+			// Remove brackets from the chunk to prevent error
+			chunk = chunk.replace("(", "").replace(")", "");
+
+			// Run bash script using festival tts to speak the selected text to the user
+			String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
 			BashCommand bashCommand = new BashCommand(command);
 			team.submit(bashCommand);
 		}
 	}
-	
+
 	@FXML
-    private void handleSaveChunk(ActionEvent event) throws IOException {
+	private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-		
+
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
-			String voice = voiceDropDownMenu.getValue();
-			
-			// Run bash script
-    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voice + " " + chunk};
+			String voiceChoice = voiceDropDownMenu.getValue();
+
+			// Remove brackets from the chunk to prevent error
+			chunk = chunk.replace("(", "").replace(")", "");
+
+			// Run bash script using festival to save a .wav file containing the spoken selected text
+			String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
 			BashCommand bashCommand = new BashCommand(command);
 			team.submit(bashCommand);
-			
+
 			bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
+					// Make the new chunk visible to the user
 					updateChunkList();
 				}
 			});
 		}
 	}
-	
-	@FXML
-    private void combineAudioChunks(String creationName) {
+
+	/**
+	 * @return whether or not the chunk is valid
+	 * valid if 0 < number of words <= 30, or the chunk is too long but the user confirms anyway
+	 * Also handles the error and warning messages for when a chunk is too short or long
+	 */
+	private boolean checkForValidChunk(String chunk) {
+		int numberOfWords;
+
+		if (chunk == null || chunk.isEmpty()) {
+			numberOfWords = 0;
+		}
+
+		// Splits the input at any instance of one or more whitespace character
+		// The number of splits is the number of words
+		String[] words = chunk.split("\\s+");
+		numberOfWords = words.length;
+
+		if (numberOfWords == 0) {
+			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
+			alert.showAndWait();
+			return false;
+
+		} else if (numberOfWords > 30) {
+			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
+			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
+
+			// Display the confirmation alert and store the button pressed
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	private void updateChunkList() {
+		// The chunks directory where all chunks are stored.
+		final File chunksFolder = new File(System.getProperty("user.dir")+"/chunks/");
+
+		List<String> fileNamesList = new ArrayList<String>();
+		List<String> chunkNamesList = new ArrayList<String>();
+
+		if (!chunksFolder.exists()) {
+			chunksFolder.mkdirs();
+		}
+
+		/**
+		 * Checks every file in the chunks directory. If a file is .wav format,
+		 * the file name without .wav extension to the list of chunkNames, and keeps count
+		 */
+		int numChunks = 0;
+		for (File fileName : chunksFolder.listFiles()) {
+			if (fileName.getName().endsWith(".wav")) {
+				chunkNamesList.add(fileName.getName().replace(".wav", ""));
+				numChunks++;
+			}
+		}
+
+		// Sort the files by chunk name in alphabetical order.
+		Collections.sort(fileNamesList);
+
+		if (numChunks == 0) {
+			chunkNamesList.add("No Creations Found.");
+			chunkList.setDisable(true);
+		} else {
+			chunkList.setDisable(false);
+		}
+
+		// Turns the list of chunk names into an ObservableList<String> and displays to the GUI.
+		ObservableList<String> observableListChunkNames = FXCollections.observableArrayList(chunkNamesList);
+		chunkList.setItems(observableListChunkNames);
+	}
+
+	private void combineAudioChunks(String creationName) {
 		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
-		
-		String args = "";
+
+		// Convert the ObservableList of chunks into a single string, with each element separated by a space
+		String chunksAsString = "";
 		int numChunksSelected = selectedChunks.size();
 		for (int i = 0; i < numChunksSelected - 1; i++) {
-			args += selectedChunks.get(i) + " ";
+			chunksAsString += selectedChunks.get(i) + " ";
 		}
-		args += selectedChunks.get(numChunksSelected-1);
-		
+		// Last element should not have a space after it
+		chunksAsString += selectedChunks.get(numChunksSelected-1);
+
 		// Run bash script to create a combined audio of each selected chunk
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + args};		
+		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
 		BashCommand bashCommand = new BashCommand(command);
 		team.submit(bashCommand);
-		
+
 		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
@@ -186,38 +287,31 @@ public class CreationController {
 		});
 	}
 
-	
-    private void displayChunkSelection() {
-    	// Hide search elements
-    	enterSearchTerm.setVisible(false);
-    	enterSearchTermTextInput.setVisible(false);
-    	searchWikipediaButton.setVisible(false);
-    	searchInProgress.setVisible(false);
-        termNotFound.setVisible(false);
-        
-        // Show chunk elements
-        searchResultTextArea.setVisible(true); 
-        previewChunk.setVisible(true);
-    	saveChunk.setVisible(true);
-    	voiceLabel.setVisible(true);
-    	voiceDropDownMenu.setVisible(true);
-    	chunkList.setVisible(true);
+	private void displayChunkSelection() {
+		// Hide search elements
+		enterSearchTerm.setVisible(false);
+		enterSearchTermTextInput.setVisible(false);
+		searchWikipediaButton.setVisible(false);
+		searchInProgress.setVisible(false);
+		termNotFound.setVisible(false);
+
+		// Show chunk elements
+		searchResultTextArea.setVisible(true); 
+		previewChunk.setVisible(true);
+		saveChunk.setVisible(true);
+		voiceLabel.setVisible(true);
+		voiceDropDownMenu.setVisible(true);
+		chunkList.setVisible(true);
 		selectButton.setVisible(true);
 
-
-
-
-
-        
-        voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
+		// Show the options for chunk voices, and set the default choice
+		voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
 		voiceDropDownMenu.setValue("Default");
+
+		// Show the currently stored chunks, and allow the user to select multiple with ctrl+click or shift+click
 		updateChunkList();
 		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    }
-
-
-
-
+	}
 
 	@FXML
 	private void handleSelectButton(){
@@ -250,44 +344,36 @@ public class CreationController {
 
 		//_NumberOfImagesTextField.setDisable(false);
 		//_numberImagesButton.setDisable(false);
-
-
 	}
 
-
-    @FXML	// this method actually starts the creation bad name
-    private void handleCheckCreationButton(ActionEvent event) throws IOException  {
-        System.out.println("got to here at least");
-        if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
-            // throw alerts
-        } else if (!validCreationName(creationNameTextField.getText())) {
-            // throw alerts
-
-
-            //override existing file name
-            String creationName = creationNameTextField.getText();
-            File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
-           // _existingfile.delete();
+	@FXML	// this method actually starts the creation bad name
+	private void handleCheckCreationButton(ActionEvent event) throws IOException  {
+		System.out.println("got to here at least");
+		if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
+			// throw alerts
+		} else if (!validCreationName(creationNameTextField.getText())) {
+			// throw alerts
 
 
+			//override existing file name
+			String creationName = creationNameTextField.getText();
+			File _existingfile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
+			// _existingfile.delete();
 
-
-
-
-        } else { //on success
-           // FlickrImagesTask
-            // need to check valid number and search term
-            String creationName = creationNameTextField.getText();
+		} else { //on success
+			// FlickrImagesTask
+			// need to check valid number and search term
+			String creationName = creationNameTextField.getText();
 
 
 
-            File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
+			File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
 
-            if (!creationFolder.exists()) {
-                creationFolder.mkdirs();
-            }
+			if (!creationFolder.exists()) {
+				creationFolder.mkdirs();
+			}
 
-           combineAudioChunks(creationName);
+			combineAudioChunks(creationName);
 
 			// return to main menu
 			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
@@ -299,28 +385,29 @@ public class CreationController {
 			window.show();
 
 
-        }
-    }
+		}
+	}
 
-  private void createVideo() {
-    System.out.println(""+ enterSearchTermTextInput.getText() + creationNameTextField.getText() + numberOfImages );
+	private void createVideo() {
+		System.out.println(""+ enterSearchTermTextInput.getText() + creationNameTextField.getText() + numberOfImages );
 
-            ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
-            threadWorker.submit(flickrImagesTask);
+		ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
+		threadWorker.submit(flickrImagesTask);
 
 
-            flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent event) {
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Creation:  "+ creationNameTextField.getText() +"is finished");
-					alert.showAndWait();
-                }
-                });
-  }
-    @FXML
-    private void handleNumberOfImagesButton() {
-        if (!(_NumberOfImagesTextField.getText().isEmpty())) {
+		flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Creation:  "+ creationNameTextField.getText() +"is finished");
+				alert.showAndWait();
+			}
+		});
+	}
+
+	@FXML
+	private void handleNumberOfImagesButton() {
+		if (!(_NumberOfImagesTextField.getText().isEmpty())) {
 
 			int num = Integer.parseInt(_NumberOfImagesTextField.getText());
 			if (num <= 0 || num > 10) {
@@ -347,137 +434,17 @@ public class CreationController {
 
 
 		}
-    }
+	}
 
+	private boolean validCreationName(String creationName){
 
-
-        private boolean validCreationName(String creationName){
-
-            File folder = new File(System.getProperty("user.dir")+"/creations/");
-            for (final File fileName : folder.listFiles()) {
-                if (fileName.getName().equals("" + creationName + ".mp4")) {
-                    // An already existing creation name is invalid.
-                    return false;
-                }
-            }
-            return true;
-        }
-
-
-    private void getSearchResult() {
-    	_searchTerm = enterSearchTermTextInput.getText();
-    	if (_searchTerm.equals("") || _searchTerm.equals(null)) {
-    		termNotFound.setVisible(true);
-    	} else {
-    		termNotFound.setVisible(false);
-    		searchInProgress.setVisible(true);
-    		
-    		// Run bash script that uses wikit and returns the the result of the search
-    		String[] command = new String[]{"/bin/bash", "-c", "./script.sh search " + _searchTerm};
-			BashCommand bashCommand = new BashCommand(command);
-			team.submit(bashCommand);
-			
-			// Using concurrency allows the user to cancel the creation if the search takes too long
-			bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-				@Override
-				public void handle(WorkerStateEvent event) {
-					try {
-        				/**
-        				 * Returns a list with only one element
-        				 * If the term was not found, the element is "(Term not found)"
-        				 * Otherwise the element is the search result
-        				 */
-        				List<String> searchResult = bashCommand.get();
-        				
-        				if (searchResult.get(0).equals("(Term not found)")) {
-        					searchInProgress.setVisible(false);
-        					termNotFound.setVisible(true);
-        				} else {
-        					displayChunkSelection();
-        			        searchResultTextArea.setText(searchResult.get(0));
-        				}
-    
-        			} catch (InterruptedException e) {
-        				e.printStackTrace();
-        			} catch (ExecutionException e) {
-        				e.printStackTrace();
-        			}
-				}
-			});
-    	}
-    }
-    
-    /**
-     * @return whether or not the chunk is valid
-     * valid if 0 < number of words <= 30, or the chunk is too long but the user confirms anyway
-     */
-    private boolean checkForValidChunk(String chunk) {
-    	int numberOfWords = countWords(chunk);
-		if (numberOfWords == 0) {
-			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
-			alert.showAndWait();
-			return false;
-			
-		} else if (numberOfWords > 30) {
-			String warningMessage = "Chunks longer than 30 words can sound worse. Are you sure you want to create this chunk?";
-			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
-			
-			// Display the confirmation alert and store the button pressed
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.isPresent() && result.get() == ButtonType.YES) {
-				return true;
-			} else {
+		File folder = new File(System.getProperty("user.dir")+"/creations/");
+		for (final File fileName : folder.listFiles()) {
+			if (fileName.getName().equals("" + creationName + ".mp4")) {
+				// An already existing creation name is invalid.
 				return false;
 			}
-		} else {
-			return true;
 		}
-    }
-
-
-
-
-
-
-
-
-
-
-
-    private int countWords(String input) {
-    	if (input == null || input.isEmpty()) {
-    		return 0;
-    	}
-
-    	// Splits the input at any instance of one or more whitespace character, then counts the number of splits
-    	String[] words = input.split("\\s+");
-    	return words.length;
-    }
-    
-    private void updateChunkList() {
-    	// The chunks directory where all chunks are stored.
-        final File folder = new File(System.getProperty("user.dir")+"/chunks/");
-        
-        List<String> listFileNames = new ArrayList<String>();
-        for (final File fileName : folder.listFiles()) {
-            if (fileName.getName().endsWith(".wav")) {
-                listFileNames.add(fileName.getName());
-            }
-        }
-        // Sort the files by chunk name in alphabetical order.
-        Collections.sort(listFileNames);
-
-        List<String> listChunkNames = new ArrayList<String>();
-        // Will get every file in the creations directory and create an indexed
-        // list of file names.
-        for (final String chunk : listFileNames) {
-            if (chunk.endsWith(".wav")) {
-                listChunkNames.add(chunk.replace(".wav", ""));
-            }
-        }
-        // Turning the list of chunk names into an ObservableList<String> for the GUI.
-        ObservableList<String> observableListChunkNames = FXCollections.observableArrayList(listChunkNames);
-        
-        chunkList.setItems(observableListChunkNames);
-    }
+		return true;
+	}
 }
