@@ -63,7 +63,11 @@ public class CreationController {
 	@FXML
 	private Button saveChunk;
 	@FXML
-	private Text voiceLabel;
+	private Text voiceSelectDescription;
+	@FXML
+	private Text textSelectDescription;
+	@FXML
+	private Text chunkSelectDescription;
 	@FXML
 	private ChoiceBox<String> voiceDropDownMenu;
 	@FXML
@@ -157,7 +161,7 @@ public class CreationController {
 	@FXML
 	private void handlePreviewChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-
+		
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
 			// Remove brackets from the chunk to prevent error
@@ -169,11 +173,11 @@ public class CreationController {
 			team.submit(bashCommand);
 		}
 	}
-
+	
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-
+		
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
 			String voiceChoice = voiceDropDownMenu.getValue();
@@ -206,13 +210,12 @@ public class CreationController {
 
 		if (chunk == null || chunk.isEmpty()) {
 			numberOfWords = 0;
+		} else {
+			// Splits the input at any instance of one or more whitespace character
+			// The number of splits is the number of words
+			String[] words = chunk.split("\\s+");
+			numberOfWords = words.length;
 		}
-
-		// Splits the input at any instance of one or more whitespace character
-		// The number of splits is the number of words
-		String[] words = chunk.split("\\s+");
-		numberOfWords = words.length;
-
 		if (numberOfWords == 0) {
 			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
 			alert.showAndWait();
@@ -310,7 +313,9 @@ public class CreationController {
 		searchResultTextArea.setVisible(true); 
 		previewChunk.setVisible(true);
 		saveChunk.setVisible(true);
-		voiceLabel.setVisible(true);
+		voiceSelectDescription.setVisible(true);
+		textSelectDescription.setVisible(true);
+		chunkSelectDescription.setVisible(true);
 		voiceDropDownMenu.setVisible(true);
 		chunkList.setVisible(true);
 		selectButton.setVisible(true);
@@ -339,7 +344,9 @@ public class CreationController {
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
 		saveChunk.setVisible(false);
-		voiceLabel.setVisible(false);
+		voiceSelectDescription.setVisible(false);
+		textSelectDescription.setVisible(false);
+		chunkSelectDescription.setVisible(false);
 		voiceDropDownMenu.setVisible(false);
 		chunkList.setVisible(false);
 		selectButton.setVisible(false);
