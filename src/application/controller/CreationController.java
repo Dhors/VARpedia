@@ -251,7 +251,7 @@ public class CreationController {
 		Collections.sort(fileNamesList);
 
 		if (numChunks == 0) {
-			chunkNamesList.add("No Creations Found.");
+			chunkNamesList.add("No Chunks Found.");
 			chunkList.setDisable(true);
 		} else {
 			chunkList.setDisable(false);
