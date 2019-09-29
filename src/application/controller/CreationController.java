@@ -287,7 +287,7 @@ public class CreationController {
 		});
 	}
 
-	private void displayChunkSelection() {
+	private void displayChunkSelection() {		
 		// Hide search elements
 		enterSearchTerm.setVisible(false);
 		enterSearchTermTextInput.setVisible(false);
@@ -315,7 +315,15 @@ public class CreationController {
 
 	@FXML
 	private void handleSelectButton(){
-
+		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
+		if (selectedChunks.isEmpty()) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Invalid number of chunks");
+			alert.setContentText("Please enter valid chunk(s) by clicking on them (or ctrl+click / shift+click)");
+			alert.showAndWait();
+			return;
+		}
+		
 		// Hide chunk elements
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
@@ -400,6 +408,7 @@ public class CreationController {
 			public void handle(WorkerStateEvent event) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setTitle("Creation:  "+ creationNameTextField.getText() +"is finished");
+				alert.setContentText("Creation:  "+ creationNameTextField.getText() +"is finished");
 				alert.showAndWait();
 			}
 		});
@@ -414,7 +423,7 @@ public class CreationController {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("Invalid number of images");
 				//alert.setHeaderText(" delete " + _selectedCreation);
-				alert.setContentText("Please enter a valid number between 1 nd 10");
+				alert.setContentText("Please enter a valid number between 1 and 10");
 				alert.showAndWait();
 				return;
 			}
