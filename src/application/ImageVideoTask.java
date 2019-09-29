@@ -38,31 +38,19 @@ public class ImageVideoTask extends Task<Void> {
 
 
 
-        // System.out.println("ffmpeg -y -framerate "+0.5+" -i "+System.getProperty("user.dir")+"/creations/" + _creationName +"/"+"image{1..10}.jpg -r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" "+System.getProperty("user.dir")+"/creations/" + _creationName +"/"+"tempVideo.mp4");
         getFlickrImages();
-        System.out.println("got flickr");
         videoCreation();
-        System.out.println("video creation isnt working fuck me");
-
         mergeAudioAndVideo();
-        cleanFolder();
+        //cleanFolder();
         return null;
 
 
     }
 
     private void videoCreation() throws IOException, InterruptedException {
-        // Audio creation using bash commands
-        //String audioCommand = "cat text | text2wave -o audio.wav";
-        String audioFileName = (System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav");
-        String videoFileName = (System.getProperty("user.dir") + "/creations/" + _creationName + ".mp4");
 
+        String audioLengthCommand = ("soxi -D " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav");
 
-        String audioLengthCommand = ("soxi -D " + audioFileName);
-
-        // ProcessBuilder audioBuilder = new ProcessBuilder("bash", "-c", audioCommand);
-        // Process audioProcess = audioBuilder.start();
-        // audioProcess.waitFor();
         ProcessBuilder audioLengthBuilder = new ProcessBuilder("bash", "-c", audioLengthCommand);
         Process audioLengthProcess = audioLengthBuilder.start();
         audioLengthProcess.waitFor();
@@ -71,15 +59,9 @@ public class ImageVideoTask extends Task<Void> {
         // Audio length to determine the length of creation.
         BufferedReader stdout = new BufferedReader(new InputStreamReader(audioLengthProcess.getInputStream()));
         String audioLengthDouble = stdout.readLine();
-        int audioLength = ((int) Double.parseDouble(audioLengthDouble) /*+ 1*/);
-        double length = audioLength;
 
+        double rateOfImages = _numberOfImages/(Double.parseDouble(audioLengthDouble) + 1);
 
-
-        length = (_numberOfImages / length);
-        //double lengthOfOneImage = (double)((audioLength -1)/_numberOfImages);
-
-        System.out.println("fucking end me");
 
         // ffmpeg is buggy I didnt want to deal with it either.
         if (_numberOfImages==1){
@@ -98,9 +80,7 @@ public class ImageVideoTask extends Task<Void> {
             Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
             Files.copy(source, source3, StandardCopyOption.REPLACE_EXISTING);
             Files.copy(source, source4, StandardCopyOption.REPLACE_EXISTING);
-
-
-            length =  length*4;
+            rateOfImages = rateOfImages*4;
         }else if (_numberOfImages==2){
             Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
             Path source2 = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
@@ -116,21 +96,18 @@ public class ImageVideoTask extends Task<Void> {
             Files.copy(source2, source4, StandardCopyOption.REPLACE_EXISTING);
 
             Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
-            length =  length*2;
+            rateOfImages=  rateOfImages*2;
         }
 
 
-       String imagesCommand = "ffmpeg -y -framerate " + length + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
+       String imagesCommand = "ffmpeg -y -framerate " + rateOfImages + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " +
                 "-pix_fmt yuv420p -r 25 -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" " + "-vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" "
                 + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
-
-
 
         ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",imagesCommand);
 
         Process videoBuilderProcess = videoBuilder.start();
         int exit = videoBuilderProcess.waitFor();
-
 
         return;
 
@@ -183,14 +160,9 @@ public class ImageVideoTask extends Task<Void> {
 
             Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
 
-            int _fixNumberOfImages = _numberOfImages;
-
-            if (_numberOfImages==1){
-                _fixNumberOfImages=2;
-            }
 
             String query = _searchTerm;
-            int resultsPerPage = _fixNumberOfImages;
+            int resultsPerPage = _numberOfImages;
 
             int page = 0;
 

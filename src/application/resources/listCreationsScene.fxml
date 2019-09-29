@@ -10,7 +10,10 @@
       <Text layoutX="232.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current creations" />
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleListReturnButton" text="Return" />
       <ListView fx:id="listViewCreations" layoutX="51.0" layoutY="86.0" onMouseClicked="#handleSelectedCreation" prefHeight="200.0" prefWidth="498.0" />
-      <Button layoutX="214.0" layoutY="302.0" mnemonicParsing="false" onAction="#handlePlayButton" text="Play" />
-      <Button layoutX="289.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete" />
+      <Button fx:id="playButton" layoutX="163.0" layoutY="328.0" mnemonicParsing="false" onAction="#handlePlayButton" text="Play Creation" />
+      <Button fx:id="deleteButton" layoutX="285.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Creation" />
+      <Text fx:id="selectCreationText" layoutX="191.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a creation" />
+      <Button layoutX="484.0" layoutY="57.0" mnemonicParsing="false" onAction="#handleRefreshButton" text="refresh" />
+      <Button layoutX="422.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleNewCreationButton" text="New creation" />
    </children>
 </AnchorPane>

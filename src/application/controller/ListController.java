@@ -10,8 +10,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -28,22 +30,48 @@ public class ListController {
     @FXML
     private static String _selectedCreation;
 
+    @FXML
+    private Button playButton;
+
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private Text selectCreationText;
+
     public void initialize(){
-
-        //ListView listViewCreations =
         ListCurrentFiles();
-
-        System.out.println( "fuck initialze"+  listViewCreations );
+        playButton.setDisable(true);
+        deleteButton.setDisable(true);
     }
+
+
+
+
+
+
+
+    @FXML
+    private void handleNewCreationButton(ActionEvent event) throws IOException {
+
+        Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/newCreationScene.fxml"));
+        Scene creationViewScene = new Scene(creationViewParent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        window.setScene(creationViewScene);
+        window.show();
+    }
+
+
 
 
     @FXML
     private void handlePlayButton(ActionEvent event) throws IOException {
 
-        if (_selectedCreation == null ) {
-        //do nothing
-        }  else {
-
+        // Safety check to ensure that actions can only be taken when a valid
+        // creation is selected from the list of creations.
+        if (!(_selectedCreation == null)) {
             //change scene to playerScene
             Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/PlayerScene.fxml"));
             Scene listViewScene = new Scene(listViewParent);
@@ -55,26 +83,33 @@ public class ListController {
 
     @FXML
     private void handleDeleteButton(){
-        if (_selectedCreation == null ) {
-            //do nothing
-        }  else {
+        // Safety check to ensure that actions can only be taken when a valid
+        // creation is selected from the list of creations.
+        if (!(_selectedCreation == null )) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete");
             alert.setHeaderText(" delete " + _selectedCreation);
             alert.setContentText("Are you sure?.");
-            Optional<ButtonType> result = alert.showAndWait();
 
+            Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 getSelectedFile().delete();
                 ListCurrentFiles();
             }
+
         }
     }
 
 
     @FXML
-    private void handleListReturnButton(ActionEvent event) throws IOException {
+    private void handleRefreshButton(ActionEvent event) throws IOException {
+        ListCurrentFiles();
+    }
 
+
+
+    @FXML
+    private void handleListReturnButton(ActionEvent event) throws IOException {
         Parent listViewParent = FXMLLoader.load(Main.class.getResource("resources/home.fxml"));
         Scene listViewScene = new Scene(listViewParent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -83,9 +118,14 @@ public class ListController {
     }
 
 
+
+    // This method will respond to the user selecting a creation from the list of creations
     @FXML
     private void handleSelectedCreation(){
         _selectedCreation =  (String) listViewCreations.getSelectionModel().getSelectedItem();
+        playButton.setDisable(false);
+        deleteButton.setDisable(false);
+        selectCreationText.setVisible(false);
     }
 
 
@@ -101,7 +141,6 @@ public class ListController {
         for (final File fileName : folder.listFiles()) {
             if (fileName.getName().endsWith(".mp4")) {
                 listFilesNames.add(fileName.getName());
-                System.out.println( "fuck fileloop" +fileName.getName()  );
             }
         }
         // Sort the files by creation name in alphabetical order.
@@ -113,7 +152,6 @@ public class ListController {
         for (final String creations : listFilesNames) {
             if (creations.endsWith(".mp4")) {
                 listCreationNames.add("" + indexCounter + ". " + creations.replace(".mp4", ""));
-                System.out.println( "fuck fileloop" +indexCounter );
                 indexCounter++;
 
             }
@@ -126,18 +164,11 @@ public class ListController {
 
 
     public static File getSelectedFile(){
-
-
         // Removal of the index on the creation name
         // and creating it as a file to be played or deleted.
         String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
-        File _selectedfile = new File(System.getProperty("user.dir")+"/creations/"+ fileName +".mp4");
-
-        return _selectedfile;
-
+        return new File(System.getProperty("user.dir")+"/creations/"+ fileName +".mp4");
     }
-
-
 
 
 

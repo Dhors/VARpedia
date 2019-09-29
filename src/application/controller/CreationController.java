@@ -173,4 +173,20 @@ public class CreationController {
             return true;
         }
 
+
+
+
+    @FXML
+    private void handleCheckCreationNameButton() {
+    // this will just check the name of the creation
+
+
+    }
+
+
+
+
+
+
+
 }
