@@ -156,7 +156,7 @@ public class ImageVideoTask extends Task<Void> {
 
 
     // This method will use the provided api key to retrieve images related to the user search term
-    // A number between 1 and 10 images will be retrieved .
+    // A number between 1 and 10 images will be retrieved.
     private void getFlickrImages() {
         try {
             // retrieved api key
