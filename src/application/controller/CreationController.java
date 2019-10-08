@@ -43,6 +43,8 @@ public class CreationController {
 
 	int numberOfImages;
 
+	Alert alertLocal;
+
 	@FXML
 	private Text enterSearchTerm;
 	@FXML
@@ -161,7 +163,7 @@ public class CreationController {
 	@FXML
 	private void handlePreviewChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-		
+
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
 			// Remove brackets from the chunk, some voices can't speak with brackets
@@ -173,11 +175,11 @@ public class CreationController {
 			team.submit(bashCommand);
 		}
 	}
-	
+
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-		
+
 		boolean isValidChunk = checkForValidChunk(chunk);
 		if (isValidChunk) {
 			String voiceChoice = voiceDropDownMenu.getValue();
@@ -216,7 +218,7 @@ public class CreationController {
 			String[] words = chunk.split("\\s+");
 			numberOfWords = words.length;
 		}
-		
+
 		if (numberOfWords == 0) {
 			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
 			alert.showAndWait();
@@ -224,7 +226,7 @@ public class CreationController {
 
 		} else if (numberOfWords > 30) {
 			// Let the user confirm if they want a longer chunk
-			
+
 			String warningMessage = "Chunks longer than 30 words can result in a lower sound quality. Are you sure you want to create this chunk?";
 			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
 
@@ -247,7 +249,7 @@ public class CreationController {
 		if (!chunksFolder.exists()) {
 			chunksFolder.mkdirs();
 		}
-		
+
 		List<String> chunkNamesList = new ArrayList<String>();
 
 		/**
@@ -316,7 +318,7 @@ public class CreationController {
 			alert.showAndWait();
 			return;
 		}
-		
+
 		// Hide chunk elements
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
@@ -377,6 +379,12 @@ public class CreationController {
 				Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 				window.setScene(creationViewScene);
 				window.show();
+
+				Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+				alert2.setTitle("Creation in progress");
+				alert2.setHeaderText("Creation is being made, please wait...");
+				alert2.setContentText("You will be informed when the creation is complete.");
+				alert2.show();
 			}
 
 		} else {
@@ -393,6 +401,13 @@ public class CreationController {
 			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 			window.setScene(creationViewScene);
 			window.show();
+
+			alertLocal = new Alert(Alert.AlertType.INFORMATION);
+			alertLocal.setTitle("Creation in progress");
+			alertLocal.setHeaderText("Creation is being made, please wait...");
+			alertLocal.setContentText("You will be informed when the creation is complete.");
+			alertLocal.show();
+
 		}
 	}
 
@@ -420,7 +435,7 @@ public class CreationController {
 			}
 		});
 	}
-  
+
 	/*The method to create the creation
 	  This method will pull images from flickr based on user input.
 	  Using these images a video will be created with the search term added as text.*/
@@ -432,6 +447,11 @@ public class CreationController {
 		flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
+
+				Button cancelButton = ( Button ) alertLocal.getDialogPane().lookupButton( ButtonType.OK );
+				cancelButton.fire();
+
+
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setTitle("Creation completed");
 				alert.setHeaderText("Creation completed: "+ creationNameTextField.getText() +" is finished");
@@ -445,30 +465,42 @@ public class CreationController {
 	private void handleNumberOfImagesButton() {
 		if (!(_NumberOfImagesTextField.getText().isEmpty())) {
 
-			int num = Integer.parseInt(_NumberOfImagesTextField.getText());
-			if (num <= 0 || num > 10) {
+			////
+			if (!_NumberOfImagesTextField.getText().matches("[0-9]*")){ 
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Invalid number of images");
-				alert.setContentText("Please enter a valid number between 1 and 10");
+				alert.setTitle("Creation name");
+				alert.setContentText("Please enter a valid creation name consisting of alphabet letters and digits only.");
 				alert.showAndWait();
 				return;
+			} else {
+
+
+				/////
+				int num = Integer.parseInt(_NumberOfImagesTextField.getText());
+				if (num <= 0 || num > 10) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Invalid number of images");
+					alert.setContentText("Please enter a valid number between 1 and 10");
+					alert.showAndWait();
+					return;
+				}
+
+				// If the input number of images is valid
+				// The user will be prompted to continue with the creation.
+				// The creation name box/button will be shown and the number of
+				// images box/ button will be disabled
+				numberOfImages = Integer.parseInt(_NumberOfImagesTextField.getText());
+
+				// Number of images box/button will disabled
+				_NumberOfImagesTextField.setDisable(true);
+				_numberImagesButton.setDisable(true);
+				numberOfImagesPrompt.setVisible(false);
+
+				// Creation name box/button will be shown
+				creationNamePrompt.setVisible(true);
+				creationNameTextField.setDisable(false);
+				finalCreate.setDisable(false);
 			}
-
-			// If the input number of images is valid
-			// The user will be prompted to continue with the creation.
-			// The creation name box/button will be shown and the number of
-			// images box/ button will be disabled
-			numberOfImages = Integer.parseInt(_NumberOfImagesTextField.getText());
-
-			// Number of images box/button will disabled
-			_NumberOfImagesTextField.setDisable(true);
-			_numberImagesButton.setDisable(true);
-			numberOfImagesPrompt.setVisible(false);
-
-			// Creation name box/button will be shown
-			creationNamePrompt.setVisible(true);
-			creationNameTextField.setDisable(false);
-			finalCreate.setDisable(false);
 		}
 	}
 
