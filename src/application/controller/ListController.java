@@ -1,6 +1,8 @@
 package application.controller;
 
 import application.Main;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,7 +22,7 @@ import java.util.Optional;
 public class ListController {
 
 	@FXML
-	private ListView listViewCreations;
+	private ListView<String> listViewCreations;
 
 	@FXML
 	private static String _selectedCreation;
@@ -40,21 +42,25 @@ public class ListController {
 		ListCurrentFiles();
 		playButton.setDisable(true);
 		deleteButton.setDisable(true);
+		
+		// Disable the buttons until a creation is selected
+		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();
+		playButton.disableProperty().bind(noCreationSelected);
+		deleteButton.disableProperty().bind(noCreationSelected);
+		selectPrompt.visibleProperty().bind(noCreationSelected);
 	}
 
 
 	@FXML
 	private void handlePlayButton(ActionEvent event) throws IOException {
-
-		if (!(_selectedCreation == null )) {
+		
 			//change scene to playerScene
 			Main.changeScene("resources/PlayerScene.fxml", event);
-		}
+		
 	}
 
 	@FXML
 	private void handleDeleteButton(){
-		if (!(_selectedCreation == null )) {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Delete");
 			alert.setHeaderText(" delete " + _selectedCreation);
@@ -65,7 +71,6 @@ public class ListController {
 				getSelectedFile().delete();
 				ListCurrentFiles();
 			}
-		}
 	}
 
 	@FXML
@@ -77,19 +82,6 @@ public class ListController {
 	private void handleNewCreationButton(ActionEvent event) throws IOException {
 		Main.changeScene("resources/newCreationScene.fxml", event);
 	}
-
-
-
-	@FXML
-	private void handleSelectedCreation(){
-		_selectedCreation =  (String) listViewCreations.getSelectionModel().getSelectedItem();
-		playButton.setDisable(false);
-		deleteButton.setDisable(false);
-		selectPrompt.setVisible(false);
-	}
-
-
-
 
 	// This will return a list of all current creations in the creations directory.
 	// This list will be displayed to the user in the view interface.
