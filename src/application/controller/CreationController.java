@@ -9,11 +9,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -95,13 +90,7 @@ public class CreationController {
 	@FXML
 	private void handleCreationCancelButton(ActionEvent event) throws IOException {
 		// Return to main menu
-		Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-		Scene creationViewScene = new Scene(creationViewParent);
-
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-		window.setScene(creationViewScene);
-		window.show();
+		Main.changeScene("resources/listCreationsScene.fxml", event);
 
 		// Cleaning the chunks folder if the creation is cancelled.
 		File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
@@ -374,11 +363,7 @@ public class CreationController {
 				combineAudioChunks(creationName);
 
 				// return to main menu
-				Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-				Scene creationViewScene = new Scene(creationViewParent);
-				Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-				window.setScene(creationViewScene);
-				window.show();
+				Main.changeScene("resources/listCreationsScene.fxml", event);
 
 				Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
 				alert2.setTitle("Creation in progress");
@@ -396,11 +381,7 @@ public class CreationController {
 			}
 			combineAudioChunks(creationName);
 			// return to main menu
-			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-			Scene creationViewScene = new Scene(creationViewParent);
-			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-			window.setScene(creationViewScene);
-			window.show();
+			Main.changeScene("resources/listCreationsScene.fxml", event);
 
 			alertLocal = new Alert(Alert.AlertType.INFORMATION);
 			alertLocal.setTitle("Creation in progress");
