@@ -53,10 +53,8 @@ public class ListController {
 
 	@FXML
 	private void handlePlayButton(ActionEvent event) throws IOException {
-		
 			//change scene to playerScene
 			Main.changeScene("resources/PlayerScene.fxml", event);
-		
 	}
 
 	@FXML

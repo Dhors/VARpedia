@@ -56,7 +56,7 @@ public class CreationController {
 	@FXML
 	private Button searchWikipediaButton;
 	@FXML
-	private Text 	searchInProgress;
+	private Text searchInProgress;
 	@FXML
 	private Text termNotFound;
 
@@ -98,23 +98,43 @@ public class CreationController {
 	@FXML
 	private void initialize() {
 		searchWikipediaButton.setDisable(true);
-		
+
+		// Don't let the user search until they put in a search term
+//		BooleanBinding textIsEmpty = enterSearchTermTextInput.textProperty().isEmpty();	
 		//========================== ADD REFERENCE, COPY-PASTED CODE =====================================================
-		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> enterSearchTermTextInput.getText().trim().isEmpty(), enterSearchTermTextInput.textProperty());
+		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> 
+				enterSearchTermTextInput.getText().trim().isEmpty(),
+				enterSearchTermTextInput.textProperty()
+			);
 		searchWikipediaButton.disableProperty().bind(textIsEmpty);
 		//==========================
+
+		// Don't let the user create a chunk until requirements are met
+//		BooleanBinding noTextSelected = searchResultTextArea.selectedTextProperty().isEmpty();
+		BooleanBinding noTextSelected = Bindings.createBooleanBinding(() -> 
+				!(numberOfWords(searchResultTextArea.getSelectedText().trim()) > 0),
+				searchResultTextArea.selectedTextProperty()
+			);
+		previewChunk.disableProperty().bind(noTextSelected);
+		saveChunk.disableProperty().bind(noTextSelected);
+
+		// Don't let the user confirm the selected chunks until they select at least one
+		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
+		selectButton.disableProperty().bind(noChunkSelected);
+
+		// Don't let the user confirm the number of images until they put in a valid number
+		// TODO
+
+		// Don't let the user confirm the name of the creation until it is valid
+		// TODO
+
+		displayChunkSelection();
 	}
 
 	@FXML
 	private void handleCreationCancelButton(ActionEvent event) throws IOException {
 		// Return to main menu
-		Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-		Scene creationViewScene = new Scene(creationViewParent);
-
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-		window.setScene(creationViewScene);
-		window.show();
+		Main.changeScene("resources/listCreationsScene.fxml", event);
 
 		// Cleaning the chunks folder if the creation is cancelled.
 		File folderChunk = new File(System.getProperty("user.dir") + "/chunks/" );
@@ -124,7 +144,6 @@ public class CreationController {
 			}
 			folderChunk.delete();
 		}
-
 	}
 
 	@FXML
@@ -174,83 +193,73 @@ public class CreationController {
 	private void handlePreviewChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
 
-		boolean isValidChunk = checkForValidChunk(chunk);
-		if (isValidChunk) {
-			// Remove brackets from the chunk, some voices can't speak with brackets
-			chunk = chunk.replace("(", "").replace(")", "");
-
-			// Run bash script using festival tts to speak the selected text to the user
-			String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
-			BashCommand bashCommand = new BashCommand(command);
-			team.submit(bashCommand);
+		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
+			return;
 		}
+		// If reached here then the chunk is valid
+
+		// Remove brackets from the chunk, some voices can't speak with brackets
+		chunk = chunk.replace("(", "").replace(")", "");
+
+		// Run bash script using festival tts to speak the selected text to the user
+		String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
+		BashCommand bashCommand = new BashCommand(command);
+		team.submit(bashCommand);
 	}
 
+	private int numberOfWords(String chunk) {
+		if (chunk.isEmpty()) {
+			return 0;
+		}
+
+		// Splits the input at any instance of one or more whitespace character
+		// The number of splits is the number of words
+		String[] words = chunk.split("\\s+");
+		return words.length;
+	}
+
+	private boolean lengthConfirmed() {
+		// Let the user confirm if they want a longer chunk
+
+		String warningMessage = "Chunks longer than 30 words can result in a lower sound quality. Are you sure you want to create this chunk?";
+		Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
+
+		// Display the confirmation alert and store the button pressed
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.isPresent() && result.get() == ButtonType.YES) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText();
-
-		boolean isValidChunk = checkForValidChunk(chunk);
-		if (isValidChunk) {
-			String voiceChoice = voiceDropDownMenu.getValue();
-
-			// Remove brackets from the chunk, some voices can't speak with brackets
-			chunk = chunk.replace("(", "").replace(")", "");
-
-			// Run bash script using festival to save a .wav file containing the spoken selected text
-			String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
-			BashCommand bashCommand = new BashCommand(command);
-			team.submit(bashCommand);
-
-			bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-				@Override
-				public void handle(WorkerStateEvent event) {
-					// Make the new chunk visible to the user
-					updateChunkList();
-				}
-			});
+		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
+			return;
 		}
-	}
+		// If reached here then the chunk is valid
 
-	/**
-	 * @return whether or not the chunk is valid
-	 * valid if 0 < number of words <= 30, or the chunk is too long but the user confirms anyway
-	 * Also handles the error and warning messages for when a chunk is too short or long
-	 */
-	private boolean checkForValidChunk(String chunk) {
-		int numberOfWords;
+		String voiceChoice = voiceDropDownMenu.getValue();
 
-		if (chunk == null || chunk.isEmpty()) {
-			numberOfWords = 0;
-		} else {
-			// Splits the input at any instance of one or more whitespace character
-			// The number of splits is the number of words
-			String[] words = chunk.split("\\s+");
-			numberOfWords = words.length;
-		}
+		// Remove brackets from the chunk, some voices can't speak with brackets
+		chunk = chunk.replace("(", "").replace(")", "");
 
-		if (numberOfWords == 0) {
-			Alert alert = new Alert(AlertType.ERROR, "Please select a chunk by highlighting text.");
-			alert.showAndWait();
-			return false;
+		// Run bash script using festival to save a .wav file containing the spoken selected text
+		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
+		BashCommand bashCommand = new BashCommand(command);
+		team.submit(bashCommand);
 
-		} else if (numberOfWords > 30) {
-			// Let the user confirm if they want a longer chunk
-
-			String warningMessage = "Chunks longer than 30 words can result in a lower sound quality. Are you sure you want to create this chunk?";
-			Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
-
-			// Display the confirmation alert and store the button pressed
-			Optional<ButtonType> result = alert.showAndWait();
-
-			if (result.isPresent() && result.get() == ButtonType.YES) {
-				return true;
-			} else {
-				return false;
+		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				// Make the new chunk visible to the user
+				updateChunkList();
 			}
-		} else {
-			return true;
-		}
+		});
+
 	}
 
 	private void updateChunkList() {
@@ -320,15 +329,6 @@ public class CreationController {
 
 	@FXML
 	private void handleSelectButton(){
-		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
-		if (selectedChunks.isEmpty()) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Invalid number of chunks");
-			alert.setContentText("Please enter valid chunk(s) by clicking on them (or ctrl+click / shift+click)");
-			alert.showAndWait();
-			return;
-		}
-
 		// Hide chunk elements
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
@@ -350,7 +350,6 @@ public class CreationController {
 		_NumberOfImagesTextField.setVisible(true);
 		_numberImagesButton.setVisible(true);
 		numberOfImagesPrompt.setVisible(true);
-
 	}
 
 	@FXML
