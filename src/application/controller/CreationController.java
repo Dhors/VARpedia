@@ -380,11 +380,11 @@ public class CreationController {
 				window.setScene(creationViewScene);
 				window.show();
 
-				Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-				alert2.setTitle("Creation in progress");
-				alert2.setHeaderText("Creation is being made, please wait...");
-				alert2.setContentText("You will be informed when the creation is complete.");
-				alert2.show();
+				alertLocal = new Alert(Alert.AlertType.INFORMATION);
+				alertLocal.setTitle("Creation in progress");
+				alertLocal.setHeaderText("Creation is being made, please wait...");
+				alertLocal.setContentText("You will be informed when the creation is complete.");
+				alertLocal.show();
 			}
 
 		} else {
