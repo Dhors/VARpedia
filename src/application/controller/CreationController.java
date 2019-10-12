@@ -461,6 +461,11 @@ public class CreationController {
 		});
 	}
 
+	public String getSearchTerm(){
+		return 	_searchTerm;
+	}
+
+
 	@FXML
 	private void handleNumberOfImagesButton() {
 		if (!(_NumberOfImagesTextField.getText().isEmpty())) {

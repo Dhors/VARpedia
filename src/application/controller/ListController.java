@@ -93,7 +93,12 @@ public class ListController {
         window.show();
     }
 
+    // Return to main menu
+    @FXML
+    private void handleReturnButton() throws IOException {
+        Main.setScene("resources/MainScreenScene.fxml");
 
+    }
 
     @FXML
     private void handleSelectedCreation(){

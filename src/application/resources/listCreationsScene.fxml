@@ -19,5 +19,6 @@
          <font>
             <Font size="24.0" />
          </font></Text>
+      <Button layoutX="14.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Back" />
    </children>
 </AnchorPane>

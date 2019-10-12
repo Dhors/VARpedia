@@ -41,7 +41,7 @@ public class ImageVideoTask extends Task<Void> {
         // need to create the quiz vids before cleanning
         quizVideoCreation();
 
-        //cleanFolder();
+        cleanFolder();
         return null;
 
     }
