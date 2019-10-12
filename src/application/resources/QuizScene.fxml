@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.QuizController">
+   <children>
+      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleReturnButton" text="back" />
+      <Button fx:id="_startButton" layoutX="188.0" layoutY="353.0" mnemonicParsing="false" onAction="#handleStartButton" text="start" />
+      <Text layoutX="241.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz game" />
+      <Button layoutX="419.0" layoutY="347.0" mnemonicParsing="false" text="skip" />
+      <Pane fx:id="_quizPlayer" layoutX="100.0" layoutY="93.0" prefHeight="200.0" prefWidth="366.0" />
+      <TextField fx:id="_playerAnswerTextField" layoutX="333.0" layoutY="304.0" />
+      <Button layoutX="504.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleCheckButton" text="Check" />
+   </children>
+</AnchorPane>

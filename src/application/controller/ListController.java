@@ -110,7 +110,7 @@ public class ListController {
     // This list will be displayed to the user in the view interface.
     private void ListCurrentFiles(){
         // The creations directory where all creations are stored.
-        final File folder = new File(System.getProperty("user.dir")+"/creations/");
+        File folder = new File(System.getProperty("user.dir")+"/creations/");
         ArrayList<String> listFilesNames = new ArrayList<String>();
         ArrayList<String> listCreationNames = new ArrayList<String>();
 
