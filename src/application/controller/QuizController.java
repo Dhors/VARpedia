@@ -35,6 +35,9 @@ public class QuizController {
     private TextField _playerAnswerTextField;
     @FXML
     private Button _startButton;
+    @FXML
+    private Button _skipButton;
+
 
     MediaPlayer _mediaPlayer;
     MediaView _mediaView;
@@ -44,7 +47,8 @@ public class QuizController {
     private void handleStartButton() throws IOException {
         _quizPlayer.getChildren().removeAll();
         _quizPlayer.getChildren().clear();
-
+        _startButton.setVisible(false);
+        _skipButton.setVisible(true);
         playRandomQuiz();
         //_videoTitle.setText("Now Playing: " + ListController.getSelectedCreationName());
         Media video = new Media(_quizVideo.toURI().toString());
@@ -79,7 +83,7 @@ public class QuizController {
 
     @FXML
     private void handleCheckButton() throws IOException {
-
+        _mediaPlayer.pause();
         if (checkAnswer(_playerAnswerTextField.getText())){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Correct");
@@ -93,6 +97,7 @@ public class QuizController {
             alert.setHeaderText(null);
             alert.setContentText("try again");
             alert.showAndWait();
+            _mediaPlayer.play();
         }
     }
 
@@ -107,12 +112,17 @@ public class QuizController {
     // Return to main menu
     @FXML
     private void handleReturnButton() throws IOException {
+        _mediaPlayer.stop();
         Main.setScene("resources/MainScreenScene.fxml");
 
     }
 
 
+    @FXML
+    private void handleSkipButton() throws IOException {
+        _startButton.fire();
 
+    }
 
     private boolean checkAnswer(String answer){
         //null checker?

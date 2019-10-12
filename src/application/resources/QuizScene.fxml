@@ -11,9 +11,9 @@
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleReturnButton" text="back" />
       <Button fx:id="_startButton" layoutX="188.0" layoutY="353.0" mnemonicParsing="false" onAction="#handleStartButton" text="start" />
       <Text layoutX="241.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz game" />
-      <Button layoutX="419.0" layoutY="347.0" mnemonicParsing="false" text="skip" />
+      <Button fx:id="_skipButton" layoutX="288.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleSkipButton" text="skip" visible="false" />
       <Pane fx:id="_quizPlayer" layoutX="100.0" layoutY="93.0" prefHeight="200.0" prefWidth="366.0" />
-      <TextField fx:id="_playerAnswerTextField" layoutX="333.0" layoutY="304.0" />
+      <TextField fx:id="_playerAnswerTextField" layoutX="401.0" layoutY="261.0" />
       <Button layoutX="504.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleCheckButton" text="Check" />
    </children>
 </AnchorPane>
