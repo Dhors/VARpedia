@@ -37,18 +37,42 @@ public class QuizController {
     private Button _startButton;
     @FXML
     private Button _skipButton;
-
+    @FXML
+    private Button _checkButton;
+    @FXML
+    private Button _pauseButton;
 
     MediaPlayer _mediaPlayer;
     MediaView _mediaView;
 
+    public void initialize(){
+
+        _startButton.setVisible(true);
+
+        _pauseButton.setVisible(false);
+        _checkButton.setVisible(false);
+        _skipButton.setVisible(false);
+        _playerAnswerTextField.setVisible(false);
+
+    }
+
 
     @FXML
     private void handleStartButton() throws IOException {
+
+
+        _startButton.setVisible(false);
+
+        _pauseButton.setVisible(true);
+        _checkButton.setVisible(true);
+        _skipButton.setVisible(true);
+        _playerAnswerTextField.setVisible(true);
+
+
         _quizPlayer.getChildren().removeAll();
         _quizPlayer.getChildren().clear();
-        _startButton.setVisible(false);
-        _skipButton.setVisible(true);
+
+
         playRandomQuiz();
         //_videoTitle.setText("Now Playing: " + ListController.getSelectedCreationName());
         Media video = new Media(_quizVideo.toURI().toString());
@@ -103,7 +127,14 @@ public class QuizController {
 
 
 
-
+    @FXML
+    private void handlePauseButton() throws IOException {
+        if (_mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            _mediaPlayer.pause();
+        } else {
+            _mediaPlayer.play();
+        }
+    }
 
 
 
