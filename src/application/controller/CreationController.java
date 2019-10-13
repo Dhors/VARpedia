@@ -127,8 +127,6 @@ public class CreationController {
 
 		// Don't let the user confirm the name of the creation until it is valid
 		// TODO
-
-		displayChunkSelection();
 	}
 
 	@FXML
