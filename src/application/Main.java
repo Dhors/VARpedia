@@ -20,7 +20,7 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage primaryStage) throws Exception {
 		File creationsfolder = new File(System.getProperty("user.dir")+"/creations");
 		if (!creationsfolder.exists()) {
 			creationsfolder.mkdirs();
@@ -38,27 +38,27 @@ public class Main extends Application {
 		loader.setLocation(this.getClass().getResource("resources/listCreationsScene.fxml"));
 		Parent layout = loader.load();
 		Scene scene = new Scene(layout);
-		stage.setScene(scene);
-		stage.show();
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
   
 	// This method is used throughout this application to change between scenes.
     // Upon the correct button actions by the user, the scene will switch to the next scene indicated by
     // the parameter String fxmlFileName.
-	public static void changeScene(String sceneDir, ActionEvent event) throws IOException {
-		Parent sceneParent = FXMLLoader.load(Main.class.getResource(sceneDir));
-		Scene newScene = new Scene(sceneParent);
-
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-		window.setScene(newScene);
-		window.show();
-	}
+//	public static void changeScene(String sceneDir, ActionEvent event) throws IOException {
+//		Parent sceneParent = FXMLLoader.load(Main.class.getResource(sceneDir));
+//		Scene newScene = new Scene(sceneParent);
+//
+//		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+//
+//		window.setScene(newScene);
+//		window.show();
+//	}
   
   // This method is used throughout this application to change between scenes.
     // Upon the correct button actions by the user, the scene will switch to the next scene indicated by
     // the parameter String fxmlFileName.
-    static public void setScene(String fxmlFileName) throws IOException {
+    static public void changeScene(String fxmlFileName) throws IOException {
 
         FXMLLoader fMXLLoader = new FXMLLoader();
         fMXLLoader.setLocation(Main.class.getResource(fxmlFileName));

@@ -54,7 +54,7 @@ public class ListController {
 	@FXML
 	private void handlePlayButton(ActionEvent event) throws IOException {
 			//change scene to playerScene
-			Main.changeScene("resources/PlayerScene.fxml", event);
+			Main.changeScene("resources/PlayerScene.fxml");
 	}
 
 	@FXML
@@ -78,7 +78,7 @@ public class ListController {
 
 	@FXML
 	private void handleNewCreationButton(ActionEvent event) throws IOException {
-		Main.changeScene("resources/newCreationScene.fxml", event);
+		Main.changeScene("resources/newCreationScene.fxml");
 	}
 
 	// This will return a list of all current creations in the creations directory.
@@ -135,6 +135,6 @@ public class ListController {
   // Return to main menu
   @FXML
   private void handleReturnButton() throws IOException {
-    Main.setScene("resources/MainScreenScene.fxml");
+    Main.changeScene("resources/MainScreenScene.fxml");
   }
 }

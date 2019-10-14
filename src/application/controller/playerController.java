@@ -102,7 +102,7 @@ public class playerController {
     @FXML
     private void handleReturnButton(ActionEvent event) throws IOException {
         _mediaPlayer.stop();
-        Main.changeScene("resources/listCreationsScene.fxml", event);
+        Main.changeScene("resources/listCreationsScene.fxml");
     }
 
 }
