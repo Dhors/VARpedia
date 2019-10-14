@@ -37,6 +37,10 @@ public class ImageVideoTask extends Task<Void> {
         getFlickrImages();
         videoCreation();
         mergeAudioAndVideo();
+
+        // need to create the quiz vids before cleanning
+        quizVideoCreation();
+
         cleanFolder();
         return null;
 
@@ -151,6 +155,43 @@ public class ImageVideoTask extends Task<Void> {
         }
         folderChunk.delete();
         }
+
+
+
+
+
+    private void quizVideoCreation(){
+
+
+            //the search term is the quiz video name so there is no need to repeat.
+             File quizVideo = new File(System.getProperty("user.dir") + "/quiz/" + _searchTerm + ".mp4");
+            if (!quizVideo.exists()) {
+             try {
+                String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "tempVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav " + System.getProperty("user.dir") + "/quiz/" + _searchTerm + ".mp4";
+
+                ProcessBuilder finalVideoBuilder = new ProcessBuilder("/bin/bash", "-c", createCommand);
+                Process finalVideoBuilderProcess = finalVideoBuilder.start();
+                finalVideoBuilderProcess.waitFor();
+
+                return;
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+
+    }
+
+
+
+
+
+
+
 
 
 

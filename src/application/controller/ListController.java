@@ -131,7 +131,10 @@ public class ListController {
 		String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
 		return fileName;
 	}
-
-
-
+  
+  // Return to main menu
+  @FXML
+  private void handleReturnButton() throws IOException {
+    Main.setScene("resources/MainScreenScene.fxml");
+  }
 }

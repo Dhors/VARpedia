@@ -11,6 +11,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 
 
