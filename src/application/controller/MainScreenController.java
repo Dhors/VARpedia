@@ -12,14 +12,14 @@ public class MainScreenController {
 
     @FXML
     private void handleListButton() throws IOException {
-        Main.setScene("resources/listCreationsScene.fxml");
+        Main.changeScene("resources/listCreationsScene.fxml");
 
     }
     @FXML
     private void handleQuizButton() throws IOException {
         File folder = new File(System.getProperty("user.dir") + "/quiz/");
         if (!(folder.listFiles().length== 0)){
-            Main.setScene("resources/QuizScene.fxml");
+            Main.changeScene("resources/QuizScene.fxml");
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No quiz videos");

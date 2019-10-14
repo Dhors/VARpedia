@@ -144,7 +144,7 @@ public class QuizController {
     @FXML
     private void handleReturnButton() throws IOException {
         _mediaPlayer.stop();
-        Main.setScene("resources/MainScreenScene.fxml");
+        Main.changeScene("resources/MainScreenScene.fxml");
 
     }
 
