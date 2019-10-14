@@ -3,17 +3,12 @@ package application.controller;
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -107,11 +102,7 @@ public class playerController {
     @FXML
     private void handleReturnButton(ActionEvent event) throws IOException {
         _mediaPlayer.stop();
-        Parent _Parent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-        Scene _Scene = new Scene(_Parent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(_Scene);
-        window.show();
+        Main.changeScene("resources/listCreationsScene.fxml", event);
     }
 
 }
