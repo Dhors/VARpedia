@@ -43,7 +43,7 @@ import java.util.concurrent.Executors;
 public class CreationController {
 	private ExecutorService team = Executors.newFixedThreadPool(5);
 
-	private String _searchTerm;
+	private static String _searchTerm;
 
 	int numberOfImages;
 
@@ -326,7 +326,10 @@ public class CreationController {
 	}
 
 	@FXML
-	private void handleSelectButton(){
+	private void handleSelectButton() throws IOException {
+
+        Main.changeScene("resources/ImagesSelection.fxml");
+
 		// Hide chunk elements
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
@@ -350,6 +353,7 @@ public class CreationController {
 		numberOfImagesPrompt.setVisible(true);
 	}
 
+	//  moved to image selection controller
 	@FXML
 	private void handleCheckCreationButton(ActionEvent event) throws IOException  {
 		// checking that the creation name is valid set of inputs
@@ -468,7 +472,7 @@ public class CreationController {
 		});
 	}
 
-	public String getSearchTerm(){
+	public static String getSearchTerm(){
 		return 	_searchTerm;
 	}
 
