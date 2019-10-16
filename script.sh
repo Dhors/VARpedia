@@ -1,22 +1,5 @@
 #!/bin/bash
 
-search() {
-	search_term=$1
-	search_result=`wikit $search_term`
-	
-	# If a search is invalid it returns "[search term] not found :^("
-	echo $search_result | grep "not found :^(" &> /dev/null
-	# If there was an instance of the above then $? is 0
-	search_is_invalid=$?
-
-	if	[ "$search_is_invalid" -eq 0 ]
-	then
-		echo "(Term not found)"
-	else
-		echo $search_result
-	fi
-}
-
 save() {
 	voiceChoice=$1	
 	name=$2
@@ -61,10 +44,6 @@ CHUNKS_DIR=./chunks
 AUDIO_DIR=$TMP_DIR/audio.wav
 
 case $1 in
-	search)
-		search_term=$2
-		search $search_term
-		;;
 	preview)
 		rm -f input.txt
 		for i in $@

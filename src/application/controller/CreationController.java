@@ -2,6 +2,7 @@ package application.controller;
 
 import application.BashCommand;
 import application.Main;
+import application.WikiSearchTask;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -152,12 +153,11 @@ public class CreationController {
 		searchInProgress.setVisible(true);
 
 		// Run bash script that uses wikit and returns the the result of the search
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh search " + _searchTerm};
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+		WikiSearchTask wikiSearchTask = new WikiSearchTask(_searchTerm);
+		team.submit(wikiSearchTask);
 
 		// Using concurrency allows the user to cancel the creation if the search takes too long
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		wikiSearchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				try {
@@ -166,10 +166,9 @@ public class CreationController {
 					 * If the term was not found, the element is "(Term not found)"
 					 * Otherwise the element is the search result
 					 */
-					List<String> result = bashCommand.get();
-					String searchResult = result.get(0);
+					String searchResult = wikiSearchTask.get();
 
-					if (searchResult.equals("(Term not found)")) {
+					if (searchResult.contains("not found :^")) {
 						searchInProgress.setVisible(false);
 						termNotFound.setVisible(true);
 					} else {
