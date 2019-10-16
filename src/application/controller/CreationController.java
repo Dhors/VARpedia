@@ -48,9 +48,7 @@ public class CreationController {
 
 	private static String _searchTerm;
 
-	int numberOfImages;
 
-	Alert alertLocal;
 
 	@FXML
 	private Text enterSearchTerm;
@@ -327,10 +325,14 @@ public class CreationController {
 
 	@FXML
 	private void handleSelectButton() throws IOException {
-
-        Main.changeScene("resources/ImagesSelection.fxml");
-
-		// Hide chunk elements
+		File outputfile = new File(System.getProperty("user.dir") + "/creations/" + _searchTerm);
+		if (!outputfile.exists()) {
+			outputfile.mkdirs();
+		}
+        //Main.changeScene("resources/ImagesSelection.fxml");
+        //System.out.println("hi im here");
+		combineAudioChunks(_searchTerm);
+		/*// Hide chunk elements
 		searchResultTextArea.setVisible(false);
 		previewChunk.setVisible(false);
 		saveChunk.setVisible(false);
@@ -350,78 +352,13 @@ public class CreationController {
 		// show flickr creation options
 		_NumberOfImagesTextField.setVisible(true);
 		_numberImagesButton.setVisible(true);
-		numberOfImagesPrompt.setVisible(true);
+		numberOfImagesPrompt.setVisible(true);*/
 	}
 
-	//  moved to image selection controller
-	@FXML
-	private void handleCheckCreationButton(ActionEvent event) throws IOException  {
-		// checking that the creation name is valid set of inputs
-		if (!creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || creationNameTextField.getText().isEmpty()) {
-			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Creation name");
-			alert.setContentText("Please enter a valid creation name consisting of alphabet letters and digits only.");
-			alert.showAndWait();
-			return;
-		} else if (!validCreationName(creationNameTextField.getText())) {
-			// throw alerts
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitle("Override");
-			alert.setHeaderText("Creation name already exists");
-			alert.setContentText("Would you like to override the existing creation?");
-			Optional<ButtonType> result = alert.showAndWait();
 
-			// Override existing file name
-			// This is the same as deleting the current file and creating a new file.
-			if (result.get() == ButtonType.OK) {
-				String creationName = creationNameTextField.getText();
-				File _existingFile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
-				_existingFile.delete();
-
-				File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
-				if (!creationFolder.exists()) {
-					creationFolder.mkdirs();
-				}
-				combineAudioChunks(creationName);
-
-				// return to main menu
-				Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-				Scene creationViewScene = new Scene(creationViewParent);
-				Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-				window.setScene(creationViewScene);
-				window.show();
-
-				alertLocal = new Alert(Alert.AlertType.INFORMATION);
-				alertLocal.setTitle("Creation in progress");
-				alertLocal.setHeaderText("Creation is being made, please wait...");
-				alertLocal.setContentText("You will be informed when the creation is complete.");
-				alertLocal.show();
-			}
-
-		} else {
-			//No problems with any inputs will create the creation normally.
-			String creationName = creationNameTextField.getText();
-			File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
-			if (!creationFolder.exists()) {
-				creationFolder.mkdirs();
-			}
-			combineAudioChunks(creationName);
-			// return to main menu
-			Main.changeScene("resources/listCreationsScene.fxml");
-
-			alertLocal = new Alert(Alert.AlertType.INFORMATION);
-			alertLocal.setTitle("Creation in progress");
-			alertLocal.setHeaderText("Creation is being made, please wait...");
-			alertLocal.setContentText("You will be informed when the creation is complete.");
-			alertLocal.show();
-
-		}
-	}
 
 	private void combineAudioChunks(String creationName) {
 		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
-
-		
 
 		// Run bash script to create a combined audio of each selected chunk
 //		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
@@ -432,96 +369,26 @@ public class CreationController {
 		createCreationTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				createVideo();
+				//createVideo();
+
+				//its already changed scenes but it might be at risk is super long audio
+				// I would lik for it to happen at the same time the images and the audio.
+				try {
+					Main.changeScene("resources/ImagesSelection.fxml");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 
-	/*The method to create the creation
-	  This method will pull images from flickr based on user input.
-	  Using these images a video will be created with the search term added as text.*/
-	private void createVideo() {
-		// Thread to ensure that GUI remains concurrent while the video is being created
-		ImageVideoTask flickrImagesTask = new ImageVideoTask (enterSearchTermTextInput.getText(), creationNameTextField.getText(), numberOfImages );
-		team.submit(flickrImagesTask);
 
-		flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-			@Override
-			public void handle(WorkerStateEvent event) {
-
-				Button cancelButton = ( Button ) alertLocal.getDialogPane().lookupButton( ButtonType.OK );
-				cancelButton.fire();
-
-
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Creation completed");
-				alert.setHeaderText("Creation completed: "+ creationNameTextField.getText() +" is finished");
-				alert.setContentText("Please refresh the list of creations");
-				alert.showAndWait();
-			}
-		});
-	}
-
+	//need this dont touch
 	public static String getSearchTerm(){
 		return 	_searchTerm;
 	}
 
 
-	@FXML
-	private void handleNumberOfImagesButton() {
-		if (!(_NumberOfImagesTextField.getText().isEmpty())) {
-
-			////
-			if (!_NumberOfImagesTextField.getText().matches("[0-9]*")){ 
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Creation name");
-				alert.setContentText("Please enter a valid creation name consisting of alphabet letters and digits only.");
-				alert.showAndWait();
-				return;
-			} else {
 
 
-				/////
-				int num = Integer.parseInt(_NumberOfImagesTextField.getText());
-				if (num <= 0 || num > 10) {
-					Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setTitle("Invalid number of images");
-					alert.setContentText("Please enter a valid number between 1 and 10");
-					alert.showAndWait();
-					return;
-				}
-
-				// If the input number of images is valid
-				// The user will be prompted to continue with the creation.
-				// The creation name box/button will be shown and the number of
-				// images box/ button will be disabled
-				numberOfImages = Integer.parseInt(_NumberOfImagesTextField.getText());
-
-				// Number of images box/button will disabled
-				_NumberOfImagesTextField.setDisable(true);
-				_numberImagesButton.setDisable(true);
-				numberOfImagesPrompt.setVisible(false);
-
-				// Creation name box/button will be shown
-				creationNamePrompt.setVisible(true);
-				creationNameTextField.setDisable(false);
-				finalCreate.setDisable(false);
-			}
-		}
-	}
-
-
-	// This method will check if the given name is already associated with
-	// an existing creation. Returns false if the creation name is already used.
-	// Returns true otherwise.
-	private boolean validCreationName(String creationName){
-		File folder = new File(System.getProperty("user.dir")+"/creations/");
-		for (final File fileName : folder.listFiles()) {
-			if (fileName.getName().equals("" + creationName + ".mp4")) {
-				// An already existing creation name is invalid.
-				return false;
-			}
-		}
-		return true;
-	}
 }

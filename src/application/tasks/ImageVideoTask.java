@@ -27,21 +27,21 @@ public class ImageVideoTask extends Task<Void> {
     public ImageVideoTask(String searchTerm, String creationName, int numberOfImages) {
         _searchTerm = searchTerm;
         _creationName = creationName;
-        _numberOfImages = 10; //temp always  make 10
+        _numberOfImages = numberOfImages;
     }
 
 
     @Override
     protected Void call() throws Exception {
         // All video creation methods are completed in this task
-        getFlickrImages();
+        //getFlickrImages();
         videoCreation();
         mergeAudioAndVideo();
 
         // need to create the quiz vids before cleanning
         quizVideoCreation();
 
-        cleanFolder();
+        //cleanFolder();
         return null;
 
     }
@@ -51,7 +51,7 @@ public class ImageVideoTask extends Task<Void> {
     // It will use the images from flickr to create a slideshow
     // THis slideshow will have the search term as centered text.
     private void videoCreation() throws IOException, InterruptedException {
-        String audioFileName = (System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav");
+        String audioFileName = (System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + _searchTerm+ ".wav");
 
         // To determine the length of the .wav file for generation of the video.
         String audioLengthCommand = ("soxi -D " + audioFileName);
@@ -63,53 +63,19 @@ public class ImageVideoTask extends Task<Void> {
         // Audio length to determine the length of creation.
         BufferedReader stdout = new BufferedReader(new InputStreamReader(audioLengthProcess.getInputStream()));
         String audioLengthDouble = stdout.readLine();
-        int audioLength = ((int) Double.parseDouble(audioLengthDouble) + 1);
-        double frameRate = _numberOfImages /(Double.parseDouble(audioLengthDouble) + 1);
+        //int audioLength = ((int) Double.parseDouble(audioLengthDouble));
+
+        double frameRate = _numberOfImages /(Double.parseDouble(audioLengthDouble) +1);
+        System.out.println("Framerate: "+frameRate+ "number images: "+ _numberOfImages );
 
 
-        // ffmpeg slideshow behaviours is inconsistent for 1 and 2 image size slideshows.
-        // As such, I have manually made them into 4 image slides of repeated images
-        if (_numberOfImages==1){
-            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "0.jpg");
-
-            File file2 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
-            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
-            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            file2.createNewFile();
-            file3.createNewFile();
-            file4.createNewFile();
-
-            Path source2 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
-            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
-            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(source, source3, StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(source, source4, StandardCopyOption.REPLACE_EXISTING);
+        String imageCommand = "cat " + System.getProperty("user.dir") + "/creations/" +_searchTerm+ "/*.jpg | ffmpeg -f image2pipe -framerate " + frameRate + " -i - -c:v libx264 -pix_fmt yuv420p -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" -r 25 -y " +System.getProperty("user.dir") + "/creations/" + _searchTerm + "/tempVideo.mp4";
 
 
-            frameRate =  frameRate*4;
-        }else if (_numberOfImages==2){
-            Path source = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "0.jpg");
-            Path source2 = Paths.get( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "1.jpg");
+        String imagesCommand = "ffmpeg -y -framerate " + frameRate + " -i " + System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + "%01d.jpg " + "-r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" "+System.getProperty("user.dir") + "/creations/" + _searchTerm + "/tempVideo.mp4";
+        String textCommand = "ffmpeg -y -i " +System.getProperty("user.dir") + "/creations/" + _searchTerm + "/tempVideo.mp4" + " -vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" " + System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + "noSoundVideo.mp4";
 
-            File file3 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
-            File file4 = new File( System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            file3.createNewFile();
-            file4.createNewFile();
-
-            Path source3 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "2.jpg");
-            Path source4 = Paths.get(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "3.jpg");
-            Files.copy(source2, source3, StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(source2, source4, StandardCopyOption.REPLACE_EXISTING);
-
-            Files.copy(source, source2, StandardCopyOption.REPLACE_EXISTING);
-            frameRate =  frameRate*2;
-        }
-
-        String imagesCommand = "ffmpeg -y -framerate " + frameRate + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "%01d.jpg " + "-r 25 -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" "+System.getProperty("user.dir") + "/creations/" + _creationName + "/tempVideo.mp4";
-        String textCommand = "ffmpeg -y -i " +System.getProperty("user.dir") + "/creations/" + _creationName + "/tempVideo.mp4" + " -vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4";
-
-        ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",(imagesCommand+";"+textCommand));
+        ProcessBuilder videoBuilder = new ProcessBuilder("/bin/bash","-c",(imageCommand+";"+textCommand));
 
         Process videoBuilderProcess = videoBuilder.start();
         videoBuilderProcess.waitFor();
@@ -122,7 +88,7 @@ public class ImageVideoTask extends Task<Void> {
     // the creation.
     private void mergeAudioAndVideo() {
         try {
-            String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "noSoundVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav " + System.getProperty("user.dir") + "/creations/" + _creationName + ".mp4";
+            String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + "noSoundVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + _searchTerm + ".wav " + System.getProperty("user.dir") + "/creations/" + _creationName + ".mp4";
 
             ProcessBuilder finalVideoBuilder = new ProcessBuilder("/bin/bash", "-c", createCommand);
             Process finalVideoBuilderProcess = finalVideoBuilder.start();
@@ -142,7 +108,7 @@ public class ImageVideoTask extends Task<Void> {
     // the no audio .mp4 file the .wav file as well as the folders themselves.
     private void cleanFolder() {
         // The creations directory where all creations are stored.
-        File folder = new File(System.getProperty("user.dir") + "/creations/" + _creationName + "/" );
+        File folder = new File(System.getProperty("user.dir") + "/creations/" + _searchTerm+ "/" );
         for (final File fileName : folder.listFiles()) {
             fileName.delete();
         }
@@ -161,13 +127,11 @@ public class ImageVideoTask extends Task<Void> {
 
 
     private void quizVideoCreation(){
-
-
             //the search term is the quiz video name so there is no need to repeat.
              File quizVideo = new File(System.getProperty("user.dir") + "/quiz/" + _searchTerm + ".mp4");
             if (!quizVideo.exists()) {
              try {
-                String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + "tempVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _creationName + "/" + _creationName + ".wav " + System.getProperty("user.dir") + "/quiz/" + _searchTerm + ".mp4";
+                String createCommand = "ffmpeg -y -i " + System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + "tempVideo.mp4" + " -i " + System.getProperty("user.dir") + "/creations/" + _searchTerm+ "/" + _searchTerm + ".wav " + System.getProperty("user.dir") + "/quiz/" + _searchTerm + ".mp4";
 
                 ProcessBuilder finalVideoBuilder = new ProcessBuilder("/bin/bash", "-c", createCommand);
                 Process finalVideoBuilderProcess = finalVideoBuilder.start();
@@ -187,62 +151,5 @@ public class ImageVideoTask extends Task<Void> {
     }
 
 
-
-
-
-
-
-
-
-
-
-    // This method will use the provided api key to retrieve images related to the user search term
-    // A number between 1 and 10 images will be retrieved.
-    private void getFlickrImages() {
-        try {
-            // retrieved api key
-            String apiKey = "17ba392cb9876b838e944b76316c2f89";
-            String sharedSecret = "f91dad2d72061fa7";
-
-            Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
-
-            String query = _searchTerm;
-            int resultsPerPage = _numberOfImages;
-            int page = 0;
-
-            PhotosInterface photos = flickr.getPhotosInterface();
-            SearchParameters params = new SearchParameters();
-            params.setSort(SearchParameters.RELEVANCE);
-            params.setMedia("photos");
-            params.setText(query);
-
-            PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
-
-            int count = 0;
-            for (Photo photo : results) {
-                try {
-                    BufferedImage image = photos.getImage(photo, Size.LARGE);
-
-                    String filename = (""+ count +".jpg");
-
-                    File outputfile = new File(System.getProperty("user.dir") + "/creations/" + _creationName);
-                    if (!outputfile.exists()) {
-                        outputfile.mkdirs();
-                    }
-
-                    File imagefile = new File(System.getProperty("user.dir") + "/creations/" + _creationName + "/" + filename);
-                    ImageIO.write(image, "jpg", imagefile);
-                    count++;
-
-                } catch (FlickrException fe) {
-                    System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
-                }
-            }
-        } catch(Exception e)
-
-        {
-            e.printStackTrace();
-        }
-    }
 
 }

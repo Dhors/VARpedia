@@ -28,19 +28,7 @@
       <Button fx:id="saveChunk" layoutX="241.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="14.0" layoutY="311.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
       <Text fx:id="voiceSelectDescription" layoutX="16.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select voice of chunk:" visible="false" />
-      <TextField fx:id="creationNameTextField" layoutX="180.0" layoutY="185.0" onAction="#handleCheckCreationButton" promptText="Name of Creation" visible="false" />
-      <Button fx:id="finalCreate" layoutX="351.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleCheckCreationButton" prefHeight="26.0" prefWidth="70.0" text="Create" visible="false" />
-
-
-
-
-  
-      
-      <TextField fx:id="_NumberOfImagesTextField" layoutX="180.0" layoutY="155.0" promptText="Number of images" visible="false" />
-      <Button fx:id="_numberImagesButton" layoutX="351.0" layoutY="155.0" mnemonicParsing="false" onAction="#handleNumberOfImagesButton" text="Confirm" visible="false" />
       <Button fx:id="selectButton" layoutX="380.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected Chunks" visible="false" />
-      <Text fx:id="numberOfImagesPrompt" layoutX="148.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the number of images for the creation." visible="false" />
-      <Text fx:id="creationNamePrompt" layoutX="186.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the name of the creation." visible="false" />
       <Text fx:id="textSelectDescription" layoutX="13.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highlight text to create chunks. " visible="false" />
       <Text fx:id="chunkSelectDescription" layoutX="371.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select one or more chunks to combine" visible="false" wrappingWidth="200.73046875" />
 

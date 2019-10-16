@@ -2,6 +2,9 @@ package application.controller;
 
 import application.FlickrImagesTask;
 import application.Main;
+import application.tasks.CreateCreationTask;
+import application.tasks.ImageVideoTask;
+import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,6 +69,9 @@ public class ImagesSelectionController {
 
     private ArrayList<Image> _imageList = new ArrayList<Image>();
 
+    private int numberOfImages;
+
+
     @FXML
     private void initialize() {
         _searchTerm=CreationController.getSearchTerm();
@@ -106,82 +112,108 @@ public class ImagesSelectionController {
     @FXML
     private void handleSubmitButton() throws IOException {
         int count = 0;
-        for (CheckBox c: _checkBoxes){
-            if (!c.isSelected()){
-                File imageFile = new File(imageFolder+"/"+count+".jpg" );
+        int counter = 0;
+        for (CheckBox c : _checkBoxes) {
+            if (!c.isSelected()) {
+                File imageFile = new File(imageFolder + "/" + count + ".jpg");
                 imageFile.delete();
+                counter++;
             }
             count++;
         }
+        numberOfImages = 10 - counter;
 
 
-         /*   // checking that the creation name is valid set of inputs
-            if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || _creationNameTextField.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Creation name");
-                alert.setContentText("Please enter a valid creation name consisting of alphabet letters and digits only.");
-                alert.showAndWait();
-                return;
-            } else if (!validCreationName(_creationNameTextField.getText())) {
-                // throw alerts
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Override");
-                alert.setHeaderText("Creation name already exists");
-                alert.setContentText("Would you like to override the existing creation?");
-                Optional<ButtonType> result = alert.showAndWait();
+        // checking that the creation name is valid set of inputs
+        if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || _creationNameTextField.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Creation name");
+            alert.setContentText("Please enter a valid creation name consisting of alphabet letters and digits only.");
+            alert.showAndWait();
+            return;
+        } else if (!validCreationName(_creationNameTextField.getText())) {
+            // throw alerts
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Override");
+            alert.setHeaderText("Creation name already exists");
+            alert.setContentText("Would you like to override the existing creation?");
+            Optional<ButtonType> result = alert.showAndWait();
 
-                // Override existing file name
-                // This is the same as deleting the current file and creating a new file.
-                if (result.get() == ButtonType.OK) {
-                    String creationName = _creationNameTextField.getText();
-                    File _existingFile = new File(System.getProperty("user.dir")+"/creations/"+ creationName +".mp4");
-                    _existingFile.delete();
+            // Override existing file name
+            // This is the same as deleting the current file and creating a new file.
+            if (result.get() == ButtonType.OK) {
+                String creationName = _creationNameTextField.getText();
+                File _existingFile = new File(System.getProperty("user.dir") + "/creations/" + creationName + ".mp4");
+                _existingFile.delete();
 
-                    File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
-                    if (!creationFolder.exists()) {
-                        creationFolder.mkdirs();
-                    }
-                    combineAudioChunks(creationName);
-
-                    // return to main menu
-                    Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-                    Scene creationViewScene = new Scene(creationViewParent);
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    window.setScene(creationViewScene);
-                    window.show();
-
-                    alertLocal = new Alert(Alert.AlertType.INFORMATION);
-                    alertLocal.setTitle("Creation in progress");
-                    alertLocal.setHeaderText("Creation is being made, please wait...");
-                    alertLocal.setContentText("You will be informed when the creation is complete.");
-                    alertLocal.show();
-                }
-
-            } else {
-                //No problems with any inputs will create the creation normally.
-                String creationName = creationNameTextField.getText();
-                File creationFolder = new File(System.getProperty("user.dir")+"/creations/"+ creationName +"/");
+                /*File creationFolder = new File(System.getProperty("user.dir") + "/creations/" + creationName + "/");
                 if (!creationFolder.exists()) {
                     creationFolder.mkdirs();
-                }
-                combineAudioChunks(creationName);
+                }*/
+                createVideo();
+
                 // return to main menu
-                Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-                Scene creationViewScene = new Scene(creationViewParent);
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                window.setScene(creationViewScene);
-                window.show();
+                try {
+                    Main.changeScene("resources/MainScreenScene.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 alertLocal = new Alert(Alert.AlertType.INFORMATION);
                 alertLocal.setTitle("Creation in progress");
                 alertLocal.setHeaderText("Creation is being made, please wait...");
                 alertLocal.setContentText("You will be informed when the creation is complete.");
                 alertLocal.show();
+            }
 
+        } else {
+            //No problems with any inputs will create the creation normally.
+            String creationName = _creationNameTextField.getText();
+            /*File creationFolder = new File(System.getProperty("user.dir") + "/creations/" + creationName + "/");
+            if (!creationFolder.exists()) {
+                creationFolder.mkdirs();
             }*/
+            createVideo();
+            // return to main menu
+            try {
+                Main.changeScene("resources/MainScreenScene.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            alertLocal = new Alert(Alert.AlertType.INFORMATION);
+            alertLocal.setTitle("Creation in progress");
+            alertLocal.setHeaderText("Creation is being made, please wait...");
+            alertLocal.setContentText("You will be informed when the creation is complete.");
+            alertLocal.show();
+
         }
+    }
+
+    /*The method to create the creation
+      This method will pull images from flickr based on user input.
+      Using these images a video will be created with the search term added as text.*/
+    private void createVideo(){
+        // Thread to ensure that GUI remains concurrent while the video is being created
+        ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, _creationNameTextField.getText(), numberOfImages );
+        team.submit(flickrImagesTask);
+
+        flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+
+                Button cancelButton = ( Button ) alertLocal.getDialogPane().lookupButton( ButtonType.OK );
+                cancelButton.fire();
 
 
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Creation completed");
+                alert.setHeaderText("Creation completed: "+ _creationNameTextField.getText() +" is finished");
+                alert.setContentText("Please refresh the list of creations");
+                alert.showAndWait();
+            }
+        });
+    }
 
     // This method will check if the given name is already associated with
     // an existing creation. Returns false if the creation name is already used.
