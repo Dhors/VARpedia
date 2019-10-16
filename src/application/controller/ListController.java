@@ -113,6 +113,10 @@ public class ListController {
 		listViewCreations.setItems(listViewFiles);
 	}
 
+	@FXML
+	public void handleSelectedCreation() {
+		_selectedCreation = listViewCreations.getSelectionModel().getSelectedItem();
+	}
 
 	public static File getSelectedFile(){
 
