@@ -1,13 +1,14 @@
 package application.controller;
 
-import application.BashCommand;
+import application.tasks.BashCommand;
 import application.Main;
-import application.WikiSearchTask;
+import application.tasks.WikiSearchTask;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import application.ImageVideoTask;
+import application.tasks.ImageVideoTask;
+import application.tasks.PreviewTextTask;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -199,9 +200,8 @@ public class CreationController {
 		chunk = chunk.replace("(", "").replace(")", "");
 
 		// Run bash script using festival tts to speak the selected text to the user
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+		PreviewTextTask previewTextTask = new PreviewTextTask(chunk);
+		team.submit(previewTextTask);
 	}
 
 	private int numberOfWords(String chunk) {

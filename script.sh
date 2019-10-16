@@ -44,18 +44,6 @@ CHUNKS_DIR=./chunks
 AUDIO_DIR=$TMP_DIR/audio.wav
 
 case $1 in
-	preview)
-		rm -f input.txt
-		for i in $@
-		do
-			if [ "$i" != "./script.sh" ] && [ "$i" != "preview" ]
-			then
-				echo "$i " >> input.txt
-			fi
-		done
-		festival --tts "input.txt"
-		rm -f input.txt
-		;;
 	save)
 		argNum=0
 		name=""
