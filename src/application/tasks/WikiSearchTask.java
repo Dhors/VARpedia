@@ -28,6 +28,8 @@ public class WikiSearchTask extends Task<String>{
 			while ((line = stdoutBuffered.readLine()) != null ) {
 				searchResult += line;
 			}
+			
+			process.waitFor();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

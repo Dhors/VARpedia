@@ -22,6 +22,8 @@ public class PreviewTextTask extends Task<Void> {
 			PrintWriter stdin = new PrintWriter(in);
 			stdin.println(_chunk);
 			stdin.close();
+			
+			process.waitFor();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

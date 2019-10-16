@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import application.tasks.ImageVideoTask;
 import application.tasks.PreviewTextTask;
+import application.tasks.SaveTextTask;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -189,7 +190,7 @@ public class CreationController {
 
 	@FXML
 	private void handlePreviewChunk(ActionEvent event) throws IOException {
-		String chunk = searchResultTextArea.getSelectedText();
+		String chunk = searchResultTextArea.getSelectedText().trim();
 
 		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
 			return;
@@ -233,7 +234,7 @@ public class CreationController {
 	
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
-		String chunk = searchResultTextArea.getSelectedText();
+		String chunk = searchResultTextArea.getSelectedText().trim();
 		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
 			return;
 		}
@@ -245,9 +246,11 @@ public class CreationController {
 		chunk = chunk.replace("(", "").replace(")", "");
 
 		// Run bash script using festival to save a .wav file containing the spoken selected text
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
-		BashCommand bashCommand = new BashCommand(command);
+//		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
+//		BashCommand bashCommand = new BashCommand(command);
+		SaveTextTask bashCommand = new SaveTextTask(voiceChoice, chunk);
 		team.submit(bashCommand);
+		
 
 		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
