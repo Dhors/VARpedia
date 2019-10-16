@@ -27,7 +27,7 @@ public class ImageVideoTask extends Task<Void> {
     public ImageVideoTask(String searchTerm, String creationName, int numberOfImages) {
         _searchTerm = searchTerm;
         _creationName = creationName;
-        _numberOfImages = numberOfImages;
+        _numberOfImages = 10; //temp always  make 10
     }
 
 
