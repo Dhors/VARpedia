@@ -1,12 +1,15 @@
 package application.controller;
 
-import application.BashCommand;
+import application.tasks.CreateCreationTask;
 import application.Main;
+import application.tasks.WikiSearchTask;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import application.ImageVideoTask;
+import application.tasks.ImageVideoTask;
+import application.tasks.PreviewTextTask;
+import application.tasks.SaveTextTask;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -152,12 +155,11 @@ public class CreationController {
 		searchInProgress.setVisible(true);
 
 		// Run bash script that uses wikit and returns the the result of the search
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh search " + _searchTerm};
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+		WikiSearchTask wikiSearchTask = new WikiSearchTask(_searchTerm);
+		team.submit(wikiSearchTask);
 
 		// Using concurrency allows the user to cancel the creation if the search takes too long
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		wikiSearchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				try {
@@ -166,10 +168,9 @@ public class CreationController {
 					 * If the term was not found, the element is "(Term not found)"
 					 * Otherwise the element is the search result
 					 */
-					List<String> result = bashCommand.get();
-					String searchResult = result.get(0);
+					String searchResult = wikiSearchTask.get();
 
-					if (searchResult.equals("(Term not found)")) {
+					if (searchResult.contains("not found :^")) {
 						searchInProgress.setVisible(false);
 						termNotFound.setVisible(true);
 					} else {
@@ -189,7 +190,7 @@ public class CreationController {
 
 	@FXML
 	private void handlePreviewChunk(ActionEvent event) throws IOException {
-		String chunk = searchResultTextArea.getSelectedText();
+		String chunk = searchResultTextArea.getSelectedText().trim();
 
 		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
 			return;
@@ -200,9 +201,8 @@ public class CreationController {
 		chunk = chunk.replace("(", "").replace(")", "");
 
 		// Run bash script using festival tts to speak the selected text to the user
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh preview " + chunk};
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+		PreviewTextTask previewTextTask = new PreviewTextTask(chunk);
+		team.submit(previewTextTask);
 	}
 
 	private int numberOfWords(String chunk) {
@@ -234,7 +234,7 @@ public class CreationController {
 	
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
-		String chunk = searchResultTextArea.getSelectedText();
+		String chunk = searchResultTextArea.getSelectedText().trim();
 		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
 			return;
 		}
@@ -246,11 +246,11 @@ public class CreationController {
 		chunk = chunk.replace("(", "").replace(")", "");
 
 		// Run bash script using festival to save a .wav file containing the spoken selected text
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+		SaveTextTask saveTextTask = new SaveTextTask(voiceChoice, chunk);
+		team.submit(saveTextTask);
+		
 
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		saveTextTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				// Make the new chunk visible to the user
@@ -403,11 +403,7 @@ public class CreationController {
 			}
 			combineAudioChunks(creationName);
 			// return to main menu
-			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-			Scene creationViewScene = new Scene(creationViewParent);
-			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-			window.setScene(creationViewScene);
-			window.show();
+			Main.changeScene("resources/listCreationsScene.fxml");
 
 			alertLocal = new Alert(Alert.AlertType.INFORMATION);
 			alertLocal.setTitle("Creation in progress");
@@ -421,21 +417,15 @@ public class CreationController {
 	private void combineAudioChunks(String creationName) {
 		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
 
-		// Convert the ObservableList of chunks into a single string, with each element separated by a space
-		String chunksAsString = "";
-		int numChunksSelected = selectedChunks.size();
-		for (int i = 0; i < numChunksSelected - 1; i++) {
-			chunksAsString += selectedChunks.get(i) + " ";
-		}
-		// Last element should not have a space after it
-		chunksAsString += selectedChunks.get(numChunksSelected - 1);
+		
 
 		// Run bash script to create a combined audio of each selected chunk
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+//		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
+//		BashCommand bashCommand = new BashCommand(command);
+		CreateCreationTask createCreationTask = new CreateCreationTask(selectedChunks, creationName);
+		team.submit(createCreationTask);
 
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		createCreationTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				createVideo();
