@@ -18,7 +18,8 @@ public class WikiSearchTask extends Task<String>{
 	protected String call() throws Exception {
 		String searchResult = "";
 		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", "wikit " + _searchTerm});
+			String command = "wikit " + _searchTerm;
+			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
 			
 			InputStream stdout = process.getInputStream();

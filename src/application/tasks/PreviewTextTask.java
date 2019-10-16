@@ -15,7 +15,8 @@ public class PreviewTextTask extends Task<Void> {
 	@Override
 	protected Void call() throws Exception {
 		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", "festival --tts"});
+			String command = "festival --tts";
+			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
 			
 			OutputStream in = process.getOutputStream();

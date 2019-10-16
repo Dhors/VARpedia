@@ -1,6 +1,6 @@
 package application.controller;
 
-import application.tasks.BashCommand;
+import application.tasks.CreateCreationTask;
 import application.Main;
 import application.tasks.WikiSearchTask;
 import javafx.beans.binding.Bindings;
@@ -246,13 +246,11 @@ public class CreationController {
 		chunk = chunk.replace("(", "").replace(")", "");
 
 		// Run bash script using festival to save a .wav file containing the spoken selected text
-//		String[] command = new String[]{"/bin/bash", "-c", "./script.sh save " + voiceChoice + " " + chunk};
-//		BashCommand bashCommand = new BashCommand(command);
-		SaveTextTask bashCommand = new SaveTextTask(voiceChoice, chunk);
-		team.submit(bashCommand);
+		SaveTextTask saveTextTask = new SaveTextTask(voiceChoice, chunk);
+		team.submit(saveTextTask);
 		
 
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		saveTextTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				// Make the new chunk visible to the user
@@ -405,11 +403,7 @@ public class CreationController {
 			}
 			combineAudioChunks(creationName);
 			// return to main menu
-			Parent creationViewParent = FXMLLoader.load(Main.class.getResource("resources/listCreationsScene.fxml"));
-			Scene creationViewScene = new Scene(creationViewParent);
-			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-			window.setScene(creationViewScene);
-			window.show();
+			Main.changeScene("resources/listCreationsScene.fxml");
 
 			alertLocal = new Alert(Alert.AlertType.INFORMATION);
 			alertLocal.setTitle("Creation in progress");
@@ -423,21 +417,15 @@ public class CreationController {
 	private void combineAudioChunks(String creationName) {
 		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
 
-		// Convert the ObservableList of chunks into a single string, with each element separated by a space
-		String chunksAsString = "";
-		int numChunksSelected = selectedChunks.size();
-		for (int i = 0; i < numChunksSelected - 1; i++) {
-			chunksAsString += selectedChunks.get(i) + " ";
-		}
-		// Last element should not have a space after it
-		chunksAsString += selectedChunks.get(numChunksSelected - 1);
+		
 
 		// Run bash script to create a combined audio of each selected chunk
-		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
-		BashCommand bashCommand = new BashCommand(command);
-		team.submit(bashCommand);
+//		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
+//		BashCommand bashCommand = new BashCommand(command);
+		CreateCreationTask createCreationTask = new CreateCreationTask(selectedChunks, creationName);
+		team.submit(createCreationTask);
 
-		bashCommand.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		createCreationTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				createVideo();

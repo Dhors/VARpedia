@@ -46,8 +46,8 @@ public class SaveTextTask extends Task<Void> {
 				
 				i++;
 			} while (fileDir.exists());
-			
-			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", "text2wave -o chunks/" + fileName + " -eval '(voice_" + voice + ")'"});
+			String command = "text2wave -o chunks/" + fileName + " -eval '(voice_" + voice + ")'";
+			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
 			
 			OutputStream in = process.getOutputStream();
