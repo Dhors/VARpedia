@@ -86,15 +86,17 @@ public class CreationController {
 	@FXML
 	private Button selectButton;
 
+	// buttons to move audio===================================
 	@FXML
-	private TextField _NumberOfImagesTextField;
+	private Button _moveUpButton;
 	@FXML
-	private Button _numberImagesButton;
+	private Button _moveDownButton;
+	@FXML
+	private Button _deleteButton;
 
-	@FXML
-	private Text numberOfImagesPrompt;
-	@FXML
-	private Text creationNamePrompt;
+
+	private static String _selectedChunk;
+
 
 	@FXML
 	private void initialize() {
@@ -102,13 +104,13 @@ public class CreationController {
 
 		// Don't let the user search until they put in a search term
 //		BooleanBinding textIsEmpty = enterSearchTermTextInput.textProperty().isEmpty();	
-		//========================== ADD REFERENCE, COPY-PASTED CODE =====================================================
+
 		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> 
 				enterSearchTermTextInput.getText().trim().isEmpty(),
 				enterSearchTermTextInput.textProperty()
 			);
 		searchWikipediaButton.disableProperty().bind(textIsEmpty);
-		//==========================
+
 
 		// Don't let the user create a chunk until requirements are met
 //		BooleanBinding noTextSelected = searchResultTextArea.selectedTextProperty().isEmpty();
@@ -123,11 +125,37 @@ public class CreationController {
 		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
 		selectButton.disableProperty().bind(noChunkSelected);
 
+		//selectButton.disableProperty().bind(noChunkSelected);
+
 		// Don't let the user confirm the number of images until they put in a valid number
 		// TODO
 
 		// Don't let the user confirm the name of the creation until it is valid
 		// TODO
+	}
+
+	@FXML
+	private void handleMoveUpButton() throws IOException {
+
+		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+		String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+		//inside the array
+		if (chunkIndex >=1){
+			chunkList.getItems().remove(chunkIndex);
+			chunkList.getItems().add(chunkIndex-1,selectedChunk);
+			chunkList.getSelectionModel().select(chunkIndex-1);
+		}
+	}
+	@FXML
+	private void handleMoveDownButton() throws IOException {
+		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+		String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+		//inside the array
+		if (chunkIndex <= chunkList.getItems().size()-2){
+			chunkList.getItems().remove(chunkIndex);
+			chunkList.getItems().add(chunkIndex+1,selectedChunk);
+			chunkList.getSelectionModel().select(chunkIndex+1);
+		}
 	}
 
 	@FXML
@@ -252,7 +280,14 @@ public class CreationController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				// Make the new chunk visible to the user
-				updateChunkList();
+				//chunkList.getItems().add() =================dont update it, rather just add the new chunck in amnually with name==========================================
+				chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
+
+				if (chunkList.getItems().size()>=2) {
+					_moveUpButton.setDisable(false);
+					_moveDownButton.setDisable(false);
+				}
+				//updateChunkList();
 			}
 		});
 
@@ -321,6 +356,11 @@ public class CreationController {
 		// Show the currently stored chunks, and allow the user to select multiple with ctrl+click or shift+click
 		updateChunkList();
 		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+		_deleteButton.setVisible(true);
+		_moveUpButton.setVisible(true);
+		_moveDownButton.setVisible(true);
+
 	}
 
 	@FXML
@@ -329,30 +369,9 @@ public class CreationController {
 		if (!outputfile.exists()) {
 			outputfile.mkdirs();
 		}
-        //Main.changeScene("resources/ImagesSelection.fxml");
-        //System.out.println("hi im here");
+
 		combineAudioChunks(_searchTerm);
-		/*// Hide chunk elements
-		searchResultTextArea.setVisible(false);
-		previewChunk.setVisible(false);
-		saveChunk.setVisible(false);
-		voiceSelectDescription.setVisible(false);
-		textSelectDescription.setVisible(false);
-		chunkSelectDescription.setVisible(false);
-		voiceDropDownMenu.setVisible(false);
-		chunkList.setVisible(false);
-		selectButton.setVisible(false);
 
-		creationNameTextField.setVisible(true);
-		creationNameTextField.setDisable(true);
-
-		finalCreate.setVisible(true);
-		finalCreate.setDisable(true);
-
-		// show flickr creation options
-		_NumberOfImagesTextField.setVisible(true);
-		_numberImagesButton.setVisible(true);
-		numberOfImagesPrompt.setVisible(true);*/
 	}
 
 
@@ -386,6 +405,43 @@ public class CreationController {
 	//need this dont touch
 	public static String getSearchTerm(){
 		return 	_searchTerm;
+	}
+
+	@FXML
+	public void handleSelectedChunk() {
+
+			_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+
+			if (!(_selectedChunk==null)) {
+			_deleteButton.setDisable(false);
+
+			if (chunkList.getItems().size()>=2) {
+				_moveUpButton.setDisable(false);
+				_moveDownButton.setDisable(false);
+			} else {
+				_moveUpButton.setDisable(true);
+				_moveDownButton.setDisable(true);
+			}
+		}
+	}
+
+
+
+	@FXML
+	private void handleDeleteChunkButton(){
+	    if (!(_selectedChunk==null)) {
+            int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+            chunkList.getItems().remove(chunkIndex);
+            File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
+            _selectedfile.delete();
+            //updateChunkList();
+
+			if (chunkList.getItems().size()<2) {
+				_moveUpButton.setDisable(true);
+				_moveDownButton.setDisable(true);
+			}
+
+        }
 	}
 
 

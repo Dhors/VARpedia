@@ -6,17 +6,17 @@ import java.io.PrintWriter;
 
 import javafx.concurrent.Task;
 
-public class SaveTextTask extends Task<Void> {
+public class SaveTextTask extends Task<String> {
 	private String _voiceChoice;
 	private String _chunk;
-
+	private String temp;
 	public SaveTextTask(String voiceChoice, String chunk) {
 		_voiceChoice = voiceChoice;
 		_chunk = chunk;
 	}
 
 	@Override
-	protected Void call() throws Exception {
+	protected String call() throws Exception {
 		try {
 			String voice = null;
 			if (_voiceChoice == "Default") {
@@ -39,7 +39,7 @@ public class SaveTextTask extends Task<Void> {
 				for (int j = 0; j < 5; j++) {
 					fileName += array[j] + "-";
 				}
-				
+
 				fileName += i + ".wav";
 				
 				fileDir = new File(System.getProperty("user.dir")+"/chunks/"+fileName);
@@ -56,9 +56,10 @@ public class SaveTextTask extends Task<Void> {
 			stdin.close();
 			
 			process.waitFor();
+			temp = fileName;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return temp;
 	}
 }

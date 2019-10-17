@@ -34,7 +34,6 @@ public class ImageVideoTask extends Task<Void> {
     @Override
     protected Void call() throws Exception {
         // All video creation methods are completed in this task
-        //getFlickrImages();
         videoCreation();
         mergeAudioAndVideo();
 

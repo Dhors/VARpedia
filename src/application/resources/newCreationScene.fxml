@@ -23,7 +23,7 @@
       <Text fx:id="searchInProgress" layoutX="235.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
       <Text fx:id="termNotFound" fill="RED" layoutX="208.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Term not found, please try again." visible="false" />
       <TextArea fx:id="searchResultTextArea" layoutX="13.0" layoutY="90.0" prefHeight="180.0" prefWidth="340.0" visible="false" wrapText="true" />
-      <ListView fx:id="chunkList" layoutX="371.0" layoutY="83.0" prefHeight="265.0" prefWidth="200.0" visible="false" />
+      <ListView fx:id="chunkList" layoutX="371.0" layoutY="83.0" onMouseClicked="#handleSelectedChunk" prefHeight="265.0" prefWidth="200.0" visible="false" />
       <Button fx:id="previewChunk" layoutX="226.0" layoutY="274.0" mnemonicParsing="false" onAction="#handlePreviewChunk" text="Preview Chunk" visible="false" />
       <Button fx:id="saveChunk" layoutX="241.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="14.0" layoutY="311.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
@@ -31,6 +31,9 @@
       <Button fx:id="selectButton" layoutX="380.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected Chunks" visible="false" />
       <Text fx:id="textSelectDescription" layoutX="13.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highlight text to create chunks. " visible="false" />
       <Text fx:id="chunkSelectDescription" layoutX="371.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select one or more chunks to combine" visible="false" wrappingWidth="200.73046875" />
+      <Button fx:id="_moveUpButton" disable="true" layoutX="446.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleMoveUpButton" text="moveUp" visible="false" />
+      <Button fx:id="_moveDownButton" disable="true" layoutX="519.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleMoveDownButton" text="moveDown" visible="false" />
+      <Button fx:id="_deleteButton" disable="true" layoutX="384.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleDeleteChunkButton" text="Delete" visible="false" />
 
 
 
