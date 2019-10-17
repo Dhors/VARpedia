@@ -125,7 +125,12 @@ public class CreationController {
 		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
 		selectButton.disableProperty().bind(noChunkSelected);
 
-		//selectButton.disableProperty().bind(noChunkSelected);
+		_deleteButton.disableProperty().bind(noChunkSelected);
+
+		//BooleanBinding upDownButtonBinding = Bindings.size(chunkList.getItems()).lessThan(2).or(chunkList.getSelectionModel().selectedItemProperty().isNull());
+
+
+
 
 		// Don't let the user confirm the number of images until they put in a valid number
 		// TODO
@@ -148,13 +153,15 @@ public class CreationController {
 	}
 	@FXML
 	private void handleMoveDownButton() throws IOException {
-		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
-		String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
-		//inside the array
-		if (chunkIndex <= chunkList.getItems().size()-2){
-			chunkList.getItems().remove(chunkIndex);
-			chunkList.getItems().add(chunkIndex+1,selectedChunk);
-			chunkList.getSelectionModel().select(chunkIndex+1);
+		if (!(_selectedChunk==null)) {
+			int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+			String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+			//inside the array
+			if (chunkIndex <= chunkList.getItems().size() - 2) {
+				chunkList.getItems().remove(chunkIndex);
+				chunkList.getItems().add(chunkIndex + 1, selectedChunk);
+				chunkList.getSelectionModel().select(chunkIndex + 1);
+			}
 		}
 	}
 
@@ -281,13 +288,26 @@ public class CreationController {
 			public void handle(WorkerStateEvent event) {
 				// Make the new chunk visible to the user
 				//chunkList.getItems().add() =================dont update it, rather just add the new chunck in amnually with name==========================================
+
+
+
 				chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
+
+				if (chunkList.getItems().size()>=1) {
+					chunkList.setDisable(false);
+					if (chunkList.getItems().get(0).equals("No Chunks Found.")){
+						chunkList.getItems().remove(0);
+
+					}
+				}
 
 				if (chunkList.getItems().size()>=2) {
 					_moveUpButton.setDisable(false);
 					_moveDownButton.setDisable(false);
 				}
 				//updateChunkList();
+
+
 			}
 		});
 
@@ -355,7 +375,7 @@ public class CreationController {
 
 		// Show the currently stored chunks, and allow the user to select multiple with ctrl+click or shift+click
 		updateChunkList();
-		chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		//chunkList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		_deleteButton.setVisible(true);
 		_moveUpButton.setVisible(true);
@@ -377,8 +397,9 @@ public class CreationController {
 
 
 	private void combineAudioChunks(String creationName) {
-		ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
-
+		//temp testing this out===========================================================================
+		//ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
+		ObservableList<String> selectedChunks = chunkList.getItems();
 		// Run bash script to create a combined audio of each selected chunk
 //		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
 //		BashCommand bashCommand = new BashCommand(command);
@@ -413,7 +434,7 @@ public class CreationController {
 			_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
 
 			if (!(_selectedChunk==null)) {
-			_deleteButton.setDisable(false);
+			//_deleteButton.setDisable(false);
 
 			if (chunkList.getItems().size()>=2) {
 				_moveUpButton.setDisable(false);
@@ -423,6 +444,8 @@ public class CreationController {
 				_moveDownButton.setDisable(true);
 			}
 		}
+
+
 	}
 
 
