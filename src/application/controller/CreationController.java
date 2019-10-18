@@ -100,6 +100,8 @@ public class CreationController {
 
 	@FXML
 	private void initialize() {
+		//need this for move button
+		_selectedChunk=null;
 		searchWikipediaButton.setDisable(true);
 
 		// Don't let the user search until they put in a search term
@@ -300,8 +302,8 @@ public class CreationController {
 
 					}
 				}
-
-				if (chunkList.getItems().size()>=2) {
+				System.out.println(""+_selectedChunk);
+				if (   (chunkList.getItems().size()>=2)&&(!(_selectedChunk==null))  ) {
 					_moveUpButton.setDisable(false);
 					_moveDownButton.setDisable(false);
 				}
