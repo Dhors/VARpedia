@@ -9,7 +9,8 @@ import javafx.concurrent.Task;
 public class SaveTextTask extends Task<String> {
 	private String _voiceChoice;
 	private String _chunk;
-	private String temp;
+	private String _fileName;
+	
 	public SaveTextTask(String voiceChoice, String chunk) {
 		_voiceChoice = voiceChoice;
 		_chunk = chunk;
@@ -37,7 +38,9 @@ public class SaveTextTask extends Task<String> {
 			do {
 				fileName = "";
 				for (int j = 0; j < 5; j++) {
-					fileName += array[j] + "-";
+					if (j < array.length) {
+						fileName += array[j] + "-";
+					}
 				}
 
 				fileName += i + ".wav";
@@ -56,10 +59,11 @@ public class SaveTextTask extends Task<String> {
 			stdin.close();
 			
 			process.waitFor();
-			temp = fileName;
+			
+			_fileName = fileName;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return temp;
+		return _fileName;
 	}
 }
