@@ -25,6 +25,7 @@ public class FlickrImagesTask extends Task<Void> {
     protected Void call() throws Exception {
         getFlickrImages();
         updateProgress(0, 10);
+        updateMessage("fuck evrything");
         return null;
     }
 

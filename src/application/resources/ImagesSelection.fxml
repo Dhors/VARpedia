@@ -33,6 +33,6 @@
       <CheckBox fx:id="_checkBox9" layoutX="464.0" layoutY="368.0" mnemonicParsing="false" text="CheckBox" visible="false" />
       <Button fx:id="_submitButton" layoutX="522.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleSubmitButton" text="submit" visible="false" />
       <TextField fx:id="_creationNameTextField" layoutX="349.0" layoutY="30.0" visible="false" />
-      <ProgressBar layoutX="200.0" layoutY="141.0" prefWidth="200.0" progress="0.0" />
+      <ProgressBar fx:id="_imagesProgressBar" layoutX="200.0" layoutY="141.0" prefWidth="200.0" progress="0.0" />
    </children>
 </AnchorPane>

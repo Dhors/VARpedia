@@ -52,6 +52,7 @@ public class ImagesSelectionController {
 
     @FXML
     private ProgressBar _imagesProgressBar;
+
     @FXML
     private TextField _creationNameTextField;
     @FXML
@@ -73,10 +74,11 @@ public class ImagesSelectionController {
     private int numberOfImages;
 
 
+
     @FXML
     private void initialize() {
 
-        //_imagesProgressBar.progressProperty().bind(FlickrImagesTask.progressProperty());
+
 
         _searchTerm=CreationController.getSearchTerm();
         imageFolder= new File(System.getProperty("user.dir") + "/creations/" + _searchTerm);
@@ -89,12 +91,15 @@ public class ImagesSelectionController {
                 ,_checkBox6,_checkBox7,_checkBox8,_checkBox9));
 
         FlickrImagesTask imagesTask = new FlickrImagesTask(_searchTerm);
+
+        _imagesProgressBar.progressProperty().bind(imagesTask.progressProperty());
+
         team.submit(imagesTask );
         imagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
 
-                //_imagesProgressBar.setVisible(false);
+                _imagesProgressBar.setVisible(false);
 
                 File[] imageFiles = imageFolder.listFiles();
                 for (File file: imageFiles) {
@@ -119,10 +124,15 @@ public class ImagesSelectionController {
                     cb.setVisible(true);
                 }
 
+                _creationNameTextField.setVisible(true);
+                _submitButton.setVisible(true);
+
             }
         });
 
     }
+
+
 
     @FXML
     private void handleSubmitButton() throws IOException {

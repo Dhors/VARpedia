@@ -28,7 +28,7 @@
       <Button fx:id="saveChunk" layoutX="241.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="14.0" layoutY="311.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
       <Text fx:id="voiceSelectDescription" layoutX="16.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select voice of chunk:" visible="false" />
-      <Button fx:id="selectButton" layoutX="380.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected Chunks" visible="false" />
+      <Button fx:id="selectButton" disable="true" layoutX="380.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleSelectButton" text="Confirm Selected Chunks" visible="false" />
       <Text fx:id="textSelectDescription" layoutX="13.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highlight text to create chunks. " visible="false" />
       <Text fx:id="chunkSelectDescription" layoutX="371.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select one or more chunks to combine" visible="false" wrappingWidth="200.73046875" />
       <Button fx:id="_moveUpButton" disable="true" layoutX="446.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleMoveUpButton" text="moveUp" visible="false" />

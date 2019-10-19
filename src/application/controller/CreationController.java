@@ -125,9 +125,9 @@ public class CreationController {
 
 		// Don't let the user confirm the selected chunks until they select at least one
 		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
-		selectButton.disableProperty().bind(noChunkSelected);
+		//selectButton.disableProperty().bind(noChunkSelected);
 
-		_deleteButton.disableProperty().bind(noChunkSelected);
+		//_deleteButton.disableProperty().bind(noChunkSelected);
 
 		//BooleanBinding upDownButtonBinding = Bindings.size(chunkList.getItems()).lessThan(2).or(chunkList.getSelectionModel().selectedItemProperty().isNull());
 
@@ -299,7 +299,7 @@ public class CreationController {
 
 
 				chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
-
+				selectButton.setDisable(false);
 				if (chunkList.getItems().size()>=1) {
 					chunkList.setDisable(false);
 					if (chunkList.getItems().get(0).equals("No Chunks Found.")){
@@ -311,6 +311,7 @@ public class CreationController {
 				if (   (chunkList.getItems().size()>=2)&&(!(_selectedChunk==null))  ) {
 					_moveUpButton.setDisable(false);
 					_moveDownButton.setDisable(false);
+
 				}
 				//updateChunkList();
 
@@ -442,13 +443,11 @@ public class CreationController {
 
 			if (!(_selectedChunk==null)) {
 			//_deleteButton.setDisable(false);
-
+					_deleteButton.setDisable(false);
+					selectButton.setDisable(false);
 			if (chunkList.getItems().size()>=2) {
 				_moveUpButton.setDisable(false);
 				_moveDownButton.setDisable(false);
-			} else {
-				_moveUpButton.setDisable(true);
-				_moveDownButton.setDisable(true);
 			}
 		}
 
@@ -470,10 +469,13 @@ public class CreationController {
 
 				_moveUpButton.setDisable(true);
 				_moveDownButton.setDisable(true);
+				_deleteButton.setDisable(true);
 
 			if (chunkList.getItems().size()==0) {
 				chunkList.getItems().add("No Chunks Found.");
 				chunkList.setDisable(true);
+				selectButton.setDisable(true);
+				_deleteButton.setDisable(true);
 			}
 
         }
