@@ -94,7 +94,7 @@ public class ImagesSelectionController {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
 
-                _imagesProgressBar.setVisible(false);
+                //_imagesProgressBar.setVisible(false);
 
                 File[] imageFiles = imageFolder.listFiles();
                 for (File file: imageFiles) {
