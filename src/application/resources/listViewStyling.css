@@ -1,0 +1,12 @@
+.list-cell {
+	-fx-font-size: 18px;
+	-fx-font-family: Comic Sans MS;
+	-fx-background-radius: 10px;
+}
+.list-cell:even {
+	-fx-background-color: lightyellow;
+}
+.list-cell:selected {
+	-fx-background-color: #6eace3;
+}
+
