@@ -76,7 +76,7 @@ public class ImagesSelectionController {
     @FXML
     private void initialize() {
 
-        _imagesProgressBar.progressProperty().bind(FlickrImagesTask.progressProperty());
+        //_imagesProgressBar.progressProperty().bind(FlickrImagesTask.progressProperty());
 
         _searchTerm=CreationController.getSearchTerm();
         imageFolder= new File(System.getProperty("user.dir") + "/creations/" + _searchTerm);
