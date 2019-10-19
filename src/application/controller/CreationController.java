@@ -156,13 +156,18 @@ public class CreationController {
 	@FXML
 	private void handleMoveDownButton() throws IOException {
 		if (!(_selectedChunk==null)) {
+
 			int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
 			String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
 			//inside the array
-			if (chunkIndex <= chunkList.getItems().size() - 2) {
-				chunkList.getItems().remove(chunkIndex);
-				chunkList.getItems().add(chunkIndex + 1, selectedChunk);
-				chunkList.getSelectionModel().select(chunkIndex + 1);
+			if (!((chunkList.getItems().size()==2) && (chunkIndex==1))) {
+
+
+				if (chunkIndex <= chunkList.getItems().size() - 2) {
+					chunkList.getItems().remove(chunkIndex);
+					chunkList.getItems().add(chunkIndex + 1, selectedChunk);
+					chunkList.getSelectionModel().select(chunkIndex + 1);
+				}
 			}
 		}
 	}
@@ -460,10 +465,15 @@ public class CreationController {
             File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
             _selectedfile.delete();
             //updateChunkList();
+            chunkList.getSelectionModel().clearSelection();
+			_selectedChunk=null;
 
-			if (chunkList.getItems().size()<2) {
 				_moveUpButton.setDisable(true);
 				_moveDownButton.setDisable(true);
+
+			if (chunkList.getItems().size()==0) {
+				chunkList.getItems().add("No Chunks Found.");
+				chunkList.setDisable(true);
 			}
 
         }
