@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -13,5 +14,6 @@
          <font>
             <Font size="40.0" />
          </font></Text>
+      <JFXButton buttonType="RAISED" layoutX="55.0" layoutY="160.0" ripplerFill="#8e7272" style="-fx-background-color: blue;" text="Creations" />
    </children>
 </AnchorPane>
