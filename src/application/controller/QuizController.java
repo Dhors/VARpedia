@@ -143,7 +143,9 @@ public class QuizController {
     // Return to main menu
     @FXML
     private void handleReturnButton() throws IOException {
-        _mediaPlayer.stop();
+        if (!(_mediaPlayer == null)) {
+        	_mediaPlayer.stop();
+        }
         Main.changeScene("resources/MainScreenScene.fxml");
 
     }
