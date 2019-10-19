@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.playerController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: a9e5ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.playerController">
    <children>
       <Text fx:id="_videoTitle" layoutX="255.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player" />
       <Button fx:id="_returnButton" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Return" />

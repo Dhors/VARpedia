@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CreationController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: a9e5ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CreationController">
    <children>
       <Text layoutX="218.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Creation">
          <font>
@@ -23,7 +23,7 @@
       <Text fx:id="searchInProgress" layoutX="235.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching, please wait..." visible="false" />
       <Text fx:id="termNotFound" fill="RED" layoutX="208.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Term not found, please try again." visible="false" />
       <TextArea fx:id="searchResultTextArea" layoutX="13.0" layoutY="90.0" prefHeight="180.0" prefWidth="340.0" visible="false" wrapText="true" />
-      <ListView fx:id="chunkList" layoutX="371.0" layoutY="83.0" onMouseClicked="#handleSelectedChunk" prefHeight="265.0" prefWidth="200.0" visible="false" />
+      <ListView fx:id="chunkList" layoutX="371.0" layoutY="83.0" onMouseClicked="#handleSelectedChunk" prefHeight="265.0" prefWidth="200.0" stylesheets="@listViewStyling.css" visible="false" />
       <Button fx:id="previewChunk" layoutX="226.0" layoutY="274.0" mnemonicParsing="false" onAction="#handlePreviewChunk" text="Preview Chunk" visible="false" />
       <Button fx:id="saveChunk" layoutX="241.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleSaveChunk" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="14.0" layoutY="311.0" prefHeight="25.0" prefWidth="99.0" visible="false" />
