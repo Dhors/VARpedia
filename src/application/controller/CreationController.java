@@ -374,6 +374,7 @@ public class CreationController {
 		voiceDropDownMenu.setVisible(true);
 		chunkList.setVisible(true);
 		selectButton.setVisible(true);
+		selectButton.setDisable(true);
 
 		// Show the options for chunk voices, and set the default choice
 		voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");

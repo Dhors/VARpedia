@@ -31,7 +31,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <ListView fx:id="listViewCreations" layoutX="275.0" layoutY="150.0" prefHeight="350.0" prefWidth="500.0" style="-fx-background-radius: 10px; -fx-background-color: e0d6ff;" />
+      <ListView fx:id="listViewCreations" layoutX="275.0" layoutY="150.0" onMouseClicked="#handleSelectedCreation" prefHeight="350.0" prefWidth="500.0" style="-fx-background-radius: 10px; -fx-background-color: e0d6ff;" />
       <Button layoutX="20.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="51.0" prefWidth="92.0" style="-fx-background-radius: 20px; -fx-border-color: blue; -fx-border-radius: 20px; -fx-border-width: 2px;" text="Back">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
