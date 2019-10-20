@@ -5,6 +5,7 @@ import application.Main;
 import application.tasks.WikiSearchTask;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.IntegerBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import application.tasks.ImageVideoTask;
@@ -103,42 +104,9 @@ public class CreationController {
 		//need this for move button
 		_selectedChunk=null;
 		searchWikipediaButton.setDisable(true);
-
-		// Don't let the user search until they put in a search term
-//		BooleanBinding textIsEmpty = enterSearchTermTextInput.textProperty().isEmpty();	
-
-		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> 
-				enterSearchTermTextInput.getText().trim().isEmpty(),
-				enterSearchTermTextInput.textProperty()
-			);
-		searchWikipediaButton.disableProperty().bind(textIsEmpty);
-
-
-		// Don't let the user create a chunk until requirements are met
-//		BooleanBinding noTextSelected = searchResultTextArea.selectedTextProperty().isEmpty();
-		BooleanBinding noTextSelected = Bindings.createBooleanBinding(() -> 
-				!(numberOfWords(searchResultTextArea.getSelectedText().trim()) > 0),
-				searchResultTextArea.selectedTextProperty()
-			);
-		previewChunk.disableProperty().bind(noTextSelected);
-		saveChunk.disableProperty().bind(noTextSelected);
-
-		// Don't let the user confirm the selected chunks until they select at least one
-		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
-		selectButton.disableProperty().bind(noChunkSelected);
-
-		_deleteButton.disableProperty().bind(noChunkSelected);
-
-		//BooleanBinding upDownButtonBinding = Bindings.size(chunkList.getItems()).lessThan(2).or(chunkList.getSelectionModel().selectedItemProperty().isNull());
-
-
-
-
-		// Don't let the user confirm the number of images until they put in a valid number
-		// TODO
-
-		// Don't let the user confirm the name of the creation until it is valid
-		// TODO
+		
+		updateChunkList();
+		setUpButtonBooleanBindings();
 	}
 
 	@FXML
@@ -146,8 +114,8 @@ public class CreationController {
 
 		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
 		String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
-		//inside the array
-		if (chunkIndex >=1){
+		// Only move if the chunk is not the first in the list
+		if (chunkIndex > 0){
 			chunkList.getItems().remove(chunkIndex);
 			chunkList.getItems().add(chunkIndex-1,selectedChunk);
 			chunkList.getSelectionModel().select(chunkIndex-1);
@@ -155,21 +123,19 @@ public class CreationController {
 	}
 	@FXML
 	private void handleMoveDownButton() throws IOException {
-		if (!(_selectedChunk==null)) {
-			int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
-			String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
-			//inside the array
-			if (chunkIndex <= chunkList.getItems().size() - 2) {
-				chunkList.getItems().remove(chunkIndex);
-				chunkList.getItems().add(chunkIndex + 1, selectedChunk);
-				chunkList.getSelectionModel().select(chunkIndex + 1);
-			}
+		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+		String selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+		// Only move if the chunk is not the last in the list
+		if (chunkIndex < chunkList.getItems().size() - 1) {
+			chunkList.getItems().remove(chunkIndex);
+			chunkList.getItems().add(chunkIndex + 1, selectedChunk);
+			chunkList.getSelectionModel().select(chunkIndex + 1);
 		}
 	}
 
 	@FXML
 	private void handleCreationCancelButton(ActionEvent event) throws IOException {
-		// Return to main menu
+		// Return to list of creations
 		Main.changeScene("resources/listCreationsScene.fxml");
 
 		// Cleaning the chunks folder if the creation is cancelled.
@@ -198,11 +164,6 @@ public class CreationController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				try {
-					/**
-					 * Returns a list with only one element
-					 * If the term was not found, the element is "(Term not found)"
-					 * Otherwise the element is the search result
-					 */
 					String searchResult = wikiSearchTask.get();
 
 					if (searchResult.contains("not found :^")) {
@@ -227,6 +188,8 @@ public class CreationController {
 	private void handlePreviewChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText().trim();
 
+		// If the number of words is 30 or more, the user is asked whether to continue.
+		// If they don't click "yes", stop previewing chunk
 		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
 			return;
 		}
@@ -260,6 +223,7 @@ public class CreationController {
 		// Display the confirmation alert and store the button pressed
 		Optional<ButtonType> result = alert.showAndWait();
 
+		// Return whether or not the user clicked yes
 		if (result.isPresent() && result.get() == ButtonType.YES) {
 			return true;
 		} else {
@@ -270,21 +234,23 @@ public class CreationController {
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText().trim();
+		
+		// If the number of words is 30 or more, the user is asked whether to continue.
+		// If they don't click "yes", stop saving chunk
 		if (numberOfWords(chunk) >= 30 && !lengthConfirmed()) {
 			return;
 		}
 		// If reached here then the chunk is valid
 
-		String voiceChoice = voiceDropDownMenu.getValue();
-
 		// Remove brackets from the chunk, some voices can't speak with brackets
 		chunk = chunk.replace("(", "").replace(")", "");
+				
+		String voiceChoice = voiceDropDownMenu.getValue();
 
 		// Run bash script using festival to save a .wav file containing the spoken selected text
 		SaveTextTask saveTextTask = new SaveTextTask(voiceChoice, chunk);
 		team.submit(saveTextTask);
 		
-
 		saveTextTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
@@ -295,17 +261,15 @@ public class CreationController {
 
 				chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
 
-				if (chunkList.getItems().size()>=1) {
-					chunkList.setDisable(false);
-					if (chunkList.getItems().get(0).equals("No Chunks Found.")){
-						chunkList.getItems().remove(0);
 
-					}
+				chunkList.setDisable(false);
+				if (chunkList.getItems().get(0).equals("No Chunks Found.")){
+					chunkList.getItems().remove(0);
 				}
-				System.out.println(""+_selectedChunk);
-				if (   (chunkList.getItems().size()>=2)&&(!(_selectedChunk==null))  ) {
+
+				if ((chunkList.getItems().size()>=2)&&(!(_selectedChunk==null))  ) {
 					_moveUpButton.setDisable(false);
-					_moveDownButton.setDisable(false);
+//					_moveDownButton.setDisable(false);
 				}
 				//updateChunkList();
 
@@ -436,18 +400,16 @@ public class CreationController {
 			_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
 
 			if (!(_selectedChunk==null)) {
-			//_deleteButton.setDisable(false);
+				//_deleteButton.setDisable(false);
 
-			if (chunkList.getItems().size()>=2) {
-				_moveUpButton.setDisable(false);
-				_moveDownButton.setDisable(false);
-			} else {
-				_moveUpButton.setDisable(true);
-				_moveDownButton.setDisable(true);
+				if (chunkList.getItems().size()>=2) {
+					_moveUpButton.setDisable(false);
+//					_moveDownButton.setDisable(false);
+				} else {
+					_moveUpButton.setDisable(true);
+//					_moveDownButton.setDisable(true);
+				}
 			}
-		}
-
-
 	}
 
 
@@ -460,16 +422,60 @@ public class CreationController {
             File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
             _selectedfile.delete();
             //updateChunkList();
-
+            
 			if (chunkList.getItems().size()<2) {
 				_moveUpButton.setDisable(true);
-				_moveDownButton.setDisable(true);
+//				_moveDownButton.setDisable(true);
 			}
 
         }
 	}
 
+	private void setUpButtonBooleanBindings() {
+		// Don't let the user search until they put in a search term
+//		BooleanBinding textIsEmpty = enterSearchTermTextInput.textProperty().isEmpty();	
 
+		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> 
+				enterSearchTermTextInput.getText().trim().isEmpty(),
+				enterSearchTermTextInput.textProperty()
+			);
+		searchWikipediaButton.disableProperty().bind(textIsEmpty);
+
+
+		// Don't let the user preview or save a chunk until they have selected some non-space text
+//		BooleanBinding noTextSelected = searchResultTextArea.selectedTextProperty().isEmpty();
+
+		BooleanBinding noTextSelected = Bindings.createBooleanBinding(() -> 
+				!(numberOfWords(searchResultTextArea.getSelectedText().trim()) > 0),
+				searchResultTextArea.selectedTextProperty()
+			);
+		previewChunk.disableProperty().bind(noTextSelected);
+		saveChunk.disableProperty().bind(noTextSelected);
+
+		// Don't let the user confirm the selected chunks or delete a chunk until they select at least one
+		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
+		selectButton.disableProperty().bind(noChunkSelected);
+		_deleteButton.disableProperty().bind(noChunkSelected);
+
+		
+		// TODO don't let user moveup unless valid chunk selected
+		
+		// TODO don't let user movedown unless there are at least two chunks and a chunk is selected
+		
+//		BooleanBinding upDownButtonBinding = Bindings.size(chunkList.getItems()).lessThan(2).or(chunkList.getSelectionModel().selectedItemProperty().isNull());
+		
+//		BooleanBinding cantMoveDown = Bindings.createBooleanBinding(() -> 
+//		(chunkList.itemsProperty().get().size() < 2),
+//		chunkList.itemsProperty());
+//				.or(noChunkSelected);
+		
+//		IntegerBinding listSizeProperty = Bindings.size(chunkList.getItems());
+//		BooleanBinding sizeGoodSize = listSizeProperty.greaterThanOrEqualTo(2);
+		
+//		BooleanBinding cantMoveDown = Bindings.size(chunkList.itemsProperty().get()).lessThan(2).or(noChunkSelected);
+		
+//		_moveDownButton.disableProperty().bind(sizeGoodSize.not());
+	}
 
 
 }
