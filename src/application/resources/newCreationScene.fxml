@@ -12,33 +12,33 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CreationController">
    <children>
-      <Text layoutX="336.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Creation">
+      <Text layoutX="287.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Creation" textAlignment="CENTER" wrappingWidth="450.0">
          <font>
             <Font size="40.0" />
          </font></Text>
-      <Button layoutX="20.0" layoutY="704.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="50.0" prefWidth="263.0" styleClass="bigButton" text="Cancel Creation" />
+      <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Cancel Creation" />
      
-      <Text fx:id="enterSearchTerm" layoutX="152.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Please enter the term you would like to search:">
+      <Text fx:id="enterSearchTerm" layoutX="100.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Please enter the term you would like to search:" wrappingWidth="500.0">
          <font>
             <Font size="20.0" />
          </font></Text>
-      <TextField fx:id="enterSearchTermTextInput" layoutX="160.0" layoutY="396.0" prefHeight="50.0" prefWidth="459.0" />
-      <Button fx:id="searchWikipediaButton" layoutX="670.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" prefHeight="50.0" styleClass="bigButton" text="Search Wikipedia" />
-      <Text fx:id="searchInProgress" layoutX="437.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Searching, please wait..." visible="false" />
-      <Text fx:id="termNotFound" fill="RED" layoutX="392.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Term not found, please try again." visible="false" />
-      <ProgressBar fx:id="_wikiProgressBar" layoutX="394.0" layoutY="528.0" prefHeight="54.0" prefWidth="300.0" progress="0.0" visible="false" />
-      <TextArea fx:id="searchResultTextArea" layoutX="20.0" layoutY="167.0" prefHeight="382.0" prefWidth="437.0" visible="false" wrapText="true" />
-      <ListView fx:id="chunkList" layoutX="575.0" layoutY="167.0" onMouseClicked="#handleSelectedChunk" prefHeight="451.0" prefWidth="417.0" visible="false" />
-      <Button fx:id="previewChunk" layoutX="38.0" layoutY="618.0" mnemonicParsing="false" onAction="#handlePreviewChunk" prefHeight="46.0" prefWidth="184.0" styleClass="smallButton" text="Preview Chunk" visible="false" />
-      <Button fx:id="saveChunk" layoutX="283.0" layoutY="610.0" mnemonicParsing="false" onAction="#handleSaveChunk" prefHeight="46.0" prefWidth="165.0" styleClass="smallButton" text="Save Chunk" visible="false" />
-      <ChoiceBox fx:id="voiceDropDownMenu" layoutX="308.0" layoutY="565.0" prefHeight="35.0" prefWidth="140.0" visible="false" />
-      <Text fx:id="voiceSelectDescription" layoutX="32.0" layoutY="589.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Select voice of chunk:" visible="false" />
-      <Button fx:id="selectButton" layoutX="744.0" layoutY="698.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="50.0" prefWidth="263.0" styleClass="bigButton" text="Confirm Chunks" visible="false" />
-      <Text fx:id="textSelectDescription" layoutX="20.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Highlight text to create chunks " visible="false" />
-      <Text fx:id="chunkSelectDescription" layoutX="547.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Select one or more chunks to combine" visible="false" wrappingWidth="445.17498779296875" />
-      <Button fx:id="_moveUpButton" disable="true" layoutX="575.0" layoutY="633.0" mnemonicParsing="false" onAction="#handleMoveUpButton" prefHeight="46.0" prefWidth="130.0" styleClass="smallButton" text="Move Up" visible="false" />
-      <Button fx:id="_moveDownButton" disable="true" layoutX="843.0" layoutY="633.0" mnemonicParsing="false" onAction="#handleMoveDownButton" prefHeight="46.0" prefWidth="165.0" styleClass="smallButton" text="Move Down" visible="false" />
-      <Button fx:id="_deleteButton" disable="true" layoutX="720.0" layoutY="633.0" mnemonicParsing="false" onAction="#handleDeleteChunkButton" prefHeight="46.0" prefWidth="100.0" styleClass="smallButton" text="Delete" visible="false" />
+      <TextField fx:id="enterSearchTermTextInput" layoutX="100.0" layoutY="350.0" prefHeight="50.0" prefWidth="500.0" />
+      <Button fx:id="searchWikipediaButton" layoutX="674.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Search Wikipedia" />
+      <Text fx:id="searchInProgress" layoutX="337.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Searching, please wait..." textAlignment="CENTER" visible="false" wrappingWidth="350.0" />
+      <Text fx:id="termNotFound" fill="RED" layoutX="337.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Term not found, please try again." textAlignment="CENTER" visible="false" wrappingWidth="350.0" />
+      <ProgressBar fx:id="_wikiProgressBar" layoutX="337.0" layoutY="460.0" prefHeight="35.0" prefWidth="350.0" progress="0.0" visible="false" />
+      <TextArea fx:id="searchResultTextArea" layoutX="25.0" layoutY="150.0" prefHeight="400.0" prefWidth="425.0" visible="false" wrapText="true" />
+      <ListView fx:id="chunkList" layoutX="575.0" layoutY="150.0" onMouseClicked="#handleSelectedChunk" prefHeight="450.0" prefWidth="425.0" visible="false" />
+      <Button fx:id="previewChunk" layoutX="25.0" layoutY="625.0" mnemonicParsing="false" onAction="#handlePreviewChunk" prefHeight="46.0" prefWidth="184.0" styleClass="smallButton" text="Preview Chunk" visible="false" />
+      <Button fx:id="saveChunk" layoutX="285.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleSaveChunk" prefHeight="46.0" prefWidth="165.0" styleClass="smallButton" text="Save Chunk" visible="false" />
+      <ChoiceBox fx:id="voiceDropDownMenu" layoutX="300.0" layoutY="565.0" prefHeight="35.0" prefWidth="150.0" visible="false" />
+      <Text fx:id="voiceSelectDescription" layoutX="25.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Select voice of chunk:" visible="false" />
+      <Button fx:id="selectButton" layoutX="749.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Confirm Chunks" visible="false" />
+      <Text fx:id="textSelectDescription" layoutX="25.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Highlight text to create chunks " visible="false" />
+      <Text fx:id="chunkSelectDescription" layoutX="575.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Select one or more chunks to combine" visible="false" wrappingWidth="425.0" />
+      <Button fx:id="_moveUpButton" disable="true" layoutX="575.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleMoveUpButton" prefHeight="46.0" prefWidth="125.0" styleClass="smallButton" text="Move Up" visible="false" />
+      <Button fx:id="_moveDownButton" disable="true" layoutX="849.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleMoveDownButton" prefHeight="46.0" prefWidth="150.0" styleClass="smallButton" text="Move Down" visible="false" />
+      <Button fx:id="_deleteButton" disable="true" layoutX="729.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleDeleteChunkButton" prefHeight="46.0" prefWidth="100.0" styleClass="smallButton" text="Delete" visible="false" />
 
 
 

@@ -8,41 +8,41 @@
 
 <AnchorPane id="anchor-pane" prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ListController">
    <children>
-      <Text layoutX="500.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Creations" textAlignment="CENTER" wrappingWidth="300.0">
+      <Text layoutX="525.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Creations" textAlignment="CENTER" wrappingWidth="300.0">
          <font>
             <Font name="Comic Sans MS" size="30.0" />
          </font></Text>
-      <Text fx:id="selectPrompt" layoutX="531.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a creation to continue.">
+      <Text fx:id="selectPrompt" layoutX="475.0" layoutY="725.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a creation to continue." textAlignment="CENTER" wrappingWidth="400.0">
          <font>
             <Font name="Comic Sans MS" size="20.0" />
          </font></Text>
-      <Text fontSmoothingType="LCD" layoutX="363.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VARpedia" textAlignment="CENTER" wrappingWidth="250.0">
+      <Text fontSmoothingType="LCD" layoutX="387.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VARpedia" textAlignment="CENTER" wrappingWidth="250.0">
          <font>
             <Font size="48.0" />
          </font>
       </Text>
-      <Button fx:id="newCreationButton" layoutX="55.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="51.0" prefWidth="235.0" styleClass="bigButton" text="New Creation">
+      <Button fx:id="newCreationButton" layoutX="100.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="50.0" prefWidth="200.0" styleClass="bigButton" text="New Creation">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="85.0" layoutY="392.0" mnemonicParsing="false" onAction="#handleRefreshButton" prefHeight="51.0" prefWidth="188.0" styleClass="bigButton" text="Refresh List">
+      <Button layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleRefreshButton" prefHeight="50.0" prefWidth="200.0" styleClass="bigButton" text="Refresh List">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <ListView fx:id="listViewCreations" layoutX="381.0" layoutY="177.0" onMouseClicked="#handleSelectedCreation" prefHeight="461.0" prefWidth="568.0" />
-      <Button layoutX="50.0" layoutY="681.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="121.0" styleClass="bigButton" text="Back">
+      <ListView fx:id="listViewCreations" layoutX="400.0" layoutY="175.0" onMouseClicked="#handleSelectedCreation" prefHeight="450.0" prefWidth="550.0" />
+      <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Back">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="playButton" layoutX="752.0" layoutY="702.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="51.0" prefWidth="106.0" styleClass="bigButton" text="Play">
+      <Button fx:id="playButton" layoutX="700.0" layoutY="640.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Play">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="deleteButton" layoutX="537.0" layoutY="697.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="55.0" prefWidth="141.0" styleClass="bigButton" text="Delete">
+      <Button fx:id="deleteButton" layoutX="525.0" layoutY="640.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Delete">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
