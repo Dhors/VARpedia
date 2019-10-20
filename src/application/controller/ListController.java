@@ -66,6 +66,8 @@ public class ListController {
 			Optional<ButtonType> result = alert.showAndWait();
 
 			if (result.get() == ButtonType.OK) {
+				//System.out.println("" +getSelectedFile());
+				//System.out.println("" +getSelectedFile());
 				getSelectedFile().delete();
 				ListCurrentFiles();
 			}

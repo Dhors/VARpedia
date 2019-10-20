@@ -36,6 +36,9 @@ public class WikiSearchTask extends Task<String>{
 			e.printStackTrace();
 		}
 		updateProgress(0, 10);
-		return searchResult.trim();
+		String trimmedSearchResult = searchResult.trim();
+		String wikiSearchOutput = trimmedSearchResult.replace(". ", ".\n\n");
+
+		return wikiSearchOutput.trim();
 	}
 }
