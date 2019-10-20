@@ -11,32 +11,34 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ImagesSelectionController">
    <children>
-      <Text layoutX="309.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image selection">
+      <Text layoutX="330.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image Selection">
          <font>
             <Font size="48.0" />
          </font></Text>
-      <ImageView fx:id="_ImageView0" fitHeight="82.0" fitWidth="125.0" layoutX="20.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView1" fitHeight="82.0" fitWidth="125.0" layoutX="138.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView2" fitHeight="82.0" fitWidth="125.0" layoutX="265.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView3" fitHeight="82.0" fitWidth="125.0" layoutX="461.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView4" fitHeight="82.0" fitWidth="125.0" layoutX="383.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView5" fitHeight="82.0" fitWidth="125.0" layoutX="21.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView6" fitHeight="82.0" fitWidth="125.0" layoutX="146.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView7" fitHeight="82.0" fitWidth="125.0" layoutX="271.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView8" fitHeight="82.0" fitWidth="125.0" layoutX="349.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="_ImageView9" fitHeight="82.0" fitWidth="125.0" layoutX="461.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <CheckBox fx:id="_checkBox0" layoutX="21.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox1" layoutX="128.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox2" layoutX="246.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox3" layoutX="357.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox4" layoutX="479.0" layoutY="61.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox5" layoutX="21.0" layoutY="368.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox6" layoutX="120.0" layoutY="368.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox7" layoutX="227.0" layoutY="368.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox8" layoutX="334.0" layoutY="368.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <CheckBox fx:id="_checkBox9" layoutX="464.0" layoutY="368.0" mnemonicParsing="false" text="CheckBox" visible="false" />
-      <Button fx:id="_submitButton" layoutX="522.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleSubmitButton" text="submit" visible="false" />
-      <TextField fx:id="_creationNameTextField" layoutX="349.0" layoutY="30.0" visible="false" />
-      <ProgressBar fx:id="_imagesProgressBar" layoutX="358.0" layoutY="341.0" prefHeight="54.0" prefWidth="300.0" progress="0.0" />
+      <ImageView fx:id="_ImageView0" fitHeight="100.0" fitWidth="150.0" layoutX="82.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView1" fitHeight="100.0" fitWidth="150.0" layoutX="275.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView2" fitHeight="100.0" fitWidth="150.0" layoutX="449.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView3" fitHeight="100.0" fitWidth="150.0" layoutX="656.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView4" fitHeight="100.0" fitWidth="150.0" layoutX="833.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView5" fitHeight="100.0" fitWidth="150.0" layoutX="94.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView6" fitHeight="100.0" fitWidth="150.0" layoutX="275.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView7" fitHeight="100.0" fitWidth="150.0" layoutX="462.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView8" fitHeight="100.0" fitWidth="150.0" layoutX="655.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="_ImageView9" fitHeight="100.0" fitWidth="150.0" layoutX="845.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <CheckBox fx:id="_checkBox0" layoutX="101.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 1" visible="false" />
+      <CheckBox fx:id="_checkBox1" layoutX="301.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 2" visible="false" />
+      <CheckBox fx:id="_checkBox2" layoutX="466.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 3" visible="false" />
+      <CheckBox fx:id="_checkBox3" layoutX="664.0" layoutY="220.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 4" visible="false" />
+      <CheckBox fx:id="_checkBox4" layoutX="838.0" layoutY="220.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 5" visible="false" />
+      <CheckBox fx:id="_checkBox5" layoutX="94.0" layoutY="625.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 6" visible="false" />
+      <CheckBox fx:id="_checkBox6" layoutX="293.0" layoutY="625.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 7" visible="false" />
+      <CheckBox fx:id="_checkBox7" layoutX="470.0" layoutY="625.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 8" visible="false" />
+      <CheckBox fx:id="_checkBox8" layoutX="677.0" layoutY="625.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 9" visible="false" />
+      <CheckBox fx:id="_checkBox9" layoutX="861.0" layoutY="625.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 10" visible="false" />
+      <Text fx:id="_instructions" layoutX="312.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Select images and enter creation name" textAlignment="CENTER" visible="false" wrappingWidth="400.0" />
+      <Button fx:id="_submitButton" layoutX="631.0" layoutY="151.0" mnemonicParsing="false" onAction="#handleSubmitButton" prefHeight="35.0" prefWidth="125.0" styleClass="smallButton" text="Submit" visible="false" />
+      <TextField fx:id="_creationNameTextField" layoutX="275.0" layoutY="155.0" prefHeight="35.0" prefWidth="300.0" visible="false" />
+      <ProgressBar fx:id="_imagesProgressBar" layoutX="337.0" layoutY="360.0" prefHeight="35.0" prefWidth="350.0" progress="0.0" />
+      <Text fx:id="_imageDownloadInProgress" layoutX="312.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Downloading images, please wait..." textAlignment="CENTER" wrappingWidth="400.0" />
    </children>
 </AnchorPane>

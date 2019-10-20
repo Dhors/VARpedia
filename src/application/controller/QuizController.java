@@ -79,8 +79,8 @@ public class QuizController {
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);
         _mediaView = new MediaView(_mediaPlayer);
-        _mediaView.setFitHeight(250);
-        _mediaView.setFitWidth(300);
+        _mediaView.setFitHeight(400);
+        _mediaView.setFitWidth(600);
 
 
 

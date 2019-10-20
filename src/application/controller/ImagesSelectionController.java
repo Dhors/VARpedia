@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -52,7 +53,11 @@ public class ImagesSelectionController {
 
     @FXML
     private ProgressBar _imagesProgressBar;
+    @FXML 
+    private Text _imageDownloadInProgress;
 
+    @FXML
+    private Text _instructions;
     @FXML
     private TextField _creationNameTextField;
     @FXML
@@ -99,6 +104,7 @@ public class ImagesSelectionController {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
 
+            	_imageDownloadInProgress.setVisible(false);
                 _imagesProgressBar.setVisible(false);
 
                 File[] imageFiles = imageFolder.listFiles();
@@ -115,15 +121,14 @@ public class ImagesSelectionController {
                     count++;
                 }
 
-                int counter = 0;
                 for (ImageView iv: _imageViews) {
                     iv.setVisible(true);
                 }
-                int counter2 = 0;
                 for (CheckBox cb: _checkBoxes) {
                     cb.setVisible(true);
                 }
 
+                _instructions.setVisible(true);
                 _creationNameTextField.setVisible(true);
                 _submitButton.setVisible(true);
 
