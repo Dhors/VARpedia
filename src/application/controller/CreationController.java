@@ -19,17 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.awt.event.KeyEvent;
@@ -96,7 +88,8 @@ public class CreationController {
 
 
 	private static String _selectedChunk;
-
+	@FXML
+	private ProgressBar _wikiProgressBar;
 
 	@FXML
 	private void initialize() {
@@ -190,12 +183,16 @@ public class CreationController {
 	@FXML
 	private void handleSearchWikipedia(ActionEvent event) throws IOException {
 		_searchTerm = enterSearchTermTextInput.getText().trim();
-
+		_wikiProgressBar.setVisible(true);
 		termNotFound.setVisible(false);
 		searchInProgress.setVisible(true);
 
 		// Run bash script that uses wikit and returns the the result of the search
 		WikiSearchTask wikiSearchTask = new WikiSearchTask(_searchTerm);
+
+		//_wikiProgressBar.progressProperty().unbind();
+		_wikiProgressBar.progressProperty().bind(wikiSearchTask.progressProperty());
+
 		team.submit(wikiSearchTask);
 
 		// Using concurrency allows the user to cancel the creation if the search takes too long
@@ -209,6 +206,7 @@ public class CreationController {
 					 * Otherwise the element is the search result
 					 */
 					String searchResult = wikiSearchTask.get();
+					_wikiProgressBar.setVisible(false);
 
 					if (searchResult.contains("not found :^")) {
 						searchInProgress.setVisible(false);
