@@ -24,6 +24,7 @@ public class FlickrImagesTask extends Task<Void> {
     @Override
     protected Void call() throws Exception {
         getFlickrImages();
+        updateProgress(0, 10);
         return null;
     }
 

@@ -6,19 +6,46 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ListController">
+<AnchorPane id="anchor-pane" prefHeight="600.0" prefWidth="800.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ListController">
    <children>
-      <Text layoutX="227.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current creations" />
-      <ListView fx:id="listViewCreations" layoutX="138.0" layoutY="103.0" onMouseClicked="#handleSelectedCreation" prefHeight="200.0" prefWidth="298.0" />
-      <Button fx:id="playButton" layoutX="226.0" layoutY="331.0" mnemonicParsing="false" onAction="#handlePlayButton" text="Play" />
-      <Button fx:id="deleteButton" layoutX="283.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete" />
-      <Button layoutX="368.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleRefreshButton" text="Refresh" />
-      <Text fx:id="selectPrompt" layoutX="169.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a creation to continue." />
-      <Button fx:id="newCreationButton" layoutX="138.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleNewCreationButton" text="New Creation" />
-      <Text layoutX="235.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VARpedia">
+      <Text layoutX="375.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Creations" textAlignment="CENTER" wrappingWidth="300.0">
          <font>
-            <Font size="24.0" />
+            <Font name="Comic Sans MS" size="30.0" />
          </font></Text>
-      <Button layoutX="14.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Back" />
+      <Text fx:id="selectPrompt" layoutX="205.0" layoutY="564.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a creation to continue.">
+         <font>
+            <Font name="Comic Sans MS" size="20.0" />
+         </font></Text>
+      <Text fontSmoothingType="LCD" layoutX="275.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VARpedia" textAlignment="CENTER" wrappingWidth="250.0">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <Button fx:id="newCreationButton" layoutX="45.0" layoutY="165.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="51.0" prefWidth="188.0" styleClass="bigButton" text="New Creation">
+         <font>
+            <Font name="Comic Sans MS" size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="45.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleRefreshButton" prefHeight="51.0" prefWidth="188.0" styleClass="bigButton" text="Refresh List">
+         <font>
+            <Font name="Comic Sans MS" size="24.0" />
+         </font>
+      </Button>
+      <ListView fx:id="listViewCreations" layoutX="275.0" layoutY="165.0" onMouseClicked="#handleSelectedCreation" prefHeight="350.0" prefWidth="500.0" />
+      <Button layoutX="20.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="92.0" styleClass="bigButton" text="Back">
+         <font>
+            <Font name="Comic Sans MS" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="playButton" layoutX="564.0" layoutY="530.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="51.0" prefWidth="84.0" styleClass="bigButton" text="Play">
+         <font>
+            <Font name="Comic Sans MS" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="663.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="55.0" prefWidth="112.0" styleClass="bigButton" text="Delete">
+         <font>
+            <Font name="Comic Sans MS" size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

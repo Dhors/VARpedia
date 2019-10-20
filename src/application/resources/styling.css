@@ -1,0 +1,39 @@
+* {
+	-fx-font-family: "Comic Sans MS";
+}
+.root {
+	-fx-background-color: #a9e5ff;
+}
+
+.button {
+	-fx-background-color: lightyellow;
+	-fx-border-color: white;
+	-fx-border-width: 2px;
+}
+.bigButton {
+	-fx-background-radius: 20px;
+	-fx-border-radius: 20px;
+	-fx-font-size: 24px;
+}
+.smallButton {
+	-fx-background-radius: 10px;
+	-fx-border-radius: 10px;
+	-fx-font-size: 20px;
+}
+.button:pressed, .choice-box .menu-item:focused {
+	-fx-background-color: #6eace3;
+}
+
+.list-cell:even {
+	-fx-background-color: lightyellow;
+}
+.list-cell:selected {
+	-fx-background-color: #6eace3;
+}
+
+.list-cell, .text-field, .text-area, .choice-box, .choice-box .menu-item {
+	-fx-font-size: 18px;
+}
+.infoText {
+	-fx-font-size: 20px;
+}

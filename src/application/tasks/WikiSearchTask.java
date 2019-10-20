@@ -16,6 +16,7 @@ public class WikiSearchTask extends Task<String>{
 	
 	@Override
 	protected String call() throws Exception {
+
 		String searchResult = "";
 		try {
 			String command = "wikit " + _searchTerm;
@@ -34,6 +35,7 @@ public class WikiSearchTask extends Task<String>{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		updateProgress(0, 10);
 		return searchResult.trim();
 	}
 }
