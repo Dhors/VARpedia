@@ -107,27 +107,27 @@ public class CreationController {
 		// Don't let the user search until they put in a search term
 //		BooleanBinding textIsEmpty = enterSearchTermTextInput.textProperty().isEmpty();	
 
-		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> 
-				enterSearchTermTextInput.getText().trim().isEmpty(),
+		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
+						enterSearchTermTextInput.getText().trim().isEmpty(),
 				enterSearchTermTextInput.textProperty()
-			);
+		);
 		searchWikipediaButton.disableProperty().bind(textIsEmpty);
 
 
 		// Don't let the user create a chunk until requirements are met
 //		BooleanBinding noTextSelected = searchResultTextArea.selectedTextProperty().isEmpty();
-		BooleanBinding noTextSelected = Bindings.createBooleanBinding(() -> 
-				!(numberOfWords(searchResultTextArea.getSelectedText().trim()) > 0),
+		BooleanBinding noTextSelected = Bindings.createBooleanBinding(() ->
+						!(numberOfWords(searchResultTextArea.getSelectedText().trim()) > 0),
 				searchResultTextArea.selectedTextProperty()
-			);
+		);
 		previewChunk.disableProperty().bind(noTextSelected);
 		saveChunk.disableProperty().bind(noTextSelected);
 
 		// Don't let the user confirm the selected chunks until they select at least one
 		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
-		selectButton.disableProperty().bind(noChunkSelected);
+		//selectButton.disableProperty().bind(noChunkSelected);
 
-		_deleteButton.disableProperty().bind(noChunkSelected);
+		//_deleteButton.disableProperty().bind(noChunkSelected);
 
 		//BooleanBinding upDownButtonBinding = Bindings.size(chunkList.getItems()).lessThan(2).or(chunkList.getSelectionModel().selectedItemProperty().isNull());
 
@@ -271,7 +271,7 @@ public class CreationController {
 			return false;
 		}
 	}
-	
+
 	@FXML
 	private void handleSaveChunk(ActionEvent event) throws IOException {
 		String chunk = searchResultTextArea.getSelectedText().trim();
@@ -288,7 +288,7 @@ public class CreationController {
 		// Run bash script using festival to save a .wav file containing the spoken selected text
 		SaveTextTask saveTextTask = new SaveTextTask(voiceChoice, chunk);
 		team.submit(saveTextTask);
-		
+
 
 		saveTextTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
@@ -299,7 +299,7 @@ public class CreationController {
 
 
 				chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
-
+				selectButton.setDisable(false);
 				if (chunkList.getItems().size()>=1) {
 					chunkList.setDisable(false);
 					if (chunkList.getItems().get(0).equals("No Chunks Found.")){
@@ -311,6 +311,7 @@ public class CreationController {
 				if (   (chunkList.getItems().size()>=2)&&(!(_selectedChunk==null))  ) {
 					_moveUpButton.setDisable(false);
 					_moveDownButton.setDisable(false);
+
 				}
 				//updateChunkList();
 
@@ -357,7 +358,7 @@ public class CreationController {
 		chunkList.setItems(observableListChunkNames);
 	}
 
-	private void displayChunkSelection() {		
+	private void displayChunkSelection() {
 		// Hide search elements
 		enterSearchTerm.setVisible(false);
 		enterSearchTermTextInput.setVisible(false);
@@ -366,7 +367,7 @@ public class CreationController {
 		termNotFound.setVisible(false);
 
 		// Show chunk elements
-		searchResultTextArea.setVisible(true); 
+		searchResultTextArea.setVisible(true);
 		previewChunk.setVisible(true);
 		saveChunk.setVisible(true);
 		voiceSelectDescription.setVisible(true);
@@ -408,7 +409,7 @@ public class CreationController {
 		//ObservableList<String> selectedChunks = chunkList.getSelectionModel().getSelectedItems();
 		ObservableList<String> selectedChunks = chunkList.getItems();
 		// Run bash script to create a combined audio of each selected chunk
-//		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};		
+//		String[] command = new String[]{"/bin/bash", "-c", "./script.sh create " + creationName + " " + chunksAsString};
 //		BashCommand bashCommand = new BashCommand(command);
 		CreateCreationTask createCreationTask = new CreateCreationTask(selectedChunks, creationName);
 		team.submit(createCreationTask);
@@ -438,17 +439,15 @@ public class CreationController {
 	@FXML
 	public void handleSelectedChunk() {
 
-			_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+		_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
 
-			if (!(_selectedChunk==null)) {
+		if (!(_selectedChunk==null)) {
 			//_deleteButton.setDisable(false);
-
+			_deleteButton.setDisable(false);
+			selectButton.setDisable(false);
 			if (chunkList.getItems().size()>=2) {
 				_moveUpButton.setDisable(false);
 				_moveDownButton.setDisable(false);
-			} else {
-				_moveUpButton.setDisable(true);
-				_moveDownButton.setDisable(true);
 			}
 		}
 
@@ -459,24 +458,27 @@ public class CreationController {
 
 	@FXML
 	private void handleDeleteChunkButton(){
-	    if (!(_selectedChunk==null)) {
-            int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
-            chunkList.getItems().remove(chunkIndex);
-            File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
-            _selectedfile.delete();
-            //updateChunkList();
-            chunkList.getSelectionModel().clearSelection();
+		if (!(_selectedChunk==null)) {
+			int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+			chunkList.getItems().remove(chunkIndex);
+			File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
+			_selectedfile.delete();
+			//updateChunkList();
+			chunkList.getSelectionModel().clearSelection();
 			_selectedChunk=null;
 
-				_moveUpButton.setDisable(true);
-				_moveDownButton.setDisable(true);
+			_moveUpButton.setDisable(true);
+			_moveDownButton.setDisable(true);
+			_deleteButton.setDisable(true);
 
 			if (chunkList.getItems().size()==0) {
 				chunkList.getItems().add("No Chunks Found.");
 				chunkList.setDisable(true);
+				selectButton.setDisable(true);
+				_deleteButton.setDisable(true);
 			}
 
-        }
+		}
 	}
 
 
