@@ -4,17 +4,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: a9e5ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.playerController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.playerController">
    <children>
-      <Text fx:id="_videoTitle" layoutX="255.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player" />
-      <Button fx:id="_returnButton" layoutX="70.0" layoutY="477.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Return" />
-      <Button layoutX="311.0" layoutY="438.0" mnemonicParsing="false" onAction="#handlePausePlayButton" text="pause/play" />
-      <Button layoutX="401.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleForwardButton" text="&gt;&gt;" />
-      <Button layoutX="271.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleBackwardsButton" text="&lt;&lt;" />
-      <Button layoutX="210.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleMuteButton" text="mute" />
-      <BorderPane fx:id="_player" layoutX="65.0" layoutY="14.0" prefHeight="400.0" prefWidth="500.0">
+      <Text fx:id="_videoTitle" layoutX="328.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Creation Player">
+         <font>
+            <Font size="48.0" />
+         </font></Text>
+      <Button fx:id="_returnButton" layoutX="14.0" layoutY="704.0" mnemonicParsing="false" onAction="#handleReturnButton" styleClass="bigButton" text="Return" />
+      <Button layoutX="504.0" layoutY="628.0" mnemonicParsing="false" onAction="#handlePausePlayButton" styleClass="smallButton" text="pause/play" />
+      <Button layoutX="685.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleForwardButton" styleClass="smallButton" text="&gt;&gt;" />
+      <Button layoutX="411.0" layoutY="628.0" mnemonicParsing="false" onAction="#handleBackwardsButton" styleClass="smallButton" text="&lt;&lt;" />
+      <Button layoutX="293.0" layoutY="621.0" mnemonicParsing="false" onAction="#handleMuteButton" styleClass="smallButton" text="mute" />
+      <BorderPane fx:id="_player" layoutX="262.0" layoutY="157.0" prefHeight="400.0" prefWidth="500.0">
          <center>
             <MediaView fx:id="_mediaView" fitHeight="300.0" fitWidth="500.0" BorderPane.alignment="CENTER" />
          </center>
