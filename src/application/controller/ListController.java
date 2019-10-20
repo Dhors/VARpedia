@@ -37,50 +37,28 @@ public class ListController {
 	@FXML
 	private Button newCreationButton;
 
-
 	public void initialize(){
 		ListCurrentFiles();
-		playButton.setDisable(true);
-		deleteButton.setDisable(true);
-		
-		// Disable the buttons until a creation is selected
+
+		// Disable the buttons whenever there is no creation selected
 		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();
 		playButton.disableProperty().bind(noCreationSelected);
 		deleteButton.disableProperty().bind(noCreationSelected);
 		selectPrompt.visibleProperty().bind(noCreationSelected);
 	}
 
-
-	@FXML
-	private void handlePlayButton(ActionEvent event) throws IOException {
-			//change scene to playerScene
-			Main.changeScene("resources/PlayerScene.fxml");
-	}
-
 	@FXML
 	private void handleDeleteButton(){
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitle("Delete");
-			alert.setHeaderText(" delete " + _selectedCreation);
-			alert.setContentText("Are you sure?.");
-			Optional<ButtonType> result = alert.showAndWait();
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Deletion");
+		alert.setHeaderText("Delete " + getSelectedCreationName() + "?");
+		alert.setContentText("Are you sure you want to delete this creation?");
+		Optional<ButtonType> result = alert.showAndWait();
 
-			if (result.get() == ButtonType.OK) {
-				//System.out.println("" +getSelectedFile());
-				//System.out.println("" +getSelectedFile());
-				getSelectedFile().delete();
-				ListCurrentFiles();
-			}
-	}
-
-	@FXML
-	private void handleRefreshButton() {
-		ListCurrentFiles();
-	}
-
-	@FXML
-	private void handleNewCreationButton(ActionEvent event) throws IOException {
-		Main.changeScene("resources/newCreationScene.fxml");
+		if (result.get() == ButtonType.OK) {
+			getSelectedFile().delete();
+			ListCurrentFiles();
+		}
 	}
 
 	// This will return a list of all current creations in the creations directory.
@@ -102,17 +80,26 @@ public class ListController {
 		// Will get every file in the creations directory and create an indexed
 		// list of file names.
 		int indexCounter = 1;
-		for (final String creations : listFilesNames) {
-			if (creations.endsWith(".mp4")) {
-				listCreationNames.add("" + indexCounter + ". " + creations.replace(".mp4", ""));
+		for (final String creation : listFilesNames) {
+			if (creation.endsWith(".mp4")) {
+				listCreationNames.add("" + indexCounter + ". " + creation.replace(".mp4", ""));
 				indexCounter++;
 
 			}
 		}
 		// Turning the list of creation names into an listView<String> for the GUI.
 		ObservableList<String> listViewFiles = FXCollections.observableArrayList(listCreationNames);
-		//ListView CreationsListView = new ListView();
 		listViewCreations.setItems(listViewFiles);
+	}
+
+	@FXML
+	private void handleNewCreationButton(ActionEvent event) throws IOException {
+		Main.changeScene("resources/newCreationScene.fxml");
+	}
+
+	@FXML
+	private void handleRefreshButton() {
+		ListCurrentFiles();
 	}
 
 	@FXML
@@ -120,16 +107,23 @@ public class ListController {
 		_selectedCreation = listViewCreations.getSelectionModel().getSelectedItem();
 	}
 
+	@FXML
+	private void handlePlayButton(ActionEvent event) throws IOException {
+		Main.changeScene("resources/PlayerScene.fxml");
+	}
+
+	@FXML
+	private void handleReturnButton() throws IOException {
+		Main.changeScene("resources/MainScreenScene.fxml");
+	}
+
 	public static File getSelectedFile(){
-
-
 		// Removal of the index on the creation name
 		// and creating it as a file to be played or deleted.
 		String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
 		File _selectedfile = new File(System.getProperty("user.dir")+"/creations/"+ fileName +".mp4");
 
 		return _selectedfile;
-
 	}
 
 	public static String getSelectedCreationName(){
@@ -137,10 +131,4 @@ public class ListController {
 		String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
 		return fileName;
 	}
-  
-  // Return to main menu
-  @FXML
-  private void handleReturnButton() throws IOException {
-    Main.changeScene("resources/MainScreenScene.fxml");
-  }
 }
