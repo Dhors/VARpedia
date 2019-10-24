@@ -1,7 +1,6 @@
 package application.controller;
 
 import application.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
@@ -17,18 +16,14 @@ public class MainScreenController {
     }
     @FXML
     private void handleQuizButton() throws IOException {
-        File folder = new File(System.getProperty("user.dir") + "/quiz/");
-        if (!(folder.listFiles().length== 0)){
+        File quizFolder = new File(System.getProperty("user.dir") + "/quiz/");
+        if (!(quizFolder.listFiles().length== 0)){
             Main.changeScene("resources/QuizScene.fxml");
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No quiz videos");
             alert.setContentText("Please create a creation first and then start the quiz.");
             alert.showAndWait();
-            return;
         }
-
-
     }
-
 }

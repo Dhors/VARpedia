@@ -21,7 +21,7 @@
             <Font size="48.0" />
          </font>
       </Text>
-      <Button fx:id="newCreationButton" layoutX="100.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="50.0" prefWidth="200.0" styleClass="bigButton" text="New Creation">
+      <Button layoutX="100.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="50.0" prefWidth="200.0" styleClass="bigButton" text="New Creation">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
