@@ -256,10 +256,10 @@ public class CreationController {
 	}
 
 	private void combineAudioChunks(String searchTerm) {
-		ObservableList<String> selectedChunks = chunkList.getItems();
+		ObservableList<String> chunksList = chunkList.getItems();
 		
 		// Run bash script to create a combined audio of each selected chunk
-		CreateCreationTask createCreationTask = new CreateCreationTask(selectedChunks, searchTerm);
+		CreateCreationTask createCreationTask = new CreateCreationTask(chunksList, searchTerm);
 		team.submit(createCreationTask);
 
 		createCreationTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {

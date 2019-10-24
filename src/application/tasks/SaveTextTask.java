@@ -9,7 +9,6 @@ import javafx.concurrent.Task;
 public class SaveTextTask extends Task<String> {
 	private String _voiceChoice;
 	private String _chunk;
-	private String _fileName;
 	
 	public SaveTextTask(String voiceChoice, String chunk) {
 		_voiceChoice = voiceChoice;
@@ -18,6 +17,7 @@ public class SaveTextTask extends Task<String> {
 
 	@Override
 	protected String call() throws Exception {
+		String creationName = null;
 		try {
 			String voice = null;
 			if (_voiceChoice == "Default") {
@@ -29,27 +29,25 @@ public class SaveTextTask extends Task<String> {
 			}
 			
 			int i = 1;
-			String fileName;
-			File fileDir;
+			File creationDir;
 			
-			String[] array = _chunk.split("\\s+");
+			String[] chunkAsWordArrary = _chunk.split("\\s+");
 			
 			// Find unique name for the chunk based on the first five words
+			// Keep increasing the suffix until there is no existing chunk with that name
 			do {
-				fileName = "";
-				for (int j = 0; j < 5; j++) {
-					if (j < array.length) {
-						fileName += array[j] + "-";
-					}
+				creationName = "";
+				for (int j = 0; j < 5 && j < chunkAsWordArrary.length; j++) {
+						creationName += chunkAsWordArrary[j] + "-";
 				}
-
-				fileName += i + ".wav";
+				creationName += i + ".wav";
 				
-				fileDir = new File(System.getProperty("user.dir")+"/chunks/"+fileName);
+				creationDir = new File(System.getProperty("user.dir")+"/chunks/"+creationName);
 				
 				i++;
-			} while (fileDir.exists());
-			String command = "text2wave -o chunks/" + fileName + " -eval '(voice_" + voice + ")'";
+			} while (creationDir.exists());
+			
+			String command = "text2wave -o chunks/" + creationName + " -eval '(voice_" + voice + ")'";
 			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
 			
@@ -59,11 +57,9 @@ public class SaveTextTask extends Task<String> {
 			stdin.close();
 			
 			process.waitFor();
-			
-			_fileName = fileName;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return _fileName;
+		return creationName;
 	}
 }

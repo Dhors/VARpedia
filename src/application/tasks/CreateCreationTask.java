@@ -1,9 +1,5 @@
 package application.tasks;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
@@ -12,8 +8,8 @@ public class CreateCreationTask extends Task<Void>{
 	private ObservableList<String> _chunksList;
 	private String _searchTerm;
 	
-	public CreateCreationTask(ObservableList<String> chunksListAsString, String searchTerm) {
-		_chunksList = chunksListAsString;
+	public CreateCreationTask(ObservableList<String> chunksList, String searchTerm) {
+		_chunksList = chunksList;
 		_searchTerm = searchTerm;
 	}
 	
@@ -22,15 +18,15 @@ public class CreateCreationTask extends Task<Void>{
 		try {
 			// Convert the ObservableList of chunks into a single string, with each element separated by a space
 			String chunksListAsString = "";
-			int numChunksSelected = _chunksList.size();
-			for (int i = 0; i < numChunksSelected; i++) {
-				chunksListAsString += "chunks/" + _chunksList.get(i) + ".wav ";
+			for (String chunk : _chunksList) {
+				chunksListAsString += "chunks/" + chunk + ".wav ";
 			}
-			// Last element should not have a space after it
+			// Remove the space after the last chunk
 			chunksListAsString = chunksListAsString.substring(0, chunksListAsString.length()-1);
 			
 			// Combines the chunks supplied in the args into a single .wav file
-			String command = "sox " + chunksListAsString + " creations/" + _searchTerm + "/" + _searchTerm + ".wav";
+			String newCreationDir = "creations/" + _searchTerm + "/" + _searchTerm + ".wav";
+			String command = "sox " + chunksListAsString + " " + newCreationDir;
 			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
 			
