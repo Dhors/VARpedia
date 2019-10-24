@@ -10,11 +10,11 @@ import javafx.concurrent.Task;
 public class CreateCreationTask extends Task<Void>{
 
 	private ObservableList<String> _chunksList;
-	private String _creationName;
+	private String _searchTerm;
 	
-	public CreateCreationTask(ObservableList<String> chunksListAsString, String creationName) {
+	public CreateCreationTask(ObservableList<String> chunksListAsString, String searchTerm) {
 		_chunksList = chunksListAsString;
-		_creationName = creationName;
+		_searchTerm = searchTerm;
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public class CreateCreationTask extends Task<Void>{
 			chunksListAsString = chunksListAsString.substring(0, chunksListAsString.length()-1);
 			
 			// Combines the chunks supplied in the args into a single .wav file
-			String command = "sox " + chunksListAsString + " creations/" + _creationName + "/" + _creationName + ".wav";
+			String command = "sox " + chunksListAsString + " creations/" + _searchTerm + "/" + _searchTerm + ".wav";
 			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
 			

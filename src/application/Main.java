@@ -1,9 +1,7 @@
 package application;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,14 +19,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		File creationsfolder = new File(System.getProperty("user.dir")+"/creations");
-		if (!creationsfolder.exists()) {
-			creationsfolder.mkdirs();
+		File creationsFolder = new File(System.getProperty("user.dir")+"/creations");
+		if (!creationsFolder.exists()) {
+			creationsFolder.mkdirs();
 		}
 
-		File quizfolder = new File(System.getProperty("user.dir")+"/quiz");
-		if (!quizfolder.exists()) {
-			quizfolder.mkdirs();
+		File quizFolder = new File(System.getProperty("user.dir")+"/quiz");
+		if (!quizFolder.exists()) {
+			quizFolder.mkdirs();
 		}
 
 		_primaryStage =  primaryStage;
