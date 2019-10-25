@@ -137,6 +137,9 @@ public class ImagesSelectionController {
 
     @FXML
     private void handleSubmitButton() throws IOException {
+
+
+
         int count = 0;
         int counter = 0;
         for (CheckBox c : _checkBoxes) {
@@ -148,7 +151,13 @@ public class ImagesSelectionController {
             count++;
         }
         numberOfImages = 10 - counter;
-
+        if (numberOfImages==0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No images selected");
+            alert.setContentText("Please select at last one image.");
+            alert.showAndWait();
+            return;
+        }
 
         // checking that the creation name is valid set of inputs
         if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || _creationNameTextField.getText().isEmpty()) {
