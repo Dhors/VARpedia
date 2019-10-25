@@ -106,8 +106,8 @@ public class ImageVideoTask extends Task<Void> {
     private void cleanFolder() {
         // The creations directory where all creations are stored.
         File creationFolder = new File(USER_DIR + "/creations/" + _searchTerm+ "/" );
-        for (final File fileName : creationFolder.listFiles()) {
-            fileName.delete();
+        for (final File creationFileName : creationFolder.listFiles()) {
+            creationFileName.delete();
         }
         creationFolder.delete();
 
