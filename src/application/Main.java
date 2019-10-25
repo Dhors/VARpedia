@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Main extends Application {
 
 	static private Stage _primaryStage;
+	static private BackgroundMusicPlayer _backgroundMusicPlayer;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -19,6 +20,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		_backgroundMusicPlayer = new BackgroundMusicPlayer();
+		
 		String userDir = System.getProperty("user.dir");
 		
 		File creationsFolder = new File(userDir + "/creations");
@@ -30,7 +33,7 @@ public class Main extends Application {
 		if (!quizFolder.exists()) {
 			quizFolder.mkdirs();
 		}
-
+		
 		_primaryStage =  primaryStage;
 		Main.changeScene("resources/MainScreenScene.fxml");
 	}
@@ -45,5 +48,9 @@ public class Main extends Application {
 		Scene newScene = new Scene(newLayout);
 		_primaryStage.setScene(newScene);
 		_primaryStage.show();
+	}
+	
+	static public BackgroundMusicPlayer backgroundMusicPlayer() {
+		return _backgroundMusicPlayer;
 	}
 }

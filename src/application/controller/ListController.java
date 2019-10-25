@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class ListController {
-
 	@FXML
 	private ListView<String> listViewCreations;
 
@@ -30,9 +30,14 @@ public class ListController {
 	private Button deleteButton;
 	@FXML
 	private Text selectPrompt;
+	
+	@FXML
+	private CheckBox backgroundMusicCheckBox;
 
 	public void initialize(){
 		ListCurrentFiles();
+		
+		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 
 		// Disable the buttons whenever there is no creation selected
 		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();
@@ -116,5 +121,10 @@ public class ListController {
 		// Removal of the index on the creation name
 		String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
 		return fileName;
+	}
+	
+	@FXML
+	private void handleBackgroundMusic() throws IOException {
+		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
 	}
 }
