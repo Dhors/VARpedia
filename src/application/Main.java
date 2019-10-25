@@ -19,12 +19,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		File creationsFolder = new File(System.getProperty("user.dir")+"/creations");
+		String userDir = System.getProperty("user.dir");
+		
+		File creationsFolder = new File(userDir + "/creations");
 		if (!creationsFolder.exists()) {
 			creationsFolder.mkdirs();
 		}
 
-		File quizFolder = new File(System.getProperty("user.dir")+"/quiz");
+		File quizFolder = new File(userDir + "/quiz");
 		if (!quizFolder.exists()) {
 			quizFolder.mkdirs();
 		}
