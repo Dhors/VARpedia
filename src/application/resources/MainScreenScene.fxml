@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -7,6 +8,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainScreenController">
    <children>
+      <CheckBox fx:id="backgroundMusicCheckBox" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" prefWidth="125.0" text="Background Music" />
       <Text fontSmoothingType="LCD" layoutX="390.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VARpedia" textAlignment="CENTER" wrappingWidth="250.0">
          <font>
             <Font size="48.0" />
