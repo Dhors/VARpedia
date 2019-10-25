@@ -12,7 +12,7 @@ public class BackgroundMusicPlayer {
 	private MediaPlayer _mediaPlayer;
 	
 	public BackgroundMusicPlayer() {
-		BACKGROUND_MUSIC_DIR = new File(System.getProperty("user.dir")+"/blue.wav");
+		BACKGROUND_MUSIC_DIR = new File(System.getProperty("user.dir")+"/khalafnasirs_Magicy_World.mp3");
 		isPlaying = false;
 		createMediaPlayer();
 	}

@@ -37,3 +37,6 @@ step2a: The jar file can be run the included run.sh script by typing the the com
 step2b: alternativly, The jar file can be run by typing the following two commands into terminal:
 PATH=/home/student/Downloads/openjdk-13_linux-x64_bin/jdk-13/bin:$PATH
 java --module-path /home/student/Downloads/openjfx-13-rc+2_linux-x64_bin-sdk/javafx-sdk-13/lib --add-modules javafx.base,javafx.controls,javafx.media,javafx.graphics,javafx.fxml -jar 206Assignment3.jar
+
+# Background music credit
+Magicy World by KhalafNasirs (c) copyright 2019 Licensed under a Creative Commons Attribution Noncommercial  (3.0) license. http://dig.ccmixter.org/files/khalafnasirs/59920 
