@@ -1,6 +1,6 @@
 package application.controller;
 
-import application.FlickrImagesTask;
+import application.tasks.FlickrImagesTask;
 import application.Main;
 import application.tasks.ImageVideoTask;
 import javafx.concurrent.WorkerStateEvent;
@@ -119,8 +119,13 @@ public class ImagesSelectionController {
                     cb.setVisible(true);
                 }
 
+                // By default first checkbox is ticked.
+                _checkBox0.fire();
                 _instructions.setVisible(true);
+                // By default creation name is search term. If the search
+                // term is already associated with another creation it is serialized.
                 _creationNameTextField.setVisible(true);
+                _creationNameTextField.setText(defaultCreationName());
                 _submitButton.setVisible(true);
 
             }
@@ -248,6 +253,20 @@ public class ImagesSelectionController {
             }
         }
         return true;
+    }
+
+
+    private String defaultCreationName(){
+        File quizFileName = new File(System.getProperty("user.dir")+"/creations/"+_searchTerm);
+        int creationNumber = 0;
+        while (quizFileName.exists()){
+            creationNumber++;
+            quizFileName = new File(System.getProperty("user.dir")+"/creations/"+_searchTerm+"-"+creationNumber);
+
+        }
+
+        String defaultCreationName = ("" + _searchTerm+"-"+creationNumber);
+        return defaultCreationName;
     }
 
 
