@@ -1,12 +1,9 @@
 package application.controller;
 
 import application.Main;
-import javafx.event.ActionEvent;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -14,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -22,10 +18,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class QuizController {
-
+	private final int MEDIA_VIEW_WIDTH = 600;
+	private final int MEDIA_VIEW_HEIGHT = 400;
+	
     private String _quizTerm;
     private File _quizVideo;
 
@@ -46,7 +45,6 @@ public class QuizController {
     MediaView _mediaView;
 
     public void initialize(){
-
         _startButton.setVisible(true);
 
         _pauseButton.setVisible(false);
@@ -54,13 +52,16 @@ public class QuizController {
         _skipButton.setVisible(false);
         _playerAnswerTextField.setVisible(false);
 
+        // Don't let the user check their answer until they enter an answer
+        BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
+        	_playerAnswerTextField.getText().trim().isEmpty(),
+        	_playerAnswerTextField.textProperty());
+        _checkButton.disableProperty().bind(textIsEmpty);
     }
 
 
     @FXML
     private void handleStartButton() throws IOException {
-
-
         _startButton.setVisible(false);
 
         _pauseButton.setVisible(true);
@@ -68,32 +69,22 @@ public class QuizController {
         _skipButton.setVisible(true);
         _playerAnswerTextField.setVisible(true);
 
-
         _quizPlayer.getChildren().removeAll();
         _quizPlayer.getChildren().clear();
 
-
-        playRandomQuiz();
-        //_videoTitle.setText("Now Playing: " + ListController.getSelectedCreationName());
+        getRandomQuiz();
+        
         Media video = new Media(_quizVideo.toURI().toString());
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);
+        
         _mediaView = new MediaView(_mediaPlayer);
-        _mediaView.setFitHeight(400);
-        _mediaView.setFitWidth(600);
-
-
-
-        _mediaPlayer.setOnReady(new Runnable() {
-            @Override public void run() {
-                //
-            }
-        });
-
+        _mediaView.setFitHeight(MEDIA_VIEW_HEIGHT);
+        _mediaView.setFitWidth(MEDIA_VIEW_WIDTH);
 
         _quizPlayer.getChildren().add(_mediaView);
 
-        //Once the video is finished the user will return to the main menu.
+        //Once the video is finished the video will replay from the start
         _mediaPlayer.setOnEndOfMedia(new Runnable() {
             public void run() {
                 _mediaPlayer.seek(Duration.ZERO);
@@ -102,30 +93,27 @@ public class QuizController {
         });
     }
 
-
-
-
     @FXML
     private void handleCheckButton() throws IOException {
         _mediaPlayer.pause();
-        if (checkAnswer(_playerAnswerTextField.getText())){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Correct");
-            alert.setHeaderText(null);
-            alert.setContentText("next one");
-            alert.showAndWait();
+        
+        boolean answerIsCorrect = _playerAnswerTextField.getText().equalsIgnoreCase(_quizTerm);
+        if (answerIsCorrect){
+            Alert correctAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
+            correctAnswerPopup.setTitle("Correct!");
+            correctAnswerPopup.setHeaderText(null);
+            correctAnswerPopup.setContentText("Now try the next one");
+            correctAnswerPopup.showAndWait();
             _startButton.fire();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Wrong");
-            alert.setHeaderText(null);
-            alert.setContentText("try again");
-            alert.showAndWait();
+            Alert incorrectAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
+            incorrectAnswerPopup.setTitle("Incorrect");
+            incorrectAnswerPopup.setHeaderText(null);
+            incorrectAnswerPopup.setContentText("Please try again");
+            incorrectAnswerPopup.showAndWait();
             _mediaPlayer.play();
         }
     }
-
-
 
     @FXML
     private void handlePauseButton() throws IOException {
@@ -136,51 +124,31 @@ public class QuizController {
         }
     }
 
-
-
-
-
     // Return to main menu
     @FXML
     private void handleReturnButton() throws IOException {
-        if (!(_mediaPlayer == null)) {
+        if (_mediaPlayer != null) {
         	_mediaPlayer.stop();
         }
         Main.changeScene("resources/MainScreenScene.fxml");
-
     }
-
 
     @FXML
     private void handleSkipButton() throws IOException {
         _startButton.fire();
-
     }
 
-    private boolean checkAnswer(String answer){
-        //null checker?
-        if (answer==null){
-            return false;
-        }
-        return answer.equalsIgnoreCase(_quizTerm);
-    }
+    private void getRandomQuiz() {
+        File quizFolder = new File(System.getProperty("user.dir") + "/quiz/");
+        File[] quizVideosArray = quizFolder.listFiles();
 
-    private void playRandomQuiz() {
-        File folder = new File(System.getProperty("user.dir") + "/quiz/");
-        File[] arrayQuizVideos = folder.listFiles();
+        List<File> quizVideosList = new ArrayList<File>(Arrays.asList(quizVideosArray));
 
-        ArrayList<File> listQuizVideos = new ArrayList<File>(Arrays.asList(arrayQuizVideos));
-
-
-        Collections.shuffle(listQuizVideos);
+        Collections.shuffle(quizVideosList);
 
         Random rand = new Random();
-        _quizVideo = listQuizVideos.get(rand.nextInt(listQuizVideos.size()));
+        _quizVideo = quizVideosList.get(rand.nextInt(quizVideosList.size()));
 
         _quizTerm = _quizVideo.getName().replace(".mp4", "");
-
-
     }
-
-
 }
