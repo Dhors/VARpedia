@@ -21,7 +21,7 @@ public class ListController {
 	@FXML
 	private ListView<String> listViewCreations;
 
-	@FXML
+	//@FXML
 	private static String _selectedCreation;
 
 	@FXML

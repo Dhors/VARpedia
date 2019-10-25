@@ -22,15 +22,15 @@ public class WikiSearchTask extends Task<String>{
 			String command = "wikit " + _searchTerm;
 			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
 			Process process = builder.start();
-			
+
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
-			
+
 			String line = null;
 			while ((line = stdoutBuffered.readLine()) != null ) {
 				searchResult += line;
 			}
-			
+
 			process.waitFor();
 		} catch(Exception e) {
 			e.printStackTrace();

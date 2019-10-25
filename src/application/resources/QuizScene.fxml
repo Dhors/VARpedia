@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -9,7 +10,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.QuizController">
    <children>
-      <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
+      <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
       <Text layoutX="362.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz Game" textAlignment="CENTER" wrappingWidth="300.0">
          <font>
             <Font size="48.0" />
@@ -20,5 +21,9 @@
       <Button fx:id="_checkButton" layoutX="712.0" layoutY="590.0" mnemonicParsing="false" onAction="#handleCheckButton" prefHeight="43.0" prefWidth="100.0" styleClass="smallButton" text="Check" textAlignment="CENTER" />
       <Button fx:id="_pauseButton" layoutX="212.0" layoutY="590.0" mnemonicParsing="false" onAction="#handlePauseButton" prefHeight="25.0" prefWidth="100.0" styleClass="smallButton" text="Pause" textAlignment="CENTER" />
       <Button fx:id="_startButton" layoutX="462.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Start" />
+      <ListView fx:id="_listOfQuiz" layoutX="97.0" layoutY="195.0" onMouseClicked="#handleSelectedQuiz" prefHeight="341.0" prefWidth="480.0" />
+      <Button fx:id="_manageQuizButton" layoutX="337.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleManageQuizButton" text="Manage Quiz" />
+      <Button fx:id="_deleteButton" layoutX="115.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete" visible="false" />
+      <Button fx:id="_returnButton" layoutX="117.0" layoutY="577.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Return" visible="false" />
    </children>
 </AnchorPane>
