@@ -190,17 +190,14 @@ public class ImagesSelectionController {
 
     private String getDefaultCreationName(){
         int creationNumber = 1;
+        String defaultCreationName;
         File quizFileName;
         do {
-        	quizFileName = new File(CREATIONS_DIR + _searchTerm + "-" + creationNumber);
+        	defaultCreationName = _searchTerm + "-" + creationNumber;
+        	quizFileName = new File(CREATIONS_DIR + defaultCreationName + ".mp4");
         	creationNumber++;
         } while (quizFileName.exists());
-//        {
-//            creationNumber++;
-//            quizFileName = new File(CREATIONS_DIR + _searchTerm + "-" + creationNumber);
-//        }
-
-        String defaultCreationName = ("" + _searchTerm + "-" + creationNumber);
+        
         return defaultCreationName;
     }
 
