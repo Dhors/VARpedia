@@ -30,7 +30,8 @@ public class CreationController {
 
 	private static String _searchTerm;
 
-
+	@FXML
+	private CheckBox backgroundMusicCheckBox;
 
 	@FXML
 	private Text enterSearchTerm;
@@ -83,6 +84,8 @@ public class CreationController {
 
 	@FXML
 	private void initialize() {
+		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+		
 		_selectedChunk=null;
 
 		setUpBooleanBindings();
@@ -274,8 +277,6 @@ public class CreationController {
 		});
 	}
 
-	
-
 	@FXML
 	public void handleSelectedChunk() {
 		_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
@@ -358,9 +359,9 @@ public class CreationController {
 		String warningMessage = "Chunks longer than 30 words can result in a lower sound quality. Are you sure you want to create this chunk?";
 		Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
 		// Display the confirmation alert and store the button pressed
-		Optional<ButtonType> result = alert.showAndWait();
+		Optional<ButtonType> buttonClicked = alert.showAndWait();
 
-		if (result.isPresent() && result.get() == ButtonType.YES) {
+		if (buttonClicked.isPresent() && buttonClicked.get() == ButtonType.YES) {
 			return true;
 		} else {
 			return false;
@@ -400,4 +401,9 @@ public class CreationController {
 	public static String getSearchTerm(){
 		return 	_searchTerm;
 	}
+
+	@FXML
+    private void handleBackgroundMusic() throws IOException {
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    }
 }

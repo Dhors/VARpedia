@@ -19,6 +19,9 @@ import java.util.Optional;
 
 public class ListController {
 	@FXML
+	private CheckBox backgroundMusicCheckBox;
+	
+	@FXML
 	private ListView<String> listViewCreations;
 
 	//@FXML
@@ -31,13 +34,10 @@ public class ListController {
 	@FXML
 	private Text selectPrompt;
 	
-	@FXML
-	private CheckBox backgroundMusicCheckBox;
-
 	public void initialize(){
-		ListCurrentFiles();
-		
 		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+		
+		ListCurrentFiles();
 
 		// Disable the buttons whenever there is no creation selected
 		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();

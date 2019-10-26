@@ -3,6 +3,7 @@ package application.controller;
 import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -17,7 +18,10 @@ import java.io.IOException;
 /** Media video creation will play as soon as the scene is loaded included
     is a pause/play button, skip forwards, skip backwards and mute button */
 public class playerController {
-    @FXML
+	@FXML
+	private CheckBox backgroundMusicCheckBox;
+	
+	@FXML
     private BorderPane _player;
     @FXML
     private Button _returnButton;
@@ -29,7 +33,8 @@ public class playerController {
     private MediaPlayer _mediaPlayer;
     
     public void initialize(){
-
+        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        
         _player.getChildren().removeAll();
 
         _videoTitle.setText("Now Playing: " + ListController.getSelectedCreationName());
@@ -86,5 +91,10 @@ public class playerController {
         _mediaPlayer.stop();
         _mediaPlayer.dispose();
         Main.changeScene("resources/listCreationsScene.fxml");
+    }
+
+    @FXML
+    private void handleBackgroundMusic() throws IOException {
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
     }
 }
