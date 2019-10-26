@@ -83,6 +83,8 @@ public class CreationController {
 
 	@FXML
 	private void initialize() {
+		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+		
 		_selectedChunk=null;
 
 		setUpBooleanBindings();
@@ -400,4 +402,9 @@ public class CreationController {
 	public static String getSearchTerm(){
 		return 	_searchTerm;
 	}
+
+	@FXML
+    private void handleBackgroundMusic() throws IOException {
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    }
 }

@@ -29,7 +29,8 @@ public class playerController {
     private MediaPlayer _mediaPlayer;
     
     public void initialize(){
-
+        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        
         _player.getChildren().removeAll();
 
         _videoTitle.setText("Now Playing: " + ListController.getSelectedCreationName());
@@ -86,5 +87,10 @@ public class playerController {
         _mediaPlayer.stop();
         _mediaPlayer.dispose();
         Main.changeScene("resources/listCreationsScene.fxml");
+    }
+
+    @FXML
+    private void handleBackgroundMusic() throws IOException {
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
     }
 }

@@ -35,9 +35,9 @@ public class ListController {
 	private CheckBox backgroundMusicCheckBox;
 
 	public void initialize(){
-		ListCurrentFiles();
-		
 		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+		
+		ListCurrentFiles();
 
 		// Disable the buttons whenever there is no creation selected
 		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();

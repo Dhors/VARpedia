@@ -54,6 +54,8 @@ public class QuizController {
     MediaView _mediaView;
 
     public void initialize(){
+        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        
         _startButton.setVisible(true);
         _manageQuizButton.setVisible(true);
 
@@ -167,7 +169,6 @@ public class QuizController {
         _quizTerm = _quizVideo.getName().replace(".mp4", "");
     }
 
-
     @FXML
     public void handleManageQuizButton(){
         ListCurrentQuiz();
@@ -178,12 +179,10 @@ public class QuizController {
         _returnButton.setVisible(true);
     }
 
-
     @FXML
     public void handleSelectedQuiz() {
         _selectedQuiz = _listOfQuiz.getSelectionModel().getSelectedItem();
     }
-
 
     private void ListCurrentQuiz(){
         // The quiz directory where all creations are stored.
@@ -221,8 +220,6 @@ public class QuizController {
         return fileName;
     }
 
-
-
     @FXML
     private void handleDeleteButton(){
         Alert deleteConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -237,7 +234,6 @@ public class QuizController {
         }
     }
 
-
     //this one exists out of managing
     @FXML
     private void handleReturnButton(){
@@ -245,17 +241,8 @@ public class QuizController {
 
     }
 
-
-
-
     @FXML
     private void handleBackgroundMusic() throws IOException {
         Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
     }
-
-
-
-
-
-
 }

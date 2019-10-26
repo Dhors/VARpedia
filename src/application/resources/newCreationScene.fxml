@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
@@ -39,6 +40,7 @@
       <Button fx:id="_moveUpButton" disable="true" layoutX="575.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleMoveUpButton" prefHeight="46.0" prefWidth="125.0" styleClass="smallButton" text="Move Up" visible="false" />
       <Button fx:id="_moveDownButton" disable="true" layoutX="849.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleMoveDownButton" prefHeight="46.0" prefWidth="150.0" styleClass="smallButton" text="Move Down" visible="false" />
       <Button fx:id="_deleteButton" disable="true" layoutX="729.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleDeleteChunkButton" prefHeight="46.0" prefWidth="100.0" styleClass="smallButton" text="Delete" visible="false" />
+      <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
 
 
 

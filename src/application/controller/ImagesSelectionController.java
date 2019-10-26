@@ -73,13 +73,10 @@ public class ImagesSelectionController {
 
     @FXML
     private void initialize() {
-
-
+        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 
         _searchTerm=CreationController.getSearchTerm();
         imageFolder= new File(System.getProperty("user.dir") + "/creations/" + _searchTerm);
-
-
 
         _imageViews=new ArrayList<ImageView>(Arrays.asList(_ImageView0,_ImageView1,_ImageView2,_ImageView3,_ImageView4,_ImageView5
                 ,_ImageView6,_ImageView7,_ImageView8,_ImageView9));
@@ -278,5 +275,8 @@ public class ImagesSelectionController {
         return defaultCreationName;
     }
 
-
+    @FXML
+    private void handleBackgroundMusic() throws IOException {
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    }
 }
