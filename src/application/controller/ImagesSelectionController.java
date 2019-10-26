@@ -43,6 +43,9 @@ public class ImagesSelectionController {
     @FXML private CheckBox _checkBox9;
 
     @FXML
+	private CheckBox backgroundMusicCheckBox;
+    
+    @FXML
     private ProgressBar _imagesProgressBar;
     @FXML 
     private Text _imageDownloadInProgress;

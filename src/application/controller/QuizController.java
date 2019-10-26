@@ -25,6 +25,8 @@ public class QuizController {
     private File _quizVideo;
 
     @FXML
+	private CheckBox backgroundMusicCheckBox;
+    @FXML
     private Pane _quizPlayer;
     @FXML
     private TextField _playerAnswerTextField;
@@ -46,9 +48,6 @@ public class QuizController {
     private Button _deleteButton;
     @FXML
     private Button _returnButton;
-
-    @FXML
-    private CheckBox backgroundMusicCheckBox;
 
     MediaPlayer _mediaPlayer;
     MediaView _mediaView;

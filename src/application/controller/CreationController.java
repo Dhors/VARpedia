@@ -30,7 +30,8 @@ public class CreationController {
 
 	private static String _searchTerm;
 
-
+	@FXML
+	private CheckBox backgroundMusicCheckBox;
 
 	@FXML
 	private Text enterSearchTerm;
