@@ -15,7 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -57,195 +58,118 @@ public class ImagesSelectionController {
     @FXML
     private Button _submitButton;
 
-    private ArrayList<ImageView> _imageViews;
-    private ArrayList<CheckBox> _checkBoxes;
+    private List<ImageView> _flickrImageViewList;
+    private List<CheckBox> _checkBoxIncludeImageList;
+    private List<Image> _imageList = new ArrayList<Image>();
 
     private ExecutorService team = Executors.newSingleThreadExecutor();
 
-    private Alert alertLocal;
-
     private String _searchTerm;
-
-    private File imageFolder;
-
-    private ArrayList<Image> _imageList = new ArrayList<Image>();
-
     private int numberOfImages;
 
-
-
+    private File imagesFolder;
+    private final String CREATIONS_DIR = System.getProperty("user.dir") + "/creations/";
+    
     @FXML
     private void initialize() {
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        
+        _searchTerm = CreationController.getSearchTerm();
+        imagesFolder= new File(CREATIONS_DIR + _searchTerm);
 
-        _searchTerm=CreationController.getSearchTerm();
-        imageFolder= new File(System.getProperty("user.dir") + "/creations/" + _searchTerm);
-
-        _imageViews=new ArrayList<ImageView>(Arrays.asList(_ImageView0,_ImageView1,_ImageView2,_ImageView3,_ImageView4,_ImageView5
+        _flickrImageViewList = new ArrayList<ImageView>(Arrays.asList(_ImageView0,_ImageView1,_ImageView2,_ImageView3,_ImageView4,_ImageView5
                 ,_ImageView6,_ImageView7,_ImageView8,_ImageView9));
-        _checkBoxes=new ArrayList<CheckBox>(Arrays.asList(_checkBox0,_checkBox1,_checkBox2,_checkBox3,_checkBox4,_checkBox5
+        _checkBoxIncludeImageList = new ArrayList<CheckBox>(Arrays.asList(_checkBox0,_checkBox1,_checkBox2,_checkBox3,_checkBox4,_checkBox5
                 ,_checkBox6,_checkBox7,_checkBox8,_checkBox9));
 
-        FlickrImagesTask imagesTask = new FlickrImagesTask(_searchTerm);
-
-        _imagesProgressBar.progressProperty().bind(imagesTask.progressProperty());
-
-        team.submit(imagesTask );
-        imagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent workerStateEvent) {
-
-            	_imageDownloadInProgress.setVisible(false);
-                _imagesProgressBar.setVisible(false);
-
-                File[] imageFiles = imageFolder.listFiles();
-                for (File file: imageFiles) {
-
-
-                    _imageList.add(new Image(file.toURI().toString()));
-                }
-                int count = 0;
-                for (ImageView i: _imageViews) {
-
-                    i.setImage(_imageList.get(count));
-
-                    count++;
-                }
-
-                for (ImageView iv: _imageViews) {
-                    iv.setVisible(true);
-                }
-                for (CheckBox cb: _checkBoxes) {
-                    cb.setVisible(true);
-                }
-
-                // By default first checkbox is ticked.
-                _checkBox0.fire();
-                _instructions.setVisible(true);
-                // By default creation name is search term. If the search
-                // term is already associated with another creation it is serialized.
-                _creationNameTextField.setVisible(true);
-                _creationNameTextField.setText(defaultCreationName());
-                _submitButton.setVisible(true);
-
-            }
-        });
-
+        downloadFlickrImages();
     }
-
-
-
+    
     @FXML
     private void handleSubmitButton() throws IOException {
-
-
-
-        int count = 0;
-        int counter = 0;
-        for (CheckBox c : _checkBoxes) {
-            if (!c.isSelected()) {
-                File imageFile = new File(imageFolder + "/" + count + ".jpg");
+        int numImagesDeleted = 0;        
+        for (int i = 0; i < _checkBoxIncludeImageList.size(); i++) {
+        	if (!_checkBoxIncludeImageList.get(i).isSelected()) {
+                File imageFile = new File(imagesFolder + "/" + i + ".jpg");
                 imageFile.delete();
-                counter++;
+                numImagesDeleted++;
             }
-            count++;
         }
-        numberOfImages = 10 - counter;
+        
+        numberOfImages = 10 - numImagesDeleted;
         if (numberOfImages==0) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No images selected");
-            alert.setContentText("Please select at last one image.");
-            alert.showAndWait();
+            Alert noImagesSelectedError = new Alert(Alert.AlertType.WARNING);
+            noImagesSelectedError.setTitle("No images selected");
+            noImagesSelectedError.setContentText("Please select at last one image.");
+            noImagesSelectedError.showAndWait();
             return;
         }
 
         // checking that the creation name is valid set of inputs
-        if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*") || _creationNameTextField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Creation name");
-            alert.setContentText("Please enter a valid creation name consisting of alphabet letters and digits only.");
-            alert.showAndWait();
-            return;
-        } else if (!validCreationName(_creationNameTextField.getText())) {
+        if (_creationNameTextField.getText().isEmpty()) {
+        	// do nothing
+        } else if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*")) {
+            Alert invalidCreationNameError = new Alert(Alert.AlertType.WARNING);
+            invalidCreationNameError.setTitle("Invalid Creation name");
+            invalidCreationNameError.setContentText("Please enter a valid creation name consisting of alphabet letters, digits, underscores, and hyphens only.");
+            invalidCreationNameError.showAndWait();
+        } else if (!isUniqueCreationName(_creationNameTextField.getText())) {
             // throw alerts
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Override");
-            alert.setHeaderText("Creation name already exists");
-            alert.setContentText("Would you like to override the existing creation?");
-            Optional<ButtonType> result = alert.showAndWait();
+            Alert overrideExistingCreationPopup = new Alert(Alert.AlertType.CONFIRMATION);
+            overrideExistingCreationPopup.setTitle("Override");
+            overrideExistingCreationPopup.setHeaderText("Creation name already exists");
+            overrideExistingCreationPopup.setContentText("Would you like to override the existing creation?");
+            Optional<ButtonType> buttonClicked = overrideExistingCreationPopup.showAndWait();
 
             // Override existing file name
             // This is the same as deleting the current file and creating a new file.
-            if (result.get() == ButtonType.OK) {
+            if (buttonClicked.get() == ButtonType.OK) {
                 String creationName = _creationNameTextField.getText();
-                File _existingFile = new File(System.getProperty("user.dir") + "/creations/" + creationName + ".mp4");
+                File _existingFile = new File(CREATIONS_DIR + creationName + ".mp4");
                 _existingFile.delete();
 
-                /*File creationFolder = new File(System.getProperty("user.dir") + "/creations/" + creationName + "/");
-                if (!creationFolder.exists()) {
-                    creationFolder.mkdirs();
-                }*/
-                createVideo();
-
-                // return to main menu
-                try {
-                    Main.changeScene("resources/MainScreenScene.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                alertLocal = new Alert(Alert.AlertType.INFORMATION);
-                alertLocal.setTitle("Creation in progress");
-                alertLocal.setHeaderText("Creation is being made, please wait...");
-                alertLocal.setContentText("You will be informed when the creation is complete.");
-                alertLocal.show();
+                createVideo(creationName);
             }
-
         } else {
             //No problems with any inputs will create the creation normally.
             String creationName = _creationNameTextField.getText();
-            /*File creationFolder = new File(System.getProperty("user.dir") + "/creations/" + creationName + "/");
-            if (!creationFolder.exists()) {
-                creationFolder.mkdirs();
-            }*/
-            createVideo();
-            // return to main menu
-            try {
-                Main.changeScene("resources/MainScreenScene.fxml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            alertLocal = new Alert(Alert.AlertType.INFORMATION);
-            alertLocal.setTitle("Creation in progress");
-            alertLocal.setHeaderText("Creation is being made, please wait...");
-            alertLocal.setContentText("You will be informed when the creation is complete.");
-            alertLocal.show();
-
+            createVideo(creationName);
         }
     }
 
     /*The method to create the creation
       This method will pull images from flickr based on user input.
       Using these images a video will be created with the search term added as text.*/
-    private void createVideo(){
-        // Thread to ensure that GUI remains concurrent while the video is being created
-        ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, _creationNameTextField.getText(), numberOfImages );
+    private void createVideo(String creationName){
+    	Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
+        creationInProgressPopup.setTitle("Creation in progress");
+        creationInProgressPopup.setHeaderText("Creation is being made, please wait...");
+        creationInProgressPopup.setContentText("You will be informed when the creation is complete.");
+        creationInProgressPopup.show();
+        
+    	// Thread to ensure that GUI remains concurrent while the video is being created
+        ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, creationName, numberOfImages );
         team.submit(flickrImagesTask);
 
+        // return to main menu
+        try {
+            Main.changeScene("resources/MainScreenScene.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
-
-                Button cancelButton = ( Button ) alertLocal.getDialogPane().lookupButton( ButtonType.OK );
+                // close the 'in progress' popup
+            	Button cancelButton = ( Button ) creationInProgressPopup.getDialogPane().lookupButton( ButtonType.OK );
                 cancelButton.fire();
 
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Creation completed");
-                alert.setHeaderText("Creation completed: "+ _creationNameTextField.getText() +" is finished");
-                alert.setContentText("Please refresh the list of creations");
-                alert.showAndWait();
+                Alert creationFinishedPopup = new Alert(Alert.AlertType.INFORMATION);
+                creationFinishedPopup.setTitle("Creation completed");
+                creationFinishedPopup.setHeaderText("Creation completed: "+ _creationNameTextField.getText() +" is finished");
+                creationFinishedPopup.setContentText("You can find it in the Creations or Quiz sections");
+                creationFinishedPopup.showAndWait();
             }
         });
     }
@@ -253,10 +177,10 @@ public class ImagesSelectionController {
     // This method will check if the given name is already associated with
     // an existing creation. Returns false if the creation name is already used.
     // Returns true otherwise.
-    private boolean validCreationName(String creationName){
-        File folder = new File(System.getProperty("user.dir")+"/creations/");
-        for (final File fileName : folder.listFiles()) {
-            if (fileName.getName().equals("" + creationName + ".mp4")) {
+    private boolean isUniqueCreationName(String creationName){
+        File creationsFolder = new File(CREATIONS_DIR);
+        for (final File creationFile : creationsFolder.listFiles()) {
+            if (creationFile.getName().equals("" + creationName + ".mp4")) {
                 // An already existing creation name is invalid.
                 return false;
             }
@@ -264,20 +188,69 @@ public class ImagesSelectionController {
         return true;
     }
 
+    private String getDefaultCreationName(){
+        int creationNumber = 1;
+        File quizFileName;
+        do {
+        	quizFileName = new File(CREATIONS_DIR + _searchTerm + "-" + creationNumber);
+        	creationNumber++;
+        } while (quizFileName.exists());
+//        {
+//            creationNumber++;
+//            quizFileName = new File(CREATIONS_DIR + _searchTerm + "-" + creationNumber);
+//        }
 
-    private String defaultCreationName(){
-        File quizFileName = new File(System.getProperty("user.dir")+"/creations/"+_searchTerm);
-        int creationNumber = 0;
-        while (quizFileName.exists()){
-            creationNumber++;
-            quizFileName = new File(System.getProperty("user.dir")+"/creations/"+_searchTerm+"-"+creationNumber);
-
-        }
-
-        String defaultCreationName = ("" + _searchTerm+"-"+creationNumber);
+        String defaultCreationName = ("" + _searchTerm + "-" + creationNumber);
         return defaultCreationName;
     }
 
+    private void downloadFlickrImages() {
+    	FlickrImagesTask imagesTask = new FlickrImagesTask(_searchTerm);
+
+        _imagesProgressBar.progressProperty().bind(imagesTask.progressProperty());
+
+        team.submit(imagesTask);
+        imagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent workerStateEvent) {
+            	_imageDownloadInProgress.setVisible(false);
+                _imagesProgressBar.setVisible(false);
+                
+                populateFlickrImageViews();
+            }
+        });
+    }
+    
+    private void populateFlickrImageViews() {
+    	for (File imageFile : imagesFolder.listFiles()) {
+            _imageList.add(new Image(imageFile.toURI().toString()));
+            System.out.println(imageFile.toString());
+        }
+    	
+        for (int i = 0; i < _flickrImageViewList.size(); i++) {
+        	ImageView flickrImageView = _flickrImageViewList.get(i);
+        	flickrImageView.setImage(_imageList.get(i));
+        }
+
+        for (ImageView flickrImageView: _flickrImageViewList) {
+            flickrImageView.setVisible(true);
+        }
+        for (CheckBox checkBoxIcludeImage: _checkBoxIncludeImageList) {
+            checkBoxIcludeImage.setVisible(true);
+        }
+
+        // By default first checkbox is ticked.
+        _checkBox0.setSelected(true);
+        
+        // By default creation name is search term. If the search
+        // term is already associated with another creation it is serialized.
+        _creationNameTextField.setText(getDefaultCreationName());
+        
+        _instructions.setVisible(true);
+        _creationNameTextField.setVisible(true);
+        _submitButton.setVisible(true);
+    }
+    
     @FXML
     private void handleBackgroundMusic() throws IOException {
     	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
