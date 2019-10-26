@@ -222,9 +222,12 @@ public class ImagesSelectionController {
     }
     
     private void populateFlickrImageViews() {
-    	for (File imageFile : imagesFolder.listFiles()) {
-            _imageList.add(new Image(imageFile.toURI().toString()));
-            System.out.println(imageFile.toString());
+    	File[] imageFileArray = imagesFolder.listFiles();
+    	Arrays.sort(imageFileArray);
+    	for (File imageFile : imageFileArray) {
+            if (imageFile.getName().endsWith(".jpg")) {
+            	_imageList.add(new Image(imageFile.toURI().toString()));
+            }
         }
     	
         for (int i = 0; i < _flickrImageViewList.size(); i++) {
