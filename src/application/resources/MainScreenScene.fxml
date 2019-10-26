@@ -22,6 +22,6 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-	  <CheckBox fx:id="backgroundMusicCheckBox" layoutX="25.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
+	  <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
    </children>
 </AnchorPane>
