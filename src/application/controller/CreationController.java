@@ -14,6 +14,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.io.File;
@@ -34,15 +36,14 @@ public class CreationController {
 	private CheckBox backgroundMusicCheckBox;
 
 	@FXML
-	private Text enterSearchTerm;
+	private Label enterSearchTerm;
 	@FXML
 	private TextField enterSearchTermTextInput;
 	@FXML
 	private Button searchWikipediaButton;
 	@FXML
 	private Text searchInProgress;
-	@FXML
-	private Text termNotFound;
+
 
 	@FXML
 	private TextArea searchResultTextArea;
@@ -51,21 +52,18 @@ public class CreationController {
 	@FXML
 	private Button saveChunk;
 	@FXML
-	private Text voiceSelectDescription;
+	private Label voiceSelectDescription;
 	@FXML
-	private Text textSelectDescription;
+	private Label textSelectDescription;
 	@FXML
-	private Text chunkSelectDescription;
+	private Label chunkSelectDescription;
 	@FXML
 	private ChoiceBox<String> voiceDropDownMenu;
 	@FXML
 	private ListView<String> chunkList;
-	@FXML
-	private Slider numImagesSlider;
-	@FXML
-	private TextField creationNameTextField;
-	@FXML
-	private Button finalCreate;
+
+
+
 	@FXML
 	private Button selectButton;
 
@@ -76,6 +74,11 @@ public class CreationController {
 	private Button _moveDownButton;
 	@FXML
 	private Button _deleteButton;
+	@FXML
+	private Pane _progressPane;
+
+	@FXML
+	private ImageView _searchImage;
 
 
 	private static String _selectedChunk;
@@ -84,6 +87,8 @@ public class CreationController {
 
 	@FXML
 	private void initialize() {
+		_searchImage.setVisible(true);
+
 		Main.setCurrentScene("CreationScene");
 		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 		
@@ -114,9 +119,10 @@ public class CreationController {
 	@FXML
 	private void handleSearchWikipedia() throws IOException {
 		_searchTerm = enterSearchTermTextInput.getText().trim();
-		
+		_searchImage.setVisible(false);
+		_progressPane.setVisible(true);
 		_wikiProgressBar.setVisible(true);
-		termNotFound.setVisible(false);
+
 		searchInProgress.setVisible(true);
 
 		// Run bash script that uses wikit and returns the result of the search
@@ -130,6 +136,9 @@ public class CreationController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				try {
+
+					_searchImage.setVisible(false);
+					_progressPane.setVisible(false);
 					_wikiProgressBar.setVisible(false);
 					
 					// Returns a list with only one element.
@@ -139,7 +148,14 @@ public class CreationController {
 
 					if (searchResult.contains("not found :^")) {
 						searchInProgress.setVisible(false);
-						termNotFound.setVisible(true);
+
+						Alert invalidSearchAlert = new Alert(Alert.AlertType.ERROR);
+						invalidSearchAlert.setTitle("That term cannot be searched");
+						invalidSearchAlert.setHeaderText(null);
+						invalidSearchAlert.setContentText("Please enter a different search term");
+						invalidSearchAlert.showAndWait();
+
+						//termNotFound.setVisible(true);
 					} else {
 						searchResultTextArea.setText(searchResult);
 						displayChunkSelection();
@@ -298,7 +314,7 @@ public class CreationController {
 		enterSearchTermTextInput.setVisible(false);
 		searchWikipediaButton.setVisible(false);
 		searchInProgress.setVisible(false);
-		termNotFound.setVisible(false);
+		//termNotFound.setVisible(false);
 
 		// Show chunk elements
 		searchResultTextArea.setVisible(true);

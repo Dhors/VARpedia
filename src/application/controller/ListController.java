@@ -37,6 +37,7 @@ public class ListController {
     static private Button _backButton;
 
 	public void initialize(){
+
 		Main.setCurrentScene("ListCreationScene");
 		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 

@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 
@@ -57,6 +58,12 @@ public class ImagesSelectionController {
     private TextField _creationNameTextField;
     @FXML
     private Button _submitButton;
+    @FXML
+    private Pane _progressPane;
+    @FXML
+    private ImageView _clockImage;
+    @FXML
+    private Pane _imagePane;
 
     private List<ImageView> _flickrImageViewList;
     private List<CheckBox> _checkBoxIncludeImageList;
@@ -72,6 +79,8 @@ public class ImagesSelectionController {
 
     @FXML
     private void initialize() {
+        _clockImage.setVisible(true);
+        _progressPane.setVisible(true);
         Main.setCurrentScene("ImageSelectionScene");
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 
@@ -219,8 +228,10 @@ public class ImagesSelectionController {
         imagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
+                _progressPane.setVisible(false);
             	_imageDownloadInProgress.setVisible(false);
                 _imagesProgressBar.setVisible(false);
+                _clockImage.setVisible(false);
 
                 populateFlickrImageViews();
             }
@@ -258,6 +269,8 @@ public class ImagesSelectionController {
         _instructions.setVisible(true);
         _creationNameTextField.setVisible(true);
         _submitButton.setVisible(true);
+        _imagePane.setVisible(true);
+
     }
 
     @FXML

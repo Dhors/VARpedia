@@ -4,7 +4,9 @@ import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -22,11 +24,11 @@ public class playerController {
 	private CheckBox backgroundMusicCheckBox;
 	
 	@FXML
-    private BorderPane _player;
+    private Pane _player;
     @FXML
     private Button _returnButton;
     @FXML
-    private Text _videoTitle;
+    private Label _videoTitle;
 
     @FXML
     private MediaView _mediaView;
@@ -44,7 +46,7 @@ public class playerController {
         _mediaPlayer.setAutoPlay(true);
 
         _mediaView.setMediaPlayer(_mediaPlayer);
-        _player.setCenter(_mediaView);
+        //_player.setCenter(_mediaView);
 
         //Once the video is finished the user will return to the main menu.
         _mediaPlayer.setOnEndOfMedia(new Runnable() {

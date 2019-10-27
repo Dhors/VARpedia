@@ -49,8 +49,11 @@ public class QuizController {
     private Button _deleteButton;
     @FXML
     private Button _returnButton;
+    @FXML
+    private Pane _quizPane;
 
     MediaPlayer _mediaPlayer;
+    @FXML
     MediaView _mediaView;
 
     @FXML
@@ -85,6 +88,9 @@ public class QuizController {
 
     @FXML
     private void handleStartButton() throws IOException {
+        _quizPlayer.setVisible(true);
+
+
         _currentScoreText.setVisible(true);
         _startButton.setVisible(false);
         _manageQuizButton.setVisible(false);
@@ -93,8 +99,8 @@ public class QuizController {
         _skipButton.setVisible(true);
         _playerAnswerTextField.setVisible(true);
 
-        _quizPlayer.getChildren().removeAll();
-        _quizPlayer.getChildren().clear();
+        //_quizPlayer.getChildren().removeAll();
+        //_quizPlayer.getChildren().clear();
 
         getRandomQuiz();
         
@@ -102,11 +108,13 @@ public class QuizController {
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);
         
-        _mediaView = new MediaView(_mediaPlayer);
+        //_mediaView = new MediaView(_mediaPlayer);
+        _mediaView.setMediaPlayer(_mediaPlayer);
+
         _mediaView.setFitHeight(MEDIA_VIEW_HEIGHT);
         _mediaView.setFitWidth(MEDIA_VIEW_WIDTH);
 
-        _quizPlayer.getChildren().add(_mediaView);
+        //_quizPlayer.getChildren().add(_mediaView);
 
         //Once the video is finished the video will replay from the start
         _mediaPlayer.setOnEndOfMedia(new Runnable() {
