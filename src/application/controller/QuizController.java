@@ -60,7 +60,7 @@ public class QuizController {
     public void initialize(){
         Main.setCurrentScene("QuizScene");
         _currentScore=0;
-
+        _currentScoreText.setText("Current Score: 0");
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
         
         _startButton.setVisible(true);
@@ -125,7 +125,7 @@ public class QuizController {
         if (answerIsCorrect){
             //updating the score
             _currentScore++;
-            _currentScoreText.setText(""+_currentScore);
+            _currentScoreText.setText("Current Score: " + _currentScore);
             _playerAnswerTextField.setText("");
             Alert correctAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
             correctAnswerPopup.setTitle("Correct");

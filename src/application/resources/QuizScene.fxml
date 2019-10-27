@@ -29,6 +29,9 @@
       <Button fx:id="_deleteButton" layoutX="120.0" layoutY="451.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="100.0" styleClass="smallButton" text="Delete" visible="false" />
       <Button fx:id="_returnButton" layoutX="120.0" layoutY="514.0" mnemonicParsing="false" onAction="#handleReturnButton" prefWidth="100.0" styleClass="smallButton" text="Return" visible="false" />
       <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
-      <Text fx:id="_currentScoreText" layoutX="725.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" visible="false" wrappingWidth="100.0" />
+      <Text fx:id="_currentScoreText" layoutX="725.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Score" visible="false" wrappingWidth="215.0">
+         <font>
+            <Font size="32.0" />
+         </font></Text>
    </children>
 </AnchorPane>
