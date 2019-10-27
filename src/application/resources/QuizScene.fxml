@@ -12,20 +12,23 @@
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.QuizController">
    <children>
       <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
+      <Button fx:id="_manageQuizButton" layoutX="330.0" layoutY="151.0" mnemonicParsing="false" onAction="#handleManageQuizButton" text="Manage Quiz" />
       <Text layoutX="362.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz Game" textAlignment="CENTER" wrappingWidth="300.0">
          <font>
             <Font size="48.0" />
          </font></Text>
       <Button fx:id="_skipButton" layoutX="337.0" layoutY="590.0" mnemonicParsing="false" onAction="#handleSkipButton" prefHeight="43.0" prefWidth="75.0" styleClass="smallButton" text="Skip" textAlignment="CENTER" />
-      <Pane fx:id="_quizPlayer" layoutX="212.0" layoutY="165.0" prefHeight="400.0" prefWidth="600.0" />
+      <Pane fx:id="_quizPlayer" layoutX="228.0" layoutY="177.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <ListView fx:id="_listOfQuiz" layoutX="60.0" layoutY="45.0" onMouseClicked="#handleSelectedQuiz" prefHeight="341.0" prefWidth="480.0" />
+         </children></Pane>
       <TextField fx:id="_playerAnswerTextField" layoutX="437.0" layoutY="595.0" prefHeight="35.0" prefWidth="250.0" promptText="Enter guess here" />
       <Button fx:id="_checkButton" layoutX="712.0" layoutY="590.0" mnemonicParsing="false" onAction="#handleCheckButton" prefHeight="43.0" prefWidth="100.0" styleClass="smallButton" text="Check" textAlignment="CENTER" />
       <Button fx:id="_pauseButton" layoutX="212.0" layoutY="590.0" mnemonicParsing="false" onAction="#handlePauseButton" prefHeight="25.0" prefWidth="100.0" styleClass="smallButton" text="Pause" textAlignment="CENTER" />
       <Button fx:id="_startButton" layoutX="462.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Start" />
-      <ListView fx:id="_listOfQuiz" layoutX="97.0" layoutY="195.0" onMouseClicked="#handleSelectedQuiz" prefHeight="341.0" prefWidth="480.0" />
-      <Button fx:id="_manageQuizButton" layoutX="337.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleManageQuizButton" text="Manage Quiz" />
       <Button fx:id="_deleteButton" layoutX="115.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete" visible="false" />
       <Button fx:id="_returnButton" layoutX="117.0" layoutY="577.0" mnemonicParsing="false" onAction="#handleReturnButton" text="Return" visible="false" />
       <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
+      <Text fx:id="_currentScoreText" layoutX="725.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" visible="false" wrappingWidth="100.0" />
    </children>
 </AnchorPane>

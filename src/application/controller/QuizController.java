@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -52,7 +53,14 @@ public class QuizController {
     MediaPlayer _mediaPlayer;
     MediaView _mediaView;
 
+    @FXML
+    private Text _currentScoreText;
+    private int _currentScore;
+
     public void initialize(){
+
+        _currentScore=0;
+
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
         
         _startButton.setVisible(true);
@@ -77,7 +85,7 @@ public class QuizController {
 
     @FXML
     private void handleStartButton() throws IOException {
-
+        _currentScoreText.setVisible(true);
         _startButton.setVisible(false);
         _manageQuizButton.setVisible(false);
         _pauseButton.setVisible(true);
@@ -115,8 +123,12 @@ public class QuizController {
         
         boolean answerIsCorrect = _playerAnswerTextField.getText().equalsIgnoreCase(_quizTerm);
         if (answerIsCorrect){
+            //updating the score
+            _currentScore++;
+            _currentScoreText.setText(""+_currentScore);
+            _playerAnswerTextField.setText("");
             Alert correctAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
-            correctAnswerPopup.setTitle("Correct!");
+            correctAnswerPopup.setTitle("Correct");
             correctAnswerPopup.setHeaderText(null);
             correctAnswerPopup.setContentText("Now try the next one");
             correctAnswerPopup.showAndWait();
