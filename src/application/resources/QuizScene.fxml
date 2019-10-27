@@ -16,6 +16,7 @@
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-border-color: White; -fx-border-width: 5;" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.QuizController">
    <children>
       <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
+
       <Pane fx:id="_quizPlayer" layoutX="106.0" layoutY="157.0" prefHeight="511.0" prefWidth="813.0" style="-fx-background-color: WHITE; -fx-border-radius: 30; -fx-border-color: BLUE; -fx-background-radius: 30; -fx-background-radius: 30;" visible="false">
          <children>
             <Button fx:id="_skipButton" layoutX="143.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleSkipButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Skip" textAlignment="CENTER" />
@@ -26,6 +27,7 @@
          </children></Pane>
       <Button fx:id="_deleteButton" layoutX="392.0" layoutY="606.0" mnemonicParsing="false" onAction="#handleDeleteButton" styleClass="bigButton" text="Delete" visible="false" />
       <Button fx:id="_returnButton" layoutX="518.0" layoutY="606.0" mnemonicParsing="false" onAction="#handleReturnButton" styleClass="bigButton" text="Return" visible="false" />
+
       <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
       <Text fx:id="_currentScoreText" layoutX="725.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Score" visible="false" wrappingWidth="215.0">
          <font>
