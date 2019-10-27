@@ -33,10 +33,13 @@ public class ListController {
 	private Button deleteButton;
 	@FXML
 	private Text selectPrompt;
-	
+    @FXML
+    static private Button _backButton;
+
 	public void initialize(){
+		Main.setCurrentScene("ListCreationScene");
 		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
-		
+
 		ListCurrentFiles();
 
 		// Disable the buttons whenever there is no creation selected
@@ -87,7 +90,8 @@ public class ListController {
 
 	// This will return a list of all current creations in the creations directory.
 	// This list will be displayed to the user in the view interface.
-	private void ListCurrentFiles(){
+	public void ListCurrentFiles(){
+
 		// The creations directory where all creations are stored.
 		final File creationsFolder = new File(System.getProperty("user.dir")+"/creations/");
 		ArrayList<String> creationNamesList = new ArrayList<String>();
@@ -122,7 +126,11 @@ public class ListController {
 		String fileName = ( "" + _selectedCreation.substring(_selectedCreation.indexOf(".")+2) );
 		return fileName;
 	}
-	
+
+
+
+
+
 	@FXML
 	private void handleBackgroundMusic() throws IOException {
 		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());

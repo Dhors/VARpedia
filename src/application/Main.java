@@ -13,6 +13,7 @@ public class Main extends Application {
 
 	static private Stage _primaryStage;
 	static private BackgroundMusicPlayer _backgroundMusicPlayer;
+	private static String _currentScene;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -48,6 +49,18 @@ public class Main extends Application {
 		Scene newScene = new Scene(newLayout);
 		_primaryStage.setScene(newScene);
 		_primaryStage.show();
+	}
+
+
+
+
+	static public void setCurrentScene(String currentScene){
+		_currentScene=currentScene;
+	}
+
+	static public String getCurrentScene(){
+
+		return _currentScene;
 	}
 	
 	static public BackgroundMusicPlayer backgroundMusicPlayer() {

@@ -84,6 +84,7 @@ public class CreationController {
 
 	@FXML
 	private void initialize() {
+		Main.setCurrentScene("CreationScene");
 		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 		
 		_selectedChunk=null;

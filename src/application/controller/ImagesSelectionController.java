@@ -45,10 +45,10 @@ public class ImagesSelectionController {
 
     @FXML
 	private CheckBox backgroundMusicCheckBox;
-    
+
     @FXML
     private ProgressBar _imagesProgressBar;
-    @FXML 
+    @FXML
     private Text _imageDownloadInProgress;
 
     @FXML
@@ -69,11 +69,12 @@ public class ImagesSelectionController {
 
     private File imagesFolder;
     private final String CREATIONS_DIR = System.getProperty("user.dir") + "/creations/";
-    
+
     @FXML
     private void initialize() {
+        Main.setCurrentScene("ImageSelectionScene");
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
-        
+
         _searchTerm = CreationController.getSearchTerm();
         imagesFolder= new File(CREATIONS_DIR + _searchTerm);
 
@@ -84,10 +85,10 @@ public class ImagesSelectionController {
 
         downloadFlickrImages();
     }
-    
+
     @FXML
     private void handleSubmitButton() throws IOException {
-        int numImagesDeleted = 0;        
+        int numImagesDeleted = 0;
         for (int i = 0; i < _checkBoxIncludeImageList.size(); i++) {
         	if (!_checkBoxIncludeImageList.get(i).isSelected()) {
                 File imageFile = new File(imagesFolder + "/" + i + ".jpg");
@@ -95,7 +96,7 @@ public class ImagesSelectionController {
                 numImagesDeleted++;
             }
         }
-        
+
         numberOfImages = 10 - numImagesDeleted;
         if (numberOfImages==0) {
             Alert noImagesSelectedError = new Alert(Alert.AlertType.WARNING);
@@ -146,7 +147,7 @@ public class ImagesSelectionController {
         creationInProgressPopup.setHeaderText("Creation is being made, please wait...");
         creationInProgressPopup.setContentText("You will be informed when the creation is complete.");
         creationInProgressPopup.show();
-        
+
     	// Thread to ensure that GUI remains concurrent while the video is being created
         ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, creationName, numberOfImages );
         team.submit(flickrImagesTask);
@@ -157,13 +158,21 @@ public class ImagesSelectionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         flickrImagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
                 // close the 'in progress' popup
             	Button cancelButton = ( Button ) creationInProgressPopup.getDialogPane().lookupButton( ButtonType.OK );
                 cancelButton.fire();
+
+                if (Main.getCurrentScene().equals("ListCreationScene")){
+                    try {
+                        Main.changeScene("resources/listCreationsScene.fxml");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 Alert creationFinishedPopup = new Alert(Alert.AlertType.INFORMATION);
                 creationFinishedPopup.setTitle("Creation completed");
@@ -197,7 +206,7 @@ public class ImagesSelectionController {
         	quizFileName = new File(CREATIONS_DIR + defaultCreationName + ".mp4");
         	creationNumber++;
         } while (quizFileName.exists());
-        
+
         return defaultCreationName;
     }
 
@@ -212,12 +221,12 @@ public class ImagesSelectionController {
             public void handle(WorkerStateEvent workerStateEvent) {
             	_imageDownloadInProgress.setVisible(false);
                 _imagesProgressBar.setVisible(false);
-                
+
                 populateFlickrImageViews();
             }
         });
     }
-    
+
     private void populateFlickrImageViews() {
     	File[] imageFileArray = imagesFolder.listFiles();
     	Arrays.sort(imageFileArray);
@@ -226,7 +235,7 @@ public class ImagesSelectionController {
             	_imageList.add(new Image(imageFile.toURI().toString()));
             }
         }
-    	
+
         for (int i = 0; i < _flickrImageViewList.size(); i++) {
         	ImageView flickrImageView = _flickrImageViewList.get(i);
         	flickrImageView.setImage(_imageList.get(i));
@@ -241,16 +250,16 @@ public class ImagesSelectionController {
 
         // By default first checkbox is ticked.
         _checkBox0.setSelected(true);
-        
+
         // By default creation name is search term. If the search
         // term is already associated with another creation it is serialized.
         _creationNameTextField.setText(getDefaultCreationName());
-        
+
         _instructions.setVisible(true);
         _creationNameTextField.setVisible(true);
         _submitButton.setVisible(true);
     }
-    
+
     @FXML
     private void handleBackgroundMusic() throws IOException {
     	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());

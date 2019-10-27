@@ -33,7 +33,7 @@
          </font>
       </Button>
       <ListView fx:id="listViewCreations" layoutX="400.0" layoutY="175.0" onMouseClicked="#handleSelectedCreation" prefHeight="450.0" prefWidth="550.0" />
-      <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Back">
+      <Button fx:id="_backButton" layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Back">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>

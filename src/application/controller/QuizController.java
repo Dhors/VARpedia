@@ -58,7 +58,7 @@ public class QuizController {
     private int _currentScore;
 
     public void initialize(){
-
+        Main.setCurrentScene("QuizScene");
         _currentScore=0;
 
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());

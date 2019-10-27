@@ -13,7 +13,8 @@ public class MainScreenController {
 	private CheckBox backgroundMusicCheckBox;
 	
 	public void initialize() {
-		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        Main.setCurrentScene("MainScreenScene");
+	    backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
 	}
 	
     @FXML

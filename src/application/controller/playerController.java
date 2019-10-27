@@ -33,6 +33,7 @@ public class playerController {
     private MediaPlayer _mediaPlayer;
     
     public void initialize(){
+        Main.setCurrentScene("PlayerScene");
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
         
         _player.getChildren().removeAll();
