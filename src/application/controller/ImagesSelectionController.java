@@ -94,7 +94,12 @@ public class ImagesSelectionController {
         _checkBoxIncludeImageList = new ArrayList<CheckBox>(Arrays.asList(_checkBox0,_checkBox1,_checkBox2,_checkBox3,_checkBox4,_checkBox5
                 ,_checkBox6,_checkBox7,_checkBox8,_checkBox9));
 
-     // Don't let the user create a creation if they remove the default creation name
+        
+        /**
+		 * Credit to user DVarga
+		 * Full credit in NewCreationController in method setUpBooleanBindings()
+		 */
+        // Don't let the user create a creation if they remove the default creation name
         BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
 			_creationNameTextField.getText().trim().isEmpty(),
 			_creationNameTextField.textProperty());

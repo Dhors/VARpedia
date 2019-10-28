@@ -93,6 +93,10 @@ public class QuizController {
         _playerAnswerTextField.setVisible(false);
         backgroundMusicButtonInPlayer.setVisible(false);
 
+        /**
+		 * Credit to user DVarga
+		 * Full credit in NewCreationController in method setUpBooleanBindings()
+		 */
         // Don't let the user check their answer until they enter an answer
         BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
         	_playerAnswerTextField.getText().trim().isEmpty(),

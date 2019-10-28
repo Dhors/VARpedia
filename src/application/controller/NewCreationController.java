@@ -395,6 +395,12 @@ public class NewCreationController {
 	}
 	
 	private void setUpBooleanBindings() {
+		/**
+		 * Credit to user DVarga
+		 * https://stackoverflow.com/questions/37853634/javafx-textfield-onkeytyped-not-working-properly
+		 * "BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() -> textField.getText().trim().isEmpty(), textField.textProperty());
+		 * button.disableProperty().bind(textIsEmpty);"
+		 */
 		// Don't let the user search until they enter a search term
 		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
 				enterSearchTermTextInput.getText().trim().isEmpty(),

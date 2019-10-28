@@ -54,6 +54,11 @@ public class Main extends Application {
 		_primaryStage.setScene(newScene);
 		_primaryStage.show();
 		
+		/**
+		 * Credit to anonymous classmate from peer review
+		 * "Should use Platform.exit() method to exit the program when the window is closed.
+		 * (e.g. stageName.setOnCloseRequest(......))"
+		 */
 		// Cleanly exit application by closing all processes when the user exits
 		_primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
