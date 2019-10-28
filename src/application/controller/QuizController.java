@@ -107,7 +107,7 @@ public class QuizController {
 
     @FXML
     private void handleStartButton() throws IOException {
-        _quizPlayer.setVisible(true);
+    	_quizPlayer.setVisible(true);
         _quizImage.setVisible(false);
 
         _currentScoreText.setVisible(true);
@@ -192,7 +192,8 @@ public class QuizController {
 
     @FXML
     private void handleSkipButton() throws IOException {
-        _startButton.fire();
+    	_pausePlayButton.setText("| |");
+    	_startButton.fire();
     }
 
     private void getRandomQuiz() {
