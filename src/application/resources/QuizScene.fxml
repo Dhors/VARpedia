@@ -24,7 +24,7 @@
       <Pane fx:id="_quizPlayer" layoutX="106.0" layoutY="222.0" prefHeight="496.0" prefWidth="813.0" style="-fx-background-color: WHITE; -fx-border-radius: 0 0 25 25; -fx-border-color: BLUE; -fx-background-radius: 0 0 25 25;" visible="false">
          <children>
             <Button fx:id="_skipButton" layoutX="143.0" layoutY="428.0" mnemonicParsing="false" onAction="#handleSkipButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Skip" textAlignment="CENTER" />
-            <Button fx:id="_pauseButton" layoutX="45.0" layoutY="428.0" mnemonicParsing="false" onAction="#handlePauseButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Pause" textAlignment="CENTER" />
+            <Button fx:id="_pausePlayButton" layoutX="45.0" layoutY="428.0" mnemonicParsing="false" onAction="#handlePausePlayButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="| |" textAlignment="CENTER" />
             <TextField fx:id="_playerAnswerTextField" layoutX="421.0" layoutY="427.0" prefHeight="49.0" prefWidth="250.0" promptText="Enter guess here" style="-fx-background-radius: 25 0 0 25;" />
             <Button fx:id="_checkButton" layoutX="671.0" layoutY="427.0" mnemonicParsing="false" onAction="#handleCheckButton" prefHeight="43.0" prefWidth="100.0" style="-fx-background-radius: 0 25 25 0; -fx-border-width: 1; -fx-border-radius: 0 25 25 0; -fx-border-color: BLUE;" styleClass="smallButton" text="Check" textAlignment="CENTER" />
             <MediaView fx:id="_mediaView" fitHeight="380.0" fitWidth="750.0" layoutX="34.0" layoutY="28.0" />

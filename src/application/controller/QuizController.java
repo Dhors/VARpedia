@@ -39,7 +39,7 @@ public class QuizController {
     @FXML
     private Button _checkButton;
     @FXML
-    private Button _pauseButton;
+    private Button _pausePlayButton;
     @FXML
     private Button _manageQuizButton;
     @FXML
@@ -86,7 +86,7 @@ public class QuizController {
 
         _listOfQuiz.setVisible(false);
         _returnButton.setVisible(false);
-        _pauseButton.setVisible(false);
+        _pausePlayButton.setVisible(false);
         _checkButton.setVisible(false);
         _skipButton.setVisible(false);
         _deleteButton.setVisible(false);
@@ -113,7 +113,7 @@ public class QuizController {
         _currentScoreText.setVisible(true);
         _startButton.setVisible(false);
         _manageQuizButton.setVisible(false);
-        _pauseButton.setVisible(true);
+        _pausePlayButton.setVisible(true);
         _checkButton.setVisible(true);
         _skipButton.setVisible(true);
         _playerAnswerTextField.setVisible(true);
@@ -171,13 +171,13 @@ public class QuizController {
     }
 
     @FXML
-    private void handlePauseButton() throws IOException {
+    private void handlePausePlayButton() throws IOException {
         if (_mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             _mediaPlayer.pause();
-            _pauseButton.setText("Play");
+            _pausePlayButton.setText("\u25B6");
         } else {
             _mediaPlayer.play();
-            _pauseButton.setText("Pause");
+            _pausePlayButton.setText("| |");
         }
     }
 
