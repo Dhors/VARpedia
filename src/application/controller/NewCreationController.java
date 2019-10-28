@@ -62,12 +62,8 @@ public class NewCreationController {
 	@FXML
 	private ListView<String> chunkList;
 
-
-
 	@FXML
 	private Button selectButton;
-
-	// buttons to move audio===================================
 	@FXML
 	private Button _moveUpButton;
 	@FXML
@@ -79,7 +75,6 @@ public class NewCreationController {
 
 	@FXML
 	private ImageView _searchImage;
-
 
 	private static String _selectedChunk;
 	@FXML
@@ -168,7 +163,7 @@ public class NewCreationController {
 	
 	
 	@FXML
-	private void handlePreviewChunk() throws IOException {
+	private void handlePreviewChunk() {
 		String chunk = searchResultTextArea.getSelectedText().trim();
 
 		if (isValidChunk(chunk)) {
@@ -179,7 +174,7 @@ public class NewCreationController {
 	}
 
 	@FXML
-	private void handleSaveChunk() throws IOException {
+	private void handleSaveChunk() {
 		String chunk = searchResultTextArea.getSelectedText().trim();
 
 		if (isValidChunk(chunk)) {
@@ -211,14 +206,15 @@ public class NewCreationController {
 	}
 	
 	
-	
+	// This method will give a confirmation of deletion. If the user confirms,
+	// the selected chunk will be deleted.
 	@FXML
 	private void handleDeleteChunkButton(){
 		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
 		chunkList.getItems().remove(chunkIndex);
 		File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
 		_selectedfile.delete();
-		//updateChunkList();
+
 		chunkList.getSelectionModel().clearSelection();
 		_selectedChunk=null;
 
@@ -233,7 +229,7 @@ public class NewCreationController {
 	}
 	
 	@FXML
-	private void handleMoveUpButton() throws IOException {
+	private void handleMoveUpButton() {
 		if (_selectedChunk != null) {
 			int selectedChunkIndex = chunkList.getSelectionModel().getSelectedIndex();
 
@@ -245,7 +241,7 @@ public class NewCreationController {
 	}
 
 	@FXML
-	private void handleMoveDownButton() throws IOException {
+	private void handleMoveDownButton() {
 		if (_selectedChunk != null) {
 			int selectedChunkIndex = chunkList.getSelectionModel().getSelectedIndex();
 
@@ -263,7 +259,7 @@ public class NewCreationController {
 	}
 
 	@FXML
-	private void handleSelectButton() throws IOException {
+	private void handleSelectButton() {
 		File outputFolder = new File(System.getProperty("user.dir") + "/creations/" + _searchTerm);
 		if (!outputFolder.exists()) {
 			outputFolder.mkdirs();
@@ -425,7 +421,7 @@ public class NewCreationController {
 
 
 
-	// Cleaning the chunks folder if the creation is cancelled.
+	// This method will clean the chunks folder if the creation is cancelled.
 	private void cleanChunks(){
 		File chunksFolder = new File(System.getProperty("user.dir") + "/chunks/");
 		if (chunksFolder.exists()) {

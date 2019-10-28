@@ -106,7 +106,7 @@ public class QuizController {
 
 
     @FXML
-    private void handleStartButton() throws IOException {
+    private void handleStartButton() {
     	_quizPlayer.setVisible(true);
         _quizImage.setVisible(false);
 
@@ -119,19 +119,15 @@ public class QuizController {
         _playerAnswerTextField.setVisible(true);
         backgroundMusicButtonInPlayer.setVisible(true);
 
-        //_quizPlayer.getChildren().removeAll();
-        //_quizPlayer.getChildren().clear();
 
         getRandomQuiz();
         
         Media video = new Media(_quizVideo.toURI().toString());
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);
-        
-        //_mediaView = new MediaView(_mediaPlayer);
+
         _mediaView.setMediaPlayer(_mediaPlayer);
 
-        //_quizPlayer.getChildren().add(_mediaView);
 
         //Once the video is finished the video will replay from the start
         _mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -143,12 +139,12 @@ public class QuizController {
     }
 
     @FXML
-    private void handleCheckButton() throws IOException {
+    private void handleCheckButton() {
         _mediaPlayer.pause();
         
         boolean answerIsCorrect = _playerAnswerTextField.getText().equalsIgnoreCase(_quizTerm);
         if (answerIsCorrect){
-            //updating the score
+            //updating the score when user gets answer correct
             _currentScore++;
             _currentScoreText.setText("   Current Score: " + _currentScore);
             _playerAnswerTextField.setText("");
@@ -171,7 +167,7 @@ public class QuizController {
     }
 
     @FXML
-    private void handlePausePlayButton() throws IOException {
+    private void handlePausePlayButton() {
         if (_mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             _mediaPlayer.pause();
             _pausePlayButton.setText("\u25B6");
@@ -191,11 +187,12 @@ public class QuizController {
     }
 
     @FXML
-    private void handleSkipButton() throws IOException {
+    private void handleSkipButton() {
     	_pausePlayButton.setText("| |");
     	_startButton.fire();
     }
 
+    // This method will retrieve a random quiz video from the current repository of quiz videos.
     private void getRandomQuiz() {
         File quizFolder = new File(System.getProperty("user.dir") + "/quiz/");
         File[] quizVideosArray = quizFolder.listFiles();
@@ -237,11 +234,11 @@ public class QuizController {
     }
 
     private void ListCurrentQuiz(){
-        // The quiz directory where all creations are stored.
+        // The quiz directory where all quiz videos are stored.
         final File quizFolder = new File(System.getProperty("user.dir")+"/quiz/");
         ArrayList<String> creationNamesList = new ArrayList<String>();
 
-        // Will get every file in the creations directory and create an indexed
+        // Will get every file in the quiz directory and create an indexed
         // list of file names.
         int indexCounter = 1;
         for (final File quiz : quizFolder.listFiles()) {
@@ -252,13 +249,13 @@ public class QuizController {
             }
         }
 
-        // Turning the list of creation names into an listView<String> for the GUI.
+        // Turning the list of quiz names into an listView<String> for the GUI.
         ObservableList<String> observableCreationNamesList = FXCollections.observableArrayList(creationNamesList);
         _listOfQuiz.setItems(observableCreationNamesList);
     }
 
     public static File getSelectedFile(){
-        // Removal of the index on the creation name
+        // Removal of the index on the quiz video name
         // and creating it as a file to be played or deleted.
         String fileName = getSelectedQuizName();
         File selectedQuiz = new File(System.getProperty("user.dir")+"/quiz/"+ fileName +".mp4");
@@ -267,7 +264,7 @@ public class QuizController {
     }
 
     public static String getSelectedQuizName(){
-        // Removal of the index on the creation name
+        // Removal of the index on the quiz video name
         String fileName = ( "" + _selectedQuiz.substring(_selectedQuiz.indexOf(".")+2) );
         return fileName;
     }
@@ -291,14 +288,14 @@ public class QuizController {
         }
     }
 
-    //this one exists out of managing
+    // Return back to quiz start screen.
     @FXML
     private void handleReturnButton() throws IOException {
         Main.changeScene("resources/QuizScene.fxml");
     }
 
     @FXML
-    private void handleBackgroundMusic() throws IOException {
+    private void handleBackgroundMusic() {
     	boolean buttonIsSelected = backgroundMusicButton.isSelected();
     	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
     	backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
@@ -306,7 +303,7 @@ public class QuizController {
     }
     
     @FXML
-    private void handleBackgroundMusicInPlayer() throws IOException {
+    private void handleBackgroundMusicInPlayer() {
     	boolean buttonIsSelected = backgroundMusicButtonInPlayer.isSelected();
     	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
     	backgroundMusicButton.setSelected(buttonIsSelected);

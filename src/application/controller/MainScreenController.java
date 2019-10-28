@@ -34,21 +34,23 @@ public class MainScreenController {
         if (!(quizFolder.listFiles().length== 0)){
             Main.changeScene("resources/QuizScene.fxml");
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No quiz videos");
-            alert.setContentText("Please create a creation first and then start the quiz.");
-            alert.showAndWait();
+            Alert noQuizVideoAlert = new Alert(Alert.AlertType.WARNING);
+            noQuizVideoAlert.getDialogPane().getStylesheets().add(("Alert.css"));
+            noQuizVideoAlert.setTitle("No quiz videos");
+            noQuizVideoAlert.setHeaderText("There are currently no quiz videos to learn from.");
+            noQuizVideoAlert.setContentText("Please create a creation first and then start the quiz.");
+            noQuizVideoAlert.showAndWait();
         }
     }
     
     @FXML
-    private void handleBackgroundMusic() throws IOException {
+    private void handleBackgroundMusic() {
     	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 
     @FXML
-    private void handleCreateInformation() throws IOException {
+    private void handleCreateInformation()  {
         Alert createInfo = new Alert(Alert.AlertType.INFORMATION);
         createInfo.getDialogPane().getStylesheets().add(("Alert.css"));
 
@@ -59,7 +61,7 @@ public class MainScreenController {
         createInfo.show();
     }
     @FXML
-    private void handlePlayInformation() throws IOException {
+    private void handlePlayInformation() {
         Alert playInfo = new Alert(Alert.AlertType.INFORMATION);
         playInfo.getDialogPane().getStylesheets().add(("Alert.css"));
         playInfo.setTitle("Watch a creation");
@@ -69,7 +71,7 @@ public class MainScreenController {
         playInfo.show();
     }
     @FXML
-    private void handleLearnInformation() throws IOException {
+    private void handleLearnInformation() {
         Alert learnInfo = new Alert(Alert.AlertType.INFORMATION);
         learnInfo.setTitle("Play a game");
         learnInfo.getDialogPane().getStylesheets().add(("Alert.css"));
@@ -81,7 +83,7 @@ public class MainScreenController {
     }
 
     @FXML
-    private void handleVarpediaInformation() throws IOException {
+    private void handleVarpediaInformation() {
         Alert varpediaInfo = new Alert(Alert.AlertType.INFORMATION);
         varpediaInfo.setTitle("Welcome to VARpedia");
         varpediaInfo.getDialogPane().getStylesheets().add(("Alert.css"));
