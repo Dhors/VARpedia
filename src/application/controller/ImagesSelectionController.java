@@ -3,6 +3,8 @@ package application.controller;
 import application.tasks.FlickrImagesTask;
 import application.Main;
 import application.tasks.ImageVideoTask;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -92,6 +94,12 @@ public class ImagesSelectionController {
         _checkBoxIncludeImageList = new ArrayList<CheckBox>(Arrays.asList(_checkBox0,_checkBox1,_checkBox2,_checkBox3,_checkBox4,_checkBox5
                 ,_checkBox6,_checkBox7,_checkBox8,_checkBox9));
 
+     // Don't let the user create a creation if they remove the default creation name
+        BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
+			_creationNameTextField.getText().trim().isEmpty(),
+			_creationNameTextField.textProperty());
+        _submitButton.disableProperty().bind(textIsEmpty);
+        
         downloadFlickrImages();
     }
 
@@ -111,7 +119,7 @@ public class ImagesSelectionController {
             Alert noImagesSelectedError = new Alert(Alert.AlertType.WARNING);
             noImagesSelectedError.getDialogPane().getStylesheets().add(("Alert.css"));
             noImagesSelectedError.setTitle("No images selected");
-            noImagesSelectedError.setContentText("Please select at last one image.");
+            noImagesSelectedError.setContentText("Please select at least one image.");
             noImagesSelectedError.showAndWait();
             return;
         }

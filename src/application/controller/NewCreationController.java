@@ -437,10 +437,4 @@ public class NewCreationController {
 		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
-
-
-
-
-
-
 }
