@@ -4,39 +4,23 @@ This application should be run on the SOFTENG 206 updated VirtualBox image.
 
 This application was compiled with Java13.
 
-The API keys for flickr are stored in flickr-api-keys.txt.
-
-# Libraries
-The following libraries must be imported for the source code to work.
-
-JavaFX13
-flickr4java-3.0.1
-scribejava-apis-6.6.3
-scribejava-core-6.2.0
-slf4j-api-1.7.25
-slf4j-nop-1.7.26
-
-Excluding JavaFX13, these libraries are included in the libs folder from the 206_FlickrExample ACP project.
-
-
 # Runnable jar file
 This jar file should be run on the SOFTENG 206 updated VirtualBox image.
 
 The following files must be in the same folder:
-206assignment3.jar
-script.sh
+VARpedia.jar
 run.sh
-flickr-api-keys.txt
+music/ folder containing khalafnasirs_Magicy_World.mp4
 
 Steps to run:
 
 step1: Open up terminal and navigate to the folder that contains these files.
 
-step2a: The jar file can be run the included run.sh script by typing the the command "./run.sh" into terminal. the run.sh script file must be in the same folder as the jar file.
+step2a: The jar file can be run the included run.sh script by typing the the command "./run.sh" into terminal. the run.sh script file must be in the same folder as the jar file. You may have to give it executable permissions with "chmod +x ./run.sh"
 
-step2b: alternativly, The jar file can be run by typing the following two commands into terminal:
-PATH=/home/student/Downloads/openjdk-13_linux-x64_bin/jdk-13/bin:$PATH
-java --module-path /home/student/Downloads/openjfx-13-rc+2_linux-x64_bin-sdk/javafx-sdk-13/lib --add-modules javafx.base,javafx.controls,javafx.media,javafx.graphics,javafx.fxml -jar 206Assignment3.jar
+step2b: alternatively, The jar file can be run by typing the following two commands into terminal:
+PATH=/home/student/Downloads/openjdk-13_linux-x64_bin/jdk-13/bin:$PATH;
+java --module-path /home/student/Downloads/openjfx-13-rc+2_linux-x64_bin-sdk/javafx-sdk-13/lib --add-modules javafx.base,javafx.controls,javafx.media,javafx.graphics,javafx.fxml -jar VARpedia.jar
 
 # Background music credit
 Magicy World by KhalafNasirs (c) copyright 2019 Licensed under a Creative Commons Attribution Noncommercial  (3.0) license. http://dig.ccmixter.org/files/khalafnasirs/59920 

@@ -77,8 +77,12 @@ public class QuizController {
         BooleanBinding noCreationSelected = _listOfQuiz.getSelectionModel().selectedItemProperty().isNull();
         _deleteButton.disableProperty().bind(noCreationSelected);
 
-        backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
-        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
+        String buttonText = Main.backgroundMusicPlayer().getButtonText();
+        backgroundMusicButton.setText(buttonText);
+        backgroundMusicButtonInPlayer.setText(buttonText);
+        boolean buttonIsSelected = Main.backgroundMusicPlayer().getButtonIsSelected();
+        backgroundMusicButton.setSelected(buttonIsSelected);
+        backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
         
         _startButton.setVisible(true);
         _manageQuizButton.setVisible(true);
