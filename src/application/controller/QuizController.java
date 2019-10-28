@@ -170,8 +170,10 @@ public class QuizController {
     private void handlePauseButton() throws IOException {
         if (_mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             _mediaPlayer.pause();
+            _pauseButton.setText("Play");
         } else {
             _mediaPlayer.play();
+            _pauseButton.setText("Pause");
         }
     }
 
