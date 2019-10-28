@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class QuizController {
-	private final int MEDIA_VIEW_WIDTH = 600;
-	private final int MEDIA_VIEW_HEIGHT = 400;
+	private final int MEDIA_VIEW_WIDTH = 750;
+	private final int MEDIA_VIEW_HEIGHT = 380;
 	
     private String _quizTerm;
     private File _quizVideo;
