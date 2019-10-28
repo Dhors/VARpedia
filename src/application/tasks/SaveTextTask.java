@@ -34,6 +34,7 @@ public class SaveTextTask extends Task<String> {
 			String[] chunkAsWordArrary = _chunk.split("\\s+");
 			
 			// Find unique name for the chunk based on the first five words
+			// Use less than five words if the chunk does not have five valid words
 			// Keep increasing the suffix until there is no existing chunk with that name
 			do {
 				creationName = "";
