@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import application.Main;
+
 public class ImageVideoTask extends Task<Void> {
     private String _searchTerm;
     private String _creationName;
@@ -38,7 +40,7 @@ public class ImageVideoTask extends Task<Void> {
         // need to create the quiz vids before cleanning
         quizVideoCreation();
 
-        cleanFolder();
+        Main.cleanFolders();
         return null;
     }
 
@@ -84,7 +86,7 @@ public class ImageVideoTask extends Task<Void> {
         }
     }
 
-    private void quizVideoCreation(){
+    private void quizVideoCreation() {
             //the search term is the quiz video name so there is no need to repeat.
             File quizVideo = new File(USER_DIR + "/quiz/" + _searchTerm + ".mp4");
             if (!quizVideo.exists()) {
@@ -99,23 +101,5 @@ public class ImageVideoTask extends Task<Void> {
                 e.printStackTrace();
             }
         }
-    }
-    
-    // This method will clean the temporary fold that stored the audio chunks, the flikr images
-    // the no audio .mp4 file the .wav file as well as the folders themselves.
-    private void cleanFolder() {
-        // The creations directory where all creations are stored.
-        File creationFolder = new File(USER_DIR + "/creations/" + _searchTerm+ "/" );
-        for (final File creationFileName : creationFolder.listFiles()) {
-            creationFileName.delete();
-        }
-        creationFolder.delete();
-
-        // The chunks directory where all audio chunks are stored.
-        File chunksFolder = new File(USER_DIR + "/chunks/" );
-        for (final File chunkFileName : chunksFolder.listFiles()) {
-            chunkFileName.delete();
-        }
-        chunksFolder.delete();
     }
 }

@@ -11,6 +11,8 @@ import javafx.stage.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
+import application.controller.NewCreationController;
+
 public class Main extends Application {
 
 	static private Stage _primaryStage;
@@ -60,8 +62,25 @@ public class Main extends Application {
 			}
 		});
 	}
+	
+	// This method will clean the temporary fold that stored the audio chunks, the flikr images
+    // the no audio .mp4 file the .wav file as well as the folders themselves.
+	static public void cleanFolders() {
+		String userDir = System.getProperty("user.dir");
+		// The creations directory where all creations are stored.
+		File creationFolder = new File(userDir + "/creations/" + NewCreationController.getSearchTerm() + "/" );
+		for (final File creationFileName : creationFolder.listFiles()) {
+			creationFileName.delete();
+		}
+		creationFolder.delete();
 
-
+		// The chunks directory where all audio chunks are stored.
+		File chunksFolder = new File(userDir + "/chunks/" );
+		for (final File chunkFileName : chunksFolder.listFiles()) {
+			chunkFileName.delete();
+		}
+		chunksFolder.delete();
+	}
 
 
 	static public void setCurrentScene(String currentScene){
