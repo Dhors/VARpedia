@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -22,11 +22,11 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-	  <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
       <Button layoutX="403.0" layoutY="403.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="75.0" prefWidth="218.0" styleClass="bigButton" text="Create">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
+      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
    </children>
 </AnchorPane>

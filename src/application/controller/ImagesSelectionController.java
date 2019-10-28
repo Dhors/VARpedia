@@ -45,7 +45,7 @@ public class ImagesSelectionController {
     @FXML private CheckBox _checkBox9;
 
     @FXML
-	private CheckBox backgroundMusicCheckBox;
+    private ToggleButton backgroundMusicButton;
 
     @FXML
     private ProgressBar _imagesProgressBar;
@@ -82,7 +82,8 @@ public class ImagesSelectionController {
         _clockImage.setVisible(true);
         _progressPane.setVisible(true);
         Main.setCurrentScene("ImageSelectionScene");
-        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 
         _searchTerm = CreationController.getSearchTerm();
         imagesFolder= new File(CREATIONS_DIR + _searchTerm);
@@ -275,6 +276,7 @@ public class ImagesSelectionController {
 
     @FXML
     private void handleBackgroundMusic() throws IOException {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
+    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 }

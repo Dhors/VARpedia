@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class ListController {
 	@FXML
-	private CheckBox backgroundMusicCheckBox;
+	private ToggleButton backgroundMusicButton;
 	
 	@FXML
 	private ListView<String> listViewCreations;
@@ -35,7 +35,8 @@ public class ListController {
 	public void initialize(){
 
 		Main.setCurrentScene("ListCreationScene");
-		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+		backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 
 		ListCurrentFiles();
 
@@ -131,6 +132,7 @@ public class ListController {
 
 	@FXML
 	private void handleBackgroundMusic() throws IOException {
-		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
+    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
 	}
 }

@@ -23,6 +23,12 @@
 	-fx-border-radius: 10px;
 	-fx-font-size: 20px;
 }
+.musicButton {
+	-fx-background-color: yellow;
+	-fx-background-radius: 25px;
+	-fx-border-radius: 25px;
+	-fx-font-size: 20px;
+}
 .button:pressed, .choice-box .menu-item:focused {
 	-fx-background-color: #6eace3;
 }

@@ -33,7 +33,7 @@ public class CreationController {
 	private static String _searchTerm;
 
 	@FXML
-	private CheckBox backgroundMusicCheckBox;
+	private ToggleButton backgroundMusicButton;
 
 	@FXML
 	private Label enterSearchTerm;
@@ -90,7 +90,8 @@ public class CreationController {
 		_searchImage.setVisible(true);
 
 		Main.setCurrentScene("CreationScene");
-		backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+		backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 		
 		_selectedChunk=null;
 
@@ -421,6 +422,7 @@ public class CreationController {
 
 	@FXML
     private void handleBackgroundMusic() throws IOException {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
+    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 }
