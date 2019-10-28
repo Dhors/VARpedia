@@ -46,7 +46,7 @@ public class ImagesSelectionController {
     @FXML private CheckBox _checkBox9;
 
     @FXML
-    private ToggleButton backgroundMusicButton;
+    private ToggleButton _backgroundMusicButton;
 
     @FXML
     private ProgressBar _imagesProgressBar;
@@ -67,12 +67,12 @@ public class ImagesSelectionController {
     private List<CheckBox> _checkBoxIncludeImageList;
     private List<Image> _imageList = new ArrayList<Image>();
 
-    private ExecutorService team = Executors.newSingleThreadExecutor();
+    private ExecutorService _team = Executors.newSingleThreadExecutor();
 
     private String _searchTerm;
-    private int numberOfImages;
+    private int _numberOfImages;
 
-    private File imagesFolder;
+    private File _imagesFolder;
     private final String CREATIONS_DIR = System.getProperty("user.dir") + "/creations/";
 
     @FXML
@@ -80,11 +80,11 @@ public class ImagesSelectionController {
         _clockImage.setVisible(true);
         _progressPane.setVisible(true);
         Main.setCurrentScene("ImageSelectionScene");
-        backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
-        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
+        _backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        _backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 
         _searchTerm = NewCreationController.getSearchTerm();
-        imagesFolder= new File(CREATIONS_DIR + _searchTerm);
+        _imagesFolder = new File(CREATIONS_DIR + _searchTerm);
 
         _flickrImageViewList = new ArrayList<ImageView>(Arrays.asList(_ImageView0,_ImageView1,_ImageView2,_ImageView3,_ImageView4,_ImageView5
                 ,_ImageView6,_ImageView7,_ImageView8,_ImageView9));
@@ -110,14 +110,14 @@ public class ImagesSelectionController {
         int numImagesDeleted = 0;
         for (int i = 0; i < _checkBoxIncludeImageList.size(); i++) {
         	if (!_checkBoxIncludeImageList.get(i).isSelected()) {
-                File imageFile = new File(imagesFolder + "/" + i + ".jpg");
+                File imageFile = new File(_imagesFolder + "/" + i + ".jpg");
                 imageFile.delete();
                 numImagesDeleted++;
             }
         }
 
-        numberOfImages = 10 - numImagesDeleted;
-        if (numberOfImages==0) {
+        _numberOfImages = 10 - numImagesDeleted;
+        if (_numberOfImages ==0) {
             Alert noImagesSelectedError = new Alert(Alert.AlertType.WARNING);
             noImagesSelectedError.getDialogPane().getStylesheets().add(("Alert.css"));
             noImagesSelectedError.setTitle("No images selected");
@@ -172,8 +172,8 @@ public class ImagesSelectionController {
         creationInProgressPopup.show();
 
     	// Thread to ensure that GUI remains concurrent while the video is being created
-        ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, creationName, numberOfImages );
-        team.submit(flickrImagesTask);
+        ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, creationName, _numberOfImages);
+        _team.submit(flickrImagesTask);
 
         // return to main menu
         try {
@@ -246,7 +246,7 @@ public class ImagesSelectionController {
 
         _imagesProgressBar.progressProperty().bind(imagesTask.progressProperty());
 
-        team.submit(imagesTask);
+        _team.submit(imagesTask);
         imagesTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
@@ -261,7 +261,7 @@ public class ImagesSelectionController {
     }
 
     private void populateFlickrImageViews() {
-    	File[] imageFileArray = imagesFolder.listFiles();
+    	File[] imageFileArray = _imagesFolder.listFiles();
     	Arrays.sort(imageFileArray);
     	for (File imageFile : imageFileArray) {
             if (imageFile.getName().endsWith(".jpg")) {
@@ -305,7 +305,7 @@ public class ImagesSelectionController {
 
     @FXML
     private void handleBackgroundMusic() {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
-    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
+    	_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 }

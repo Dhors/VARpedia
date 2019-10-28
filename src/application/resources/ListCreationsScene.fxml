@@ -14,18 +14,18 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <ListView fx:id="listViewCreations" layoutX="243.0" layoutY="210.0" onMouseClicked="#handleSelectedCreation" prefHeight="388.0" prefWidth="552.0" />
-      <Button fx:id="_backButton" layoutX="875.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Back">
+      <ListView fx:id="_listViewCreations" layoutX="243.0" layoutY="210.0" onMouseClicked="#handleSelectedCreation" prefHeight="388.0" prefWidth="552.0" />
+      <Button layoutX="875.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Back">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="playButton" layoutX="457.0" layoutY="655.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Play">
+      <Button fx:id="_playButton" layoutX="457.0" layoutY="655.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Play">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="deleteButton" layoutX="594.0" layoutY="655.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Delete">
+      <Button fx:id="_deleteButton" layoutX="594.0" layoutY="655.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Delete">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
@@ -35,7 +35,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="selectPrompt" layoutX="244.0" layoutY="597.0" prefHeight="22.0" prefWidth="550.0" style="-fx-background-color: YELLOW; -fx-border-radius: 0 0 25 25; -fx-background-radius: 0 0 25 25; -fx-border-color: WHITE;" text="                  Please select a creation to continue.">
+      <Label fx:id="_selectPrompt" layoutX="244.0" layoutY="597.0" prefHeight="22.0" prefWidth="550.0" style="-fx-background-color: YELLOW; -fx-border-radius: 0 0 25 25; -fx-background-radius: 0 0 25 25; -fx-border-color: WHITE;" text="                  Please select a creation to continue.">
          <font>
             <Font size="24.0" />
          </font>
@@ -45,6 +45,6 @@
             <Font name="FreeSans" size="46.0" />
          </font>
       </Label>
-      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+      <ToggleButton fx:id="_backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
    </children>
 </AnchorPane>

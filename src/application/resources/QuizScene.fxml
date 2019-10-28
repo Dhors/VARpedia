@@ -28,7 +28,7 @@
             <TextField fx:id="_playerAnswerTextField" layoutX="421.0" layoutY="427.0" prefHeight="49.0" prefWidth="250.0" promptText="Enter guess here" style="-fx-background-radius: 25 0 0 25;" />
             <Button fx:id="_checkButton" layoutX="671.0" layoutY="427.0" mnemonicParsing="false" onAction="#handleCheckButton" prefHeight="43.0" prefWidth="100.0" style="-fx-background-radius: 0 25 25 0; -fx-border-width: 1; -fx-border-radius: 0 25 25 0; -fx-border-color: BLUE;" styleClass="smallButton" text="Check" textAlignment="CENTER" />
             <MediaView fx:id="_mediaView" fitHeight="380.0" fitWidth="750.0" layoutX="34.0" layoutY="28.0" />
-            <ToggleButton fx:id="backgroundMusicButtonInPlayer" layoutX="260.0" layoutY="428.0" mnemonicParsing="false" onAction="#handleBackgroundMusicInPlayer" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+            <ToggleButton fx:id="_backgroundMusicButtonInPlayer" layoutX="260.0" layoutY="428.0" mnemonicParsing="false" onAction="#handleBackgroundMusicInPlayer" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
          </children></Pane>
       <Button fx:id="_deleteButton" layoutX="447.0" layoutY="668.0" mnemonicParsing="false" onAction="#handleDeleteButton" styleClass="bigButton" text="Delete" visible="false" />
       <Button fx:id="_returnButton" layoutX="904.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleReturnButton" styleClass="bigButton" text="Return" visible="false" />
@@ -37,7 +37,7 @@
             <Font name="FreeSans" size="46.0" />
          </font>
       </Label>
-      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+      <ToggleButton fx:id="_backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
       <Button fx:id="_startButton" layoutX="331.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="90.0" prefWidth="170.0" styleClass="homeButton" text="Start" />
       <Button fx:id="_manageQuizButton" layoutX="526.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleManageQuizButton" prefHeight="90.0" prefWidth="170.0" styleClass="homeButton" text="Manage" />
       <ListView fx:id="_listOfQuiz" layoutX="154.0" layoutY="220.0" onMouseClicked="#handleSelectedQuiz" prefHeight="396.0" prefWidth="689.0" visible="false" />

@@ -18,14 +18,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class QuizController {	
+public class QuizController {
+
     private String _quizTerm;
     private File _quizVideo;
 
     @FXML
-	private ToggleButton backgroundMusicButton;
+	private ToggleButton _backgroundMusicButton;
     @FXML
-	private ToggleButton backgroundMusicButtonInPlayer;
+	private ToggleButton _backgroundMusicButtonInPlayer;
     
     @FXML
     private Pane _quizPlayer;
@@ -44,17 +45,13 @@ public class QuizController {
     @FXML
     private ListView<String> _listOfQuiz;
 
-    private static String _selectedQuiz;
+
     @FXML
     private Button _deleteButton;
     @FXML
     private Button _returnButton;
     @FXML
     private Button _backButton;
-    @FXML
-    private Pane _quizPane;
-
-    MediaPlayer _mediaPlayer;
     @FXML
     MediaView _mediaView;
     @FXML
@@ -64,10 +61,14 @@ public class QuizController {
     @FXML
     private Label _currentScoreText;
     private int _currentScore;
-
     @FXML
     private ImageView _quizImage;
 
+    private MediaPlayer _mediaPlayer;
+
+    private static String _selectedQuiz;
+
+    @FXML
     public void initialize(){
         Main.setCurrentScene("QuizScene");
         _currentScore=0;
@@ -77,11 +78,11 @@ public class QuizController {
         _deleteButton.disableProperty().bind(noCreationSelected);
 
         String buttonText = Main.backgroundMusicPlayer().getButtonText();
-        backgroundMusicButton.setText(buttonText);
-        backgroundMusicButtonInPlayer.setText(buttonText);
+        _backgroundMusicButton.setText(buttonText);
+        _backgroundMusicButtonInPlayer.setText(buttonText);
         boolean buttonIsSelected = Main.backgroundMusicPlayer().getButtonIsSelected();
-        backgroundMusicButton.setSelected(buttonIsSelected);
-        backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+        _backgroundMusicButton.setSelected(buttonIsSelected);
+        _backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
         
         _startButton.setVisible(true);
         _manageQuizButton.setVisible(true);
@@ -94,7 +95,7 @@ public class QuizController {
         _skipButton.setVisible(false);
         _deleteButton.setVisible(false);
         _playerAnswerTextField.setVisible(false);
-        backgroundMusicButtonInPlayer.setVisible(false);
+        _backgroundMusicButtonInPlayer.setVisible(false);
 
         /**
 		 * Credit to user DVarga
@@ -120,7 +121,7 @@ public class QuizController {
         _checkButton.setVisible(true);
         _skipButton.setVisible(true);
         _playerAnswerTextField.setVisible(true);
-        backgroundMusicButtonInPlayer.setVisible(true);
+        _backgroundMusicButtonInPlayer.setVisible(true);
 
 
         getRandomQuiz();
@@ -299,23 +300,23 @@ public class QuizController {
 
     @FXML
     private void handleBackgroundMusic() {
-    	boolean buttonIsSelected = backgroundMusicButton.isSelected();
+    	boolean buttonIsSelected = _backgroundMusicButton.isSelected();
     	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+    	_backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
     	updateButtonTexts();
     }
     
     @FXML
     private void handleBackgroundMusicInPlayer() {
-    	boolean buttonIsSelected = backgroundMusicButtonInPlayer.isSelected();
+    	boolean buttonIsSelected = _backgroundMusicButtonInPlayer.isSelected();
     	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	backgroundMusicButton.setSelected(buttonIsSelected);
+    	_backgroundMusicButton.setSelected(buttonIsSelected);
     	updateButtonTexts();
     }
     
     private void updateButtonTexts() {
     	String buttonText = Main.backgroundMusicPlayer().getButtonText();
-    	backgroundMusicButton.setText(buttonText);
-    	backgroundMusicButtonInPlayer.setText(buttonText);
+    	_backgroundMusicButton.setText(buttonText);
+    	_backgroundMusicButtonInPlayer.setText(buttonText);
     }
 }

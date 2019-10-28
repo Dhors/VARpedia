@@ -23,19 +23,19 @@
             <Image url="@../images/searchBook.png" />
          </image>
       </ImageView>
-      <Label fx:id="enterSearchTerm" layoutX="144.0" layoutY="227.0" prefHeight="46.0" prefWidth="500.0" style="-fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-background-color: YELLOW;" text="  Please enter the term you would like to search:">
+      <Label fx:id="_enterSearchTerm" layoutX="144.0" layoutY="227.0" prefHeight="46.0" prefWidth="500.0" style="-fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-background-color: YELLOW;" text="  Please enter the term you would like to search:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="enterSearchTermTextInput" layoutX="144.0" layoutY="273.0" prefHeight="67.0" prefWidth="500.0" promptText="Enter Search Term Here" />
-      <Button fx:id="searchWikipediaButton" layoutX="644.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" prefHeight="50.0" prefWidth="250.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" styleClass="bigButton" text="Search Wikipedia" />
-      <TextArea fx:id="searchResultTextArea" layoutX="36.0" layoutY="204.0" prefHeight="410.0" prefWidth="528.0" visible="false" wrapText="true" />
-      <ListView fx:id="chunkList" layoutX="602.0" layoutY="206.0" onMouseClicked="#handleSelectedChunk" prefHeight="410.0" prefWidth="381.0" visible="false" />
-      <Button fx:id="previewChunk" layoutX="117.0" layoutY="675.0" mnemonicParsing="false" onAction="#handlePreviewChunk" prefHeight="46.0" prefWidth="160.0" styleClass="smallButton" text="Preview Chunk" visible="false" />
-      <Button fx:id="saveChunk" layoutX="317.0" layoutY="675.0" mnemonicParsing="false" onAction="#handleSaveChunk" prefHeight="46.0" prefWidth="160.0" styleClass="smallButton" text="Save Chunk" visible="false" />
-      <ChoiceBox fx:id="voiceDropDownMenu" layoutX="377.0" layoutY="620.0" prefHeight="47.0" prefWidth="150.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0; -fx-background-color: FAFAD2;" visible="false" />
-      <Button fx:id="selectButton" layoutX="658.0" layoutY="686.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Confirm Chunks" visible="false" />
+      <TextField fx:id="_enterSearchTermTextInput" layoutX="144.0" layoutY="273.0" prefHeight="67.0" prefWidth="500.0" promptText="Enter Search Term Here" />
+      <Button fx:id="_searchWikipediaButton" layoutX="644.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" prefHeight="50.0" prefWidth="250.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" styleClass="bigButton" text="Search Wikipedia" />
+      <TextArea fx:id="_searchResultTextArea" layoutX="36.0" layoutY="204.0" prefHeight="410.0" prefWidth="528.0" visible="false" wrapText="true" />
+      <ListView fx:id="_chunkList" layoutX="602.0" layoutY="206.0" onMouseClicked="#handleSelectedChunk" prefHeight="410.0" prefWidth="381.0" visible="false" />
+      <Button fx:id="_previewChunk" layoutX="117.0" layoutY="675.0" mnemonicParsing="false" onAction="#handlePreviewChunk" prefHeight="46.0" prefWidth="160.0" styleClass="smallButton" text="Preview Chunk" visible="false" />
+      <Button fx:id="_saveChunk" layoutX="317.0" layoutY="675.0" mnemonicParsing="false" onAction="#handleSaveChunk" prefHeight="46.0" prefWidth="160.0" styleClass="smallButton" text="Save Chunk" visible="false" />
+      <ChoiceBox fx:id="_voiceDropDownMenu" layoutX="377.0" layoutY="620.0" prefHeight="47.0" prefWidth="150.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0; -fx-background-color: FAFAD2;" visible="false" />
+      <Button fx:id="_selectButton" layoutX="658.0" layoutY="686.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Confirm Chunks" visible="false" />
       <Button fx:id="_moveUpButton" disable="true" layoutX="714.0" layoutY="624.0" mnemonicParsing="false" onAction="#handleMoveUpButton" prefHeight="46.0" prefWidth="130.0" styleClass="smallButton" text="Move Up" visible="false" />
       <Button fx:id="_moveDownButton" disable="true" layoutX="850.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleMoveDownButton" prefHeight="46.0" prefWidth="130.0" styleClass="smallButton" text="Move Down" visible="false" />
       <Button fx:id="_deleteButton" disable="true" layoutX="608.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleDeleteChunkButton" prefHeight="46.0" prefWidth="100.0" styleClass="smallButton" text="Delete" visible="false" />
@@ -44,17 +44,17 @@
             <Font name="FreeSans" size="46.0" />
          </font>
       </Label>
-      <Label fx:id="chunkSelectDescription" layoutX="603.0" layoutY="161.0" prefHeight="46.0" prefWidth="379.0" style="-fx-background-color: yellow; -fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-border-color: WHITE;" text="               Manage your current chunks" visible="false">
+      <Label fx:id="_chunkSelectDescription" layoutX="603.0" layoutY="161.0" prefHeight="46.0" prefWidth="379.0" style="-fx-background-color: yellow; -fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-border-color: WHITE;" text="               Manage your current chunks" visible="false">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="textSelectDescription" layoutX="37.0" layoutY="161.0" prefHeight="46.0" prefWidth="526.0" style="-fx-background-color: yellow; -fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-border-color: WHITE;" text="                           Highlight text to create chunks " visible="false">
+      <Label fx:id="_textSelectDescription" layoutX="37.0" layoutY="161.0" prefHeight="46.0" prefWidth="526.0" style="-fx-background-color: yellow; -fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-border-color: WHITE;" text="                           Highlight text to create chunks " visible="false">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="voiceSelectDescription" layoutX="222.0" layoutY="620.0" prefHeight="47.0" prefWidth="156.0" style="-fx-background-color: yellow; -fx-background-radius: 25 0 0 25; -fx-border-radius: 25 0 0 25; -fx-border-color: WHITE;" text="  Select Voice:" visible="false">
+      <Label fx:id="_voiceSelectDescription" layoutX="222.0" layoutY="620.0" prefHeight="47.0" prefWidth="156.0" style="-fx-background-color: yellow; -fx-background-radius: 25 0 0 25; -fx-border-radius: 25 0 0 25; -fx-border-color: WHITE;" text="  Select Voice:" visible="false">
          <font>
             <Font size="20.0" />
          </font>
@@ -62,10 +62,10 @@
       <Pane fx:id="_progressPane" layoutX="300.0" layoutY="416.0" prefHeight="100.0" prefWidth="400.0" style="-fx-border-radius: 25; -fx-background-radius: 25; -fx-background-color: WHITE;" visible="false">
          <children>
             <ProgressBar fx:id="_wikiProgressBar" layoutX="25.0" layoutY="50.0" prefHeight="35.0" prefWidth="350.0" progress="0.0" visible="false" />
-            <Text fx:id="searchInProgress" layoutX="25.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Searching, please wait..." textAlignment="CENTER" visible="false" wrappingWidth="350.0" />
+            <Text fx:id="_searchInProgress" layoutX="25.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Searching, please wait..." textAlignment="CENTER" visible="false" wrappingWidth="350.0" />
          </children>
       </Pane>
-      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+      <ToggleButton fx:id="_backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
 
 
 

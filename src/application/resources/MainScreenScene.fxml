@@ -29,7 +29,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+      <ToggleButton fx:id="_backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
       <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="852.0" layoutY="310.0" onMouseClicked="#handleLearnInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/infoicon.png" />

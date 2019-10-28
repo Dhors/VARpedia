@@ -57,7 +57,7 @@
             <CheckBox fx:id="_checkBox9" layoutX="736.0" layoutY="404.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 10" />
          </children>
       </Pane>
-      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+      <ToggleButton fx:id="_backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
       <Button layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Cancel Creation" />
    </children>
 </AnchorPane>

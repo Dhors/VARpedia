@@ -14,35 +14,33 @@ import java.util.Optional;
 
 public class ListCreationsController {
 	@FXML
-	private ToggleButton backgroundMusicButton;
+	private ToggleButton _backgroundMusicButton;
 	
 	@FXML
-	private ListView<String> listViewCreations;
+	private ListView<String> _listViewCreations;
 
-	//@FXML
 	private static String _selectedCreation;
+	@FXML
+	private Button _playButton;
+	@FXML
+	private Button _deleteButton;
+	@FXML
+	private Label _selectPrompt;
+
 
 	@FXML
-	private Button playButton;
-	@FXML
-	private Button deleteButton;
-	@FXML
-	private Label selectPrompt;
-    @FXML
-    static private Button _backButton;
-
 	public void initialize(){
 
 		Main.setCurrentScene("ListCreationScene");
-		backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
-        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
+		_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        _backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 
 		ListCurrentFiles();
 
 		// Disable the buttons whenever there is no creation selected
-		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();
-		playButton.disableProperty().bind(noCreationSelected);
-		deleteButton.disableProperty().bind(noCreationSelected);
+		BooleanBinding noCreationSelected = _listViewCreations.getSelectionModel().selectedItemProperty().isNull();
+		_playButton.disableProperty().bind(noCreationSelected);
+		_deleteButton.disableProperty().bind(noCreationSelected);
 
 	}
 
@@ -64,9 +62,9 @@ public class ListCreationsController {
 	
 	@FXML
 	public void handleSelectedCreation() {
-		_selectedCreation = listViewCreations.getSelectionModel().getSelectedItem();
+		_selectedCreation = _listViewCreations.getSelectionModel().getSelectedItem();
 		if (!(_selectedCreation==null)) {
-			selectPrompt.setText("");
+			_selectPrompt.setText("");
 		}
 	}
 	
@@ -83,7 +81,7 @@ public class ListCreationsController {
 			getSelectedFile().delete();
 			ListCurrentFiles();
 			_selectedCreation = null;
-			selectPrompt.setText("                  Please select a creation to continue.");
+			_selectPrompt.setText("                  Please select a creation to continue.");
 		}
 	}
 
@@ -108,7 +106,7 @@ public class ListCreationsController {
 		
 		// Turning the list of creation names into an listView<String> for the GUI.
 		ObservableList<String> observableCreationNamesList = FXCollections.observableArrayList(creationNamesList);
-		listViewCreations.setItems(observableCreationNamesList);
+		_listViewCreations.setItems(observableCreationNamesList);
 	}
 
 	public static File getSelectedFile(){
@@ -128,7 +126,7 @@ public class ListCreationsController {
 
 	@FXML
 	private void handleBackgroundMusic()  {
-		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
-    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+		Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
+    	_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
 	}
 }

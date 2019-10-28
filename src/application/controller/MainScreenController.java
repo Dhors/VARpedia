@@ -10,12 +10,13 @@ import java.io.IOException;
 
 public class MainScreenController {
 	@FXML
-	private ToggleButton backgroundMusicButton;
-	
+	private ToggleButton _backgroundMusicButton;
+
+    @FXML
 	public void initialize() {
         Main.setCurrentScene("MainScreenScene");
-        backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
-        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
+        _backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        _backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 	}
 	
     @FXML
@@ -45,8 +46,8 @@ public class MainScreenController {
     
     @FXML
     private void handleBackgroundMusic() {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
-    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
+    	_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 
     @FXML

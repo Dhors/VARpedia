@@ -28,42 +28,38 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class NewCreationController {
-	private ExecutorService team = Executors.newFixedThreadPool(5);
 
-	private static String _searchTerm;
-
-	@FXML
-	private ToggleButton backgroundMusicButton;
+	private ExecutorService _team = Executors.newFixedThreadPool(5);
 
 	@FXML
-	private Label enterSearchTerm;
+	private ToggleButton _backgroundMusicButton;
 	@FXML
-	private TextField enterSearchTermTextInput;
+	private Label _enterSearchTerm;
 	@FXML
-	private Button searchWikipediaButton;
+	private TextField _enterSearchTermTextInput;
 	@FXML
-	private Text searchInProgress;
+	private Button _searchWikipediaButton;
+	@FXML
+	private Text _searchInProgress;
+	@FXML
+	private TextArea _searchResultTextArea;
+	@FXML
+	private Button _previewChunk;
+	@FXML
+	private Button _saveChunk;
+	@FXML
+	private Label _voiceSelectDescription;
+	@FXML
+	private Label _textSelectDescription;
+	@FXML
+	private Label _chunkSelectDescription;
+	@FXML
+	private ChoiceBox<String> _voiceDropDownMenu;
+	@FXML
+	private ListView<String> _chunkList;
 
-
 	@FXML
-	private TextArea searchResultTextArea;
-	@FXML
-	private Button previewChunk;
-	@FXML
-	private Button saveChunk;
-	@FXML
-	private Label voiceSelectDescription;
-	@FXML
-	private Label textSelectDescription;
-	@FXML
-	private Label chunkSelectDescription;
-	@FXML
-	private ChoiceBox<String> voiceDropDownMenu;
-	@FXML
-	private ListView<String> chunkList;
-
-	@FXML
-	private Button selectButton;
+	private Button _selectButton;
 	@FXML
 	private Button _moveUpButton;
 	@FXML
@@ -76,11 +72,13 @@ public class NewCreationController {
 	@FXML
 	private ImageView _searchImage;
 
-	private static String _selectedChunk;
 	@FXML
 	private ProgressBar _wikiProgressBar;
 
-	@FXML
+	private static String _searchTerm;
+	private static String _selectedChunk;
+
+    @FXML
 	private void initialize() {
 
 		cleanChunks();
@@ -88,16 +86,16 @@ public class NewCreationController {
 		_searchImage.setVisible(true);
 
 		Main.setCurrentScene("CreationScene");
-		backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
-        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
+		_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        _backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 		
 		_selectedChunk=null;
 
 		setUpBooleanBindings();
 		
 		// Add the options for chunk voices, and set the default choice
-		voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
-		voiceDropDownMenu.setValue("Default");
+		_voiceDropDownMenu.getItems().addAll("Default", "NZ-Man", "NZ-Woman");
+		_voiceDropDownMenu.setValue("Default");
 	}
 
 	@FXML
@@ -109,18 +107,18 @@ public class NewCreationController {
 	
 	@FXML
 	private void handleSearchWikipedia() throws IOException {
-		_searchTerm = enterSearchTermTextInput.getText().trim();
+		_searchTerm = _enterSearchTermTextInput.getText().trim();
 		_searchImage.setVisible(false);
 		_progressPane.setVisible(true);
 		_wikiProgressBar.setVisible(true);
 
-		searchInProgress.setVisible(true);
+		_searchInProgress.setVisible(true);
 
 		// Run bash script that uses wikit and returns the result of the search
 		WikiSearchTask wikiSearchTask = new WikiSearchTask(_searchTerm);
 		_wikiProgressBar.progressProperty().bind(wikiSearchTask.progressProperty());
 
-		team.submit(wikiSearchTask);
+		_team.submit(wikiSearchTask);
 
 		// Using concurrency allows the user to cancel the creation if the search takes too long
 		wikiSearchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -138,7 +136,7 @@ public class NewCreationController {
 					String searchResult = wikiSearchTask.get();
 
 					if (searchResult.contains("not found :^")) {
-						searchInProgress.setVisible(false);
+						_searchInProgress.setVisible(false);
 
 						Alert invalidSearchAlert = new Alert(Alert.AlertType.ERROR);
 						invalidSearchAlert.getDialogPane().getStylesheets().add(("Alert.css"));
@@ -147,9 +145,8 @@ public class NewCreationController {
 						invalidSearchAlert.setContentText("Please enter a different search term");
 						invalidSearchAlert.showAndWait();
 
-						//termNotFound.setVisible(true);
 					} else {
-						searchResultTextArea.setText(searchResult);
+						_searchResultTextArea.setText(searchResult);
 						displayChunkSelection();
 					}
 					
@@ -164,44 +161,42 @@ public class NewCreationController {
 	
 	@FXML
 	private void handlePreviewChunk() {
-		String chunk = searchResultTextArea.getSelectedText().trim();
+		String chunk = _searchResultTextArea.getSelectedText().trim();
 		chunk = chunk.replaceAll("[^a-zA-Z0-9-_ ]*", "");
 		
 		if (isValidChunk(chunk)) {
 			// Run bash script using festival tts to speak the selected text to the user
 			PreviewTextTask previewTextTask = new PreviewTextTask(chunk);
-			team.submit(previewTextTask);
+			_team.submit(previewTextTask);
 		}
 	}
 
 	@FXML
 	private void handleSaveChunk() {
-		String chunk = searchResultTextArea.getSelectedText().trim();
+		String chunk = _searchResultTextArea.getSelectedText().trim();
 		chunk = chunk.replaceAll("[^a-zA-Z0-9-_ ]*", "");
 
 		if (isValidChunk(chunk)) {
-			String voiceChoice = voiceDropDownMenu.getValue();
+			String voiceChoice = _voiceDropDownMenu.getValue();
 
 			// Run bash script using festival to save a .wav file containing the spoken selected text
 
-			String formattedChunk = chunk.replaceAll("[^a-zA-Z0-9_ -]*","");
-
 			SaveTextTask saveTextTask = new SaveTextTask(voiceChoice, chunk);
-			team.submit(saveTextTask);
+			_team.submit(saveTextTask);
 
 			saveTextTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
 					// Make the new chunk visible to the user
-					chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
-					chunkList.setDisable(false);
-					selectButton.setDisable(false);
+					_chunkList.getItems().add(saveTextTask.getValue().replace(".wav", ""));
+					_chunkList.setDisable(false);
+					_selectButton.setDisable(false);
 
-					if (chunkList.getItems().get(0).equals("No Chunks Found.")){
-						chunkList.getItems().remove(0);
+					if (_chunkList.getItems().get(0).equals("No Chunks Found.")){
+						_chunkList.getItems().remove(0);
 					}
 
-					if (chunkList.getItems().size() > 1 && _selectedChunk != null)   {
+					if (_chunkList.getItems().size() > 1 && _selectedChunk != null)   {
 						_moveUpButton.setDisable(false);
 						_moveDownButton.setDisable(false);
 					}
@@ -215,28 +210,28 @@ public class NewCreationController {
 	// the selected chunk will be deleted.
 	@FXML
 	private void handleDeleteChunkButton(){
-		int chunkIndex = chunkList.getSelectionModel().getSelectedIndex();
-		chunkList.getItems().remove(chunkIndex);
+		int chunkIndex = _chunkList.getSelectionModel().getSelectedIndex();
+		_chunkList.getItems().remove(chunkIndex);
 		File _selectedfile = new File(System.getProperty("user.dir") + "/chunks/" + _selectedChunk + ".wav");
 		_selectedfile.delete();
 
-		chunkList.getSelectionModel().clearSelection();
+		_chunkList.getSelectionModel().clearSelection();
 		_selectedChunk=null;
 
 		_moveUpButton.setDisable(true);
 		_moveDownButton.setDisable(true);
 
-		if (chunkList.getItems().size()==0) {
-			chunkList.getItems().add("No Chunks Found.");
-			chunkList.setDisable(true);
-			selectButton.setDisable(true);
+		if (_chunkList.getItems().size()==0) {
+			_chunkList.getItems().add("No Chunks Found.");
+			_chunkList.setDisable(true);
+			_selectButton.setDisable(true);
 		}
 	}
 	
 	@FXML
 	private void handleMoveUpButton() {
 		if (_selectedChunk != null) {
-			int selectedChunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+			int selectedChunkIndex = _chunkList.getSelectionModel().getSelectedIndex();
 
 			// only move up if they do not select the top-most chunk
 			if (selectedChunkIndex > 0){
@@ -248,19 +243,19 @@ public class NewCreationController {
 	@FXML
 	private void handleMoveDownButton() {
 		if (_selectedChunk != null) {
-			int selectedChunkIndex = chunkList.getSelectionModel().getSelectedIndex();
+			int selectedChunkIndex = _chunkList.getSelectionModel().getSelectedIndex();
 
 			// only move down if they do not select the bottom-most chunk
-			if (selectedChunkIndex < chunkList.getItems().size() - 1) {
+			if (selectedChunkIndex < _chunkList.getItems().size() - 1) {
 				moveSelectedChunk(selectedChunkIndex, selectedChunkIndex + 1);
 			}
 		}
 	}
 
 	private void moveSelectedChunk(int oldIndex, int newIndex) {
-		chunkList.getItems().remove(oldIndex);
-		chunkList.getItems().add(newIndex, _selectedChunk);
-		chunkList.getSelectionModel().select(newIndex);
+		_chunkList.getItems().remove(oldIndex);
+		_chunkList.getItems().add(newIndex, _selectedChunk);
+		_chunkList.getSelectionModel().select(newIndex);
 	}
 
 	@FXML
@@ -274,11 +269,11 @@ public class NewCreationController {
 	}
 
 	private void combineAudioChunks(String searchTerm) {
-		ObservableList<String> chunksList = chunkList.getItems();
+		ObservableList<String> chunksList = _chunkList.getItems();
 		
 		// Run bash script to create a combined audio of each selected chunk
 		CombineChunksTask combineChunksTask = new CombineChunksTask(chunksList, searchTerm);
-		team.submit(combineChunksTask);
+		_team.submit(combineChunksTask);
 
 		combineChunksTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
@@ -294,12 +289,12 @@ public class NewCreationController {
 
 	@FXML
 	public void handleSelectedChunk() {
-		_selectedChunk = chunkList.getSelectionModel().getSelectedItem();
+		_selectedChunk = _chunkList.getSelectionModel().getSelectedItem();
 
 		if (_selectedChunk != null) {
-			selectButton.setDisable(false);
+			_selectButton.setDisable(false);
 			
-			if (chunkList.getItems().size() > 1) {
+			if (_chunkList.getItems().size() > 1) {
 				_moveUpButton.setDisable(false);
 				_moveDownButton.setDisable(false);
 			}
@@ -308,23 +303,23 @@ public class NewCreationController {
 
 	private void displayChunkSelection() {
 		// Hide search elements
-		enterSearchTerm.setVisible(false);
-		enterSearchTermTextInput.setVisible(false);
-		searchWikipediaButton.setVisible(false);
-		searchInProgress.setVisible(false);
+		_enterSearchTerm.setVisible(false);
+		_enterSearchTermTextInput.setVisible(false);
+		_searchWikipediaButton.setVisible(false);
+		_searchInProgress.setVisible(false);
 		//termNotFound.setVisible(false);
 
 		// Show chunk elements
-		searchResultTextArea.setVisible(true);
-		previewChunk.setVisible(true);
-		saveChunk.setVisible(true);
-		voiceSelectDescription.setVisible(true);
-		textSelectDescription.setVisible(true);
-		voiceDropDownMenu.setVisible(true);
+		_searchResultTextArea.setVisible(true);
+		_previewChunk.setVisible(true);
+		_saveChunk.setVisible(true);
+		_voiceSelectDescription.setVisible(true);
+		_textSelectDescription.setVisible(true);
+		_voiceDropDownMenu.setVisible(true);
 		
-		chunkSelectDescription.setVisible(true);
-		chunkList.setVisible(true);
-		selectButton.setVisible(true);
+		_chunkSelectDescription.setVisible(true);
+		_chunkList.setVisible(true);
+		_selectButton.setVisible(true);
 		_deleteButton.setVisible(true);
 		_moveUpButton.setVisible(true);
 		_moveDownButton.setVisible(true);
@@ -353,16 +348,16 @@ public class NewCreationController {
 			chunkNamesList.add("No Chunks Found.");
 			
 			// Prevent the user from selecting "No Chunks Found" as a chunk
-			chunkList.setDisable(true);
-			selectButton.setDisable(true);
+			_chunkList.setDisable(true);
+			_selectButton.setDisable(true);
 		} else {
-			chunkList.setDisable(false);
-			selectButton.setDisable(false);
+			_chunkList.setDisable(false);
+			_selectButton.setDisable(false);
 		}
 		
 		// Turns the list of chunk names into an ObservableList<String> and displays to the GUI.
 		ObservableList<String> observableChunkNamesList = FXCollections.observableArrayList(chunkNamesList);
-		chunkList.setItems(observableChunkNamesList);
+		_chunkList.setItems(observableChunkNamesList);
 	}
 	
 	private boolean isValidChunk(String chunk) {
@@ -404,19 +399,19 @@ public class NewCreationController {
 		 */
 		// Don't let the user search until they enter a search term
 		BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
-				enterSearchTermTextInput.getText().trim().isEmpty(),
-				enterSearchTermTextInput.textProperty());
-		searchWikipediaButton.disableProperty().bind(textIsEmpty);
+				_enterSearchTermTextInput.getText().trim().isEmpty(),
+				_enterSearchTermTextInput.textProperty());
+		_searchWikipediaButton.disableProperty().bind(textIsEmpty);
 
 		// Don't let the user create a chunk until they select some text
 		BooleanBinding noTextSelected = Bindings.createBooleanBinding(() ->
-				!(numberOfWords(searchResultTextArea.getSelectedText().trim()) > 0),
-				searchResultTextArea.selectedTextProperty());
-		previewChunk.disableProperty().bind(noTextSelected);
-		saveChunk.disableProperty().bind(noTextSelected);
+				!(numberOfWords(_searchResultTextArea.getSelectedText().trim()) > 0),
+				_searchResultTextArea.selectedTextProperty());
+		_previewChunk.disableProperty().bind(noTextSelected);
+		_saveChunk.disableProperty().bind(noTextSelected);
 
 		// Don't let the user delete the selected chunk until they select at least one
-		BooleanBinding noChunkSelected = chunkList.getSelectionModel().selectedItemProperty().isNull();
+		BooleanBinding noChunkSelected = _chunkList.getSelectionModel().selectedItemProperty().isNull();
 		_deleteButton.disableProperty().bind(noChunkSelected);
 	}
 	
@@ -441,7 +436,7 @@ public class NewCreationController {
 
 	@FXML
     private void handleBackgroundMusic() throws IOException {
-		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
-    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+		Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
+    	_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 }

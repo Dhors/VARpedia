@@ -19,12 +19,11 @@ import java.io.IOException;
     is a pause/play button, skip forwards, skip backwards and mute button */
 public class PlayerController {
 	@FXML
-	private ToggleButton backgroundMusicButton;
+	private ToggleButton _backgroundMusicButton;
 	@FXML
-	private ToggleButton backgroundMusicButtonInPlayer;
-	
+	private ToggleButton _backgroundMusicButtonInPlayer;
 	@FXML
-    private Pane _player;
+    private Pane _videoPlayerPane;
     @FXML
     private Button _returnButton;
     @FXML
@@ -35,19 +34,20 @@ public class PlayerController {
     @FXML
     private MediaView _mediaView;
     private MediaPlayer _mediaPlayer;
-    
+
+    @FXML
     public void initialize(){
         Main.setCurrentScene("PlayerScene");
 
         // Initialise the media player with a video as soon as scene is loaded.
         String buttonText = Main.backgroundMusicPlayer().getButtonText();
-        backgroundMusicButton.setText(buttonText);
-        backgroundMusicButtonInPlayer.setText(buttonText);
+        _backgroundMusicButton.setText(buttonText);
+        _backgroundMusicButtonInPlayer.setText(buttonText);
         boolean buttonIsSelected = Main.backgroundMusicPlayer().getButtonIsSelected();
-        backgroundMusicButton.setSelected(buttonIsSelected);
-        backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+        _backgroundMusicButton.setSelected(buttonIsSelected);
+        _backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
         
-        _player.getChildren().removeAll();
+        _videoPlayerPane.getChildren().removeAll();
 
         _videoTitle.setText("  Now Playing: " + ListCreationsController.getSelectedCreationName());
         Media video = new Media(ListCreationsController.getSelectedFile().toURI().toString());
@@ -108,23 +108,23 @@ public class PlayerController {
 
     @FXML
     private void handleBackgroundMusic() {
-    	boolean buttonIsSelected = backgroundMusicButton.isSelected();
+    	boolean buttonIsSelected = _backgroundMusicButton.isSelected();
     	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+    	_backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
     	updateButtonTexts();
     }
     
     @FXML
     private void handleBackgroundMusicInPlayer() {
-    	boolean buttonIsSelected = backgroundMusicButtonInPlayer.isSelected();
+    	boolean buttonIsSelected = _backgroundMusicButtonInPlayer.isSelected();
     	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	backgroundMusicButton.setSelected(buttonIsSelected);
+    	_backgroundMusicButton.setSelected(buttonIsSelected);
     	updateButtonTexts();
     }
     
     private void updateButtonTexts() {
     	String buttonText = Main.backgroundMusicPlayer().getButtonText();
-    	backgroundMusicButton.setText(buttonText);
-    	backgroundMusicButtonInPlayer.setText(buttonText);
+    	_backgroundMusicButton.setText(buttonText);
+    	_backgroundMusicButtonInPlayer.setText(buttonText);
     }
 }
