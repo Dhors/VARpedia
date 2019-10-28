@@ -28,6 +28,8 @@ public class PlayerController {
     @FXML
     private Button _returnButton;
     @FXML
+    private Button _pausePlayButton;
+    @FXML
     private Label _videoTitle;
 
     @FXML
@@ -66,8 +68,10 @@ public class PlayerController {
     private void handlePausePlayButton() throws IOException {
         if (_mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             _mediaPlayer.pause();
+            _pausePlayButton.setText("\u25B6");
         } else {
             _mediaPlayer.play();
+            _pausePlayButton.setText("| |");
         }
     }
 
