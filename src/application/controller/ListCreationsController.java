@@ -43,7 +43,7 @@ public class ListCreationsController {
 		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();
 		playButton.disableProperty().bind(noCreationSelected);
 		deleteButton.disableProperty().bind(noCreationSelected);
-		//selectPrompt.textProperty().bind(noCreationSelected);
+
 	}
 
 	@FXML
@@ -112,8 +112,7 @@ public class ListCreationsController {
 	}
 
 	public static File getSelectedFile(){
-		// Removal of the index on the creation name
-		// and creating it as a file to be played or deleted.
+		// Turning a string of the file name into a file to be played or deleted.
 		String fileName = getSelectedCreationName();
 		File selectedfile = new File(System.getProperty("user.dir")+"/creations/"+ fileName +".mp4");
 
@@ -127,11 +126,8 @@ public class ListCreationsController {
 	}
 
 
-
-
-
 	@FXML
-	private void handleBackgroundMusic() throws IOException {
+	private void handleBackgroundMusic()  {
 		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
 	}

@@ -52,9 +52,6 @@ public class ImagesSelectionController {
     private ProgressBar _imagesProgressBar;
     @FXML
     private Text _imageDownloadInProgress;
-
-    @FXML
-    private Text _instructions;
     @FXML
     private TextField _creationNameTextField;
     @FXML
@@ -109,7 +106,7 @@ public class ImagesSelectionController {
     }
 
     @FXML
-    private void handleSubmitButton() throws IOException {
+    private void handleSubmitButton() {
         int numImagesDeleted = 0;
         for (int i = 0; i < _checkBoxIncludeImageList.size(); i++) {
         	if (!_checkBoxIncludeImageList.get(i).isSelected()) {
@@ -131,7 +128,7 @@ public class ImagesSelectionController {
 
         // checking that the creation name is valid set of inputs
         if (_creationNameTextField.getText().isEmpty()) {
-        	// do nothing
+
         } else if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*")) {
             Alert invalidCreationNameError = new Alert(Alert.AlertType.WARNING);
             invalidCreationNameError.getDialogPane().getStylesheets().add(("Alert.css"));
@@ -139,7 +136,7 @@ public class ImagesSelectionController {
             invalidCreationNameError.setContentText("Please enter a valid creation name consisting of alphabet letters, digits, underscores, and hyphens only.");
             invalidCreationNameError.showAndWait();
         } else if (!isUniqueCreationName(_creationNameTextField.getText())) {
-            // throw alerts
+
             Alert overrideExistingCreationPopup = new Alert(Alert.AlertType.CONFIRMATION);
             overrideExistingCreationPopup.getDialogPane().getStylesheets().add(("Alert.css"));
             overrideExistingCreationPopup.setTitle("Override");
@@ -157,7 +154,7 @@ public class ImagesSelectionController {
                 createVideo(creationName);
             }
         } else {
-            //No problems with any inputs will create the creation normally.
+            // If there are no problems with any inputs will create the creation normally.
             String creationName = _creationNameTextField.getText();
             createVideo(creationName);
         }
@@ -227,6 +224,8 @@ public class ImagesSelectionController {
         return true;
     }
 
+    // This method is used to find a valid creation name to be used as the
+    // predefined creation nae in the application.
     private String getDefaultCreationName(){
         int creationNumber = 1;
         String defaultCreationName;
@@ -240,6 +239,8 @@ public class ImagesSelectionController {
         return defaultCreationName;
     }
 
+    // Method for retrieving Flickr images. The retrieval is done through a bash process
+    // in the task class FlickrImagesTask.
     private void downloadFlickrImages() {
     	FlickrImagesTask imagesTask = new FlickrImagesTask(_searchTerm);
 
@@ -303,7 +304,7 @@ public class ImagesSelectionController {
 
 
     @FXML
-    private void handleBackgroundMusic() throws IOException {
+    private void handleBackgroundMusic() {
     	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
