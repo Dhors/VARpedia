@@ -77,7 +77,7 @@ public class QuizController {
         Main.setCurrentScene("QuizScene");
         _currentScore=0;
         _currentScoreText.setText("   Current Score: 0");
-
+        _quizPlayer.setVisible(false);
         BooleanBinding noCreationSelected = _listOfQuiz.getSelectionModel().selectedItemProperty().isNull();
         _deleteButton.disableProperty().bind(noCreationSelected);
 
