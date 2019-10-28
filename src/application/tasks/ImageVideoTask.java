@@ -13,18 +13,18 @@ public class ImageVideoTask extends Task<Void> {
     private String _searchTerm;
     private String _creationName;
     private int _numberOfImages;
-   
+
     private final String USER_DIR;
     private final String AUDIO_FILE_DIR;
     private final String TEMP_VIDEO_DIR;
     private final String NO_SOUND_VIDEO_DIR;
-    
-    
+
+
     public ImageVideoTask(String searchTerm, String creationName, int numberOfImages) {
         _searchTerm = searchTerm;
         _creationName = creationName;
         _numberOfImages = numberOfImages;
-        
+
         USER_DIR = System.getProperty("user.dir");
         AUDIO_FILE_DIR = USER_DIR + "/creations/" + _searchTerm + "/" + _searchTerm + ".wav";
         TEMP_VIDEO_DIR = USER_DIR + "/creations/" + _searchTerm + "/tempVideo.mp4";
@@ -33,7 +33,7 @@ public class ImageVideoTask extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-    	// All video creation methods are completed in this task
+        // All video creation methods are completed in this task
         videoCreation();
         mergeAudioAndVideo();
 
@@ -48,7 +48,7 @@ public class ImageVideoTask extends Task<Void> {
     // It will use the images from flickr to create a slideshow
     // THis slideshow will have the search term as centered text.
     private void videoCreation() throws IOException, InterruptedException {
-    	// To determine the length of the .wav file for generation of the video.
+        // To determine the length of the .wav file for generation of the video.
         String audioLengthCommand = ("soxi -D " + AUDIO_FILE_DIR);
         ProcessBuilder audioLengthBuilder = new ProcessBuilder("bash", "-c", audioLengthCommand);
         Process audioLengthProcess = audioLengthBuilder.start();
@@ -61,7 +61,7 @@ public class ImageVideoTask extends Task<Void> {
 
         double frameRate = _numberOfImages / (Double.parseDouble(audioLengthDouble) + 1);
 
-        String imagesDirs = USER_DIR + "/creations/" +_searchTerm+ "/*.jpg";
+        String imagesDirs = USER_DIR + "/creations/" + _searchTerm + "/*.jpg";
         String imageCommand = "cat " + imagesDirs + " | ffmpeg -f image2pipe -framerate " + frameRate + " -i - -c:v libx264 -pix_fmt yuv420p -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" -r 25 -y " + TEMP_VIDEO_DIR;
         String textCommand = "ffmpeg -y -i " + TEMP_VIDEO_DIR + " -vf \"drawtext=fontfile=myfont.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text='" + _searchTerm + "'\" " + NO_SOUND_VIDEO_DIR;
 
@@ -76,7 +76,7 @@ public class ImageVideoTask extends Task<Void> {
     private void mergeAudioAndVideo() {
         try {
             String videoOutputDir = USER_DIR + "/creations/" + _creationName + ".mp4";
-        	String command = "ffmpeg -y -i " + NO_SOUND_VIDEO_DIR + " -i " + AUDIO_FILE_DIR + " " + videoOutputDir;
+            String command = "ffmpeg -y -i " + NO_SOUND_VIDEO_DIR + " -i " + AUDIO_FILE_DIR + " " + videoOutputDir;
 
             ProcessBuilder finalVideoBuilder = new ProcessBuilder("/bin/bash", "-c", command);
             Process finalVideoBuilderProcess = finalVideoBuilder.start();
@@ -87,12 +87,12 @@ public class ImageVideoTask extends Task<Void> {
     }
 
     private void quizVideoCreation() {
-            //the search term is the quiz video name so there is no need to repeat.
-            File quizVideo = new File(USER_DIR + "/quiz/" + _searchTerm + ".mp4");
-            if (!quizVideo.exists()) {
-             try {
-            	String quizVideoDir = USER_DIR + "/quiz/" + _searchTerm + ".mp4";
-            	String command = "ffmpeg -y -i " + TEMP_VIDEO_DIR + " -i " + AUDIO_FILE_DIR + " " + quizVideoDir;
+        //the search term is the quiz video name so there is no need to repeat.
+        File quizVideo = new File(USER_DIR + "/quiz/" + _searchTerm + ".mp4");
+        if (!quizVideo.exists()) {
+            try {
+                String quizVideoDir = USER_DIR + "/quiz/" + _searchTerm + ".mp4";
+                String command = "ffmpeg -y -i " + TEMP_VIDEO_DIR + " -i " + AUDIO_FILE_DIR + " " + quizVideoDir;
 
                 ProcessBuilder quizVideoBuilder = new ProcessBuilder("/bin/bash", "-c", command);
                 Process quizVideoBuilderProcess = quizVideoBuilder.start();

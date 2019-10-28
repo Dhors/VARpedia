@@ -24,10 +24,10 @@ public class QuizController {
     private File _quizVideo;
 
     @FXML
-	private ToggleButton _backgroundMusicButton;
+    private ToggleButton _backgroundMusicButton;
     @FXML
-	private ToggleButton _backgroundMusicButtonInPlayer;
-    
+    private ToggleButton _backgroundMusicButtonInPlayer;
+
     @FXML
     private Pane _quizPlayer;
     @FXML
@@ -69,9 +69,9 @@ public class QuizController {
     private static String _selectedQuiz;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         Main.setCurrentScene("QuizScene");
-        _currentScore=0;
+        _currentScore = 0;
         _currentScoreText.setText("   Current Score: 0");
         _quizPlayer.setVisible(false);
         BooleanBinding noCreationSelected = _listOfQuiz.getSelectionModel().selectedItemProperty().isNull();
@@ -83,7 +83,7 @@ public class QuizController {
         boolean buttonIsSelected = Main.backgroundMusicPlayer().getButtonIsSelected();
         _backgroundMusicButton.setSelected(buttonIsSelected);
         _backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
-        
+
         _startButton.setVisible(true);
         _manageQuizButton.setVisible(true);
 
@@ -98,20 +98,20 @@ public class QuizController {
         _backgroundMusicButtonInPlayer.setVisible(false);
 
         /**
-		 * Credit to user DVarga
-		 * Full credit in NewCreationController in method setUpBooleanBindings()
-		 */
+         * Credit to user DVarga
+         * Full credit in NewCreationController in method setUpBooleanBindings()
+         */
         // Don't let the user check their answer until they enter an answer
         BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
-        	_playerAnswerTextField.getText().trim().isEmpty(),
-        	_playerAnswerTextField.textProperty());
+                        _playerAnswerTextField.getText().trim().isEmpty(),
+                _playerAnswerTextField.textProperty());
         _checkButton.disableProperty().bind(textIsEmpty);
     }
 
 
     @FXML
     private void handleStartButton() {
-    	_quizPlayer.setVisible(true);
+        _quizPlayer.setVisible(true);
         _quizImage.setVisible(false);
 
         _currentScoreText.setVisible(true);
@@ -125,7 +125,7 @@ public class QuizController {
 
 
         getRandomQuiz();
-        
+
         Media video = new Media(_quizVideo.toURI().toString());
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);
@@ -145,9 +145,9 @@ public class QuizController {
     @FXML
     private void handleCheckButton() {
         _mediaPlayer.pause();
-        
+
         boolean answerIsCorrect = _playerAnswerTextField.getText().equalsIgnoreCase(_quizTerm);
-        if (answerIsCorrect){
+        if (answerIsCorrect) {
             //updating the score when user gets answer correct
             _currentScore++;
             _currentScoreText.setText("   Current Score: " + _currentScore);
@@ -185,15 +185,15 @@ public class QuizController {
     @FXML
     private void handleBackButton() throws IOException {
         if (_mediaPlayer != null) {
-        	_mediaPlayer.stop();
+            _mediaPlayer.stop();
         }
         Main.changeScene("resources/MainScreenScene.fxml");
     }
 
     @FXML
     private void handleSkipButton() {
-    	_pausePlayButton.setText("| |");
-    	_startButton.fire();
+        _pausePlayButton.setText("| |");
+        _startButton.fire();
     }
 
     // This method will retrieve a random quiz video from the current repository of quiz videos.
@@ -212,7 +212,7 @@ public class QuizController {
     }
 
     @FXML
-    public void handleManageQuizButton(){
+    public void handleManageQuizButton() {
         _quizImage.setVisible(false);
 
         selectPrompt.setVisible(true);
@@ -232,14 +232,14 @@ public class QuizController {
     public void handleSelectedQuiz() {
 
         _selectedQuiz = _listOfQuiz.getSelectionModel().getSelectedItem();
-        if (!(_selectedQuiz==null)) {
+        if (!(_selectedQuiz == null)) {
             selectPrompt.setText("");
         }
     }
 
-    private void ListCurrentQuiz(){
+    private void ListCurrentQuiz() {
         // The quiz directory where all quiz videos are stored.
-        final File quizFolder = new File(System.getProperty("user.dir")+"/quiz/");
+        final File quizFolder = new File(System.getProperty("user.dir") + "/quiz/");
         ArrayList<String> creationNamesList = new ArrayList<String>();
 
         // Will get every file in the quiz directory and create an indexed
@@ -258,23 +258,23 @@ public class QuizController {
         _listOfQuiz.setItems(observableCreationNamesList);
     }
 
-    public static File getSelectedFile(){
+    public static File getSelectedFile() {
         // Removal of the index on the quiz video name
         // and creating it as a file to be played or deleted.
         String fileName = getSelectedQuizName();
-        File selectedQuiz = new File(System.getProperty("user.dir")+"/quiz/"+ fileName +".mp4");
+        File selectedQuiz = new File(System.getProperty("user.dir") + "/quiz/" + fileName + ".mp4");
 
         return selectedQuiz;
     }
 
-    public static String getSelectedQuizName(){
+    public static String getSelectedQuizName() {
         // Removal of the index on the quiz video name
-        String fileName = ( "" + _selectedQuiz.substring(_selectedQuiz.indexOf(".")+2) );
+        String fileName = ("" + _selectedQuiz.substring(_selectedQuiz.indexOf(".") + 2));
         return fileName;
     }
 
     @FXML
-    private void handleDeleteButton(){
+    private void handleDeleteButton() {
         Alert deleteConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
         deleteConfirmation.getDialogPane().getStylesheets().add(("Alert.css"));
         deleteConfirmation.setTitle("Confirm Deletion");
@@ -300,23 +300,23 @@ public class QuizController {
 
     @FXML
     private void handleBackgroundMusic() {
-    	boolean buttonIsSelected = _backgroundMusicButton.isSelected();
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	_backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
-    	updateButtonTexts();
+        boolean buttonIsSelected = _backgroundMusicButton.isSelected();
+        Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+        _backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+        updateButtonTexts();
     }
-    
+
     @FXML
     private void handleBackgroundMusicInPlayer() {
-    	boolean buttonIsSelected = _backgroundMusicButtonInPlayer.isSelected();
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	_backgroundMusicButton.setSelected(buttonIsSelected);
-    	updateButtonTexts();
+        boolean buttonIsSelected = _backgroundMusicButtonInPlayer.isSelected();
+        Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+        _backgroundMusicButton.setSelected(buttonIsSelected);
+        updateButtonTexts();
     }
-    
+
     private void updateButtonTexts() {
-    	String buttonText = Main.backgroundMusicPlayer().getButtonText();
-    	_backgroundMusicButton.setText(buttonText);
-    	_backgroundMusicButtonInPlayer.setText(buttonText);
+        String buttonText = Main.backgroundMusicPlayer().getButtonText();
+        _backgroundMusicButton.setText(buttonText);
+        _backgroundMusicButtonInPlayer.setText(buttonText);
     }
 }

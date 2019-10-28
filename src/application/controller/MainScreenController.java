@@ -9,16 +9,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class MainScreenController {
-	@FXML
-	private ToggleButton _backgroundMusicButton;
+    @FXML
+    private ToggleButton _backgroundMusicButton;
 
     @FXML
-	public void initialize() {
+    public void initialize() {
         Main.setCurrentScene("MainScreenScene");
         _backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
         _backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
-	}
-	
+    }
+
     @FXML
     private void handleListButton() throws IOException {
         Main.changeScene("resources/ListCreationsScene.fxml");
@@ -28,11 +28,11 @@ public class MainScreenController {
     private void handleNewCreationButton() throws IOException {
         Main.changeScene("resources/NewCreationScene.fxml");
     }
-    
+
     @FXML
     private void handleQuizButton() throws IOException {
         File quizFolder = new File(System.getProperty("user.dir") + "/quiz/");
-        if (!(quizFolder.listFiles().length== 0)){
+        if (!(quizFolder.listFiles().length == 0)) {
             Main.changeScene("resources/QuizScene.fxml");
         } else {
             Alert noQuizVideoAlert = new Alert(Alert.AlertType.WARNING);
@@ -43,15 +43,15 @@ public class MainScreenController {
             noQuizVideoAlert.showAndWait();
         }
     }
-    
+
     @FXML
     private void handleBackgroundMusic() {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
-    	_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
+        _backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 
     @FXML
-    private void handleCreateInformation()  {
+    private void handleCreateInformation() {
         Alert createInfo = new Alert(Alert.AlertType.INFORMATION);
         createInfo.getDialogPane().getStylesheets().add(("Alert.css"));
 
@@ -61,6 +61,7 @@ public class MainScreenController {
                 "You can make a creation for anything that you want to know about.");
         createInfo.show();
     }
+
     @FXML
     private void handlePlayInformation() {
         Alert playInfo = new Alert(Alert.AlertType.INFORMATION);
@@ -68,9 +69,10 @@ public class MainScreenController {
         playInfo.setTitle("Watch a creation");
         playInfo.setHeaderText("Watch any creation that you have made.");
         playInfo.setContentText("You will see a list of creations that you have made in the past. " +
-                                                "You can play any creation that you want to.");
+                "You can play any creation that you want to.");
         playInfo.show();
     }
+
     @FXML
     private void handleLearnInformation() {
         Alert learnInfo = new Alert(Alert.AlertType.INFORMATION);
@@ -94,7 +96,6 @@ public class MainScreenController {
         varpediaInfo.show();
 
     }
-
 
 
 }

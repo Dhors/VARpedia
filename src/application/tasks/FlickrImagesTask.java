@@ -14,7 +14,7 @@ import java.io.IOException;
 public class FlickrImagesTask extends Task<Void> {
     private String _searchTerm;
 
-    public FlickrImagesTask(String searchTerm){
+    public FlickrImagesTask(String searchTerm) {
         _searchTerm = searchTerm;
     }
 
@@ -24,7 +24,7 @@ public class FlickrImagesTask extends Task<Void> {
         updateProgress(0, 10);
         return null;
     }
-    
+
     // This method will use the provided api key to retrieve images related to the user search term
     // A number between 1 and 10 images will be retrieved.
     private void getFlickrImages() {
@@ -57,18 +57,18 @@ public class FlickrImagesTask extends Task<Void> {
                 try {
                     BufferedImage image = photos.getImage(photo, Size.LARGE);
 
-                    String filename = (""+ count +".jpg");
-                    
+                    String filename = ("" + count + ".jpg");
+
                     File imagefile = new File(System.getProperty("user.dir") + "/creations/" + _searchTerm + "/" + filename);
                     ImageIO.write(image, "jpg", imagefile);
                     count++;
                 } catch (FlickrException fe) {
                     System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
                 } catch (IOException ioe) {
-					ioe.printStackTrace();
-				}
+                    ioe.printStackTrace();
+                }
             }
-        } catch(FlickrException fe) {
+        } catch (FlickrException fe) {
             fe.printStackTrace();
         }
     }

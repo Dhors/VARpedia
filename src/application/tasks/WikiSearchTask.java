@@ -6,39 +6,39 @@ import java.io.InputStreamReader;
 
 import javafx.concurrent.Task;
 
-public class WikiSearchTask extends Task<String>{
+public class WikiSearchTask extends Task<String> {
 
-	private String _searchTerm;
-	
-	public WikiSearchTask(String searchTerm) {
-		_searchTerm = searchTerm;
-	}
-	
-	@Override
-	protected String call() throws Exception {
+    private String _searchTerm;
 
-		String searchResult = "";
-		try {
-			String command = "wikit " + _searchTerm;
-			ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
-			Process process = builder.start();
+    public WikiSearchTask(String searchTerm) {
+        _searchTerm = searchTerm;
+    }
 
-			InputStream stdout = process.getInputStream();
-			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
+    @Override
+    protected String call() throws Exception {
 
-			String line = null;
-			while ((line = stdoutBuffered.readLine()) != null ) {
-				searchResult += line;
-			}
+        String searchResult = "";
+        try {
+            String command = "wikit " + _searchTerm;
+            ProcessBuilder builder = new ProcessBuilder(new String[]{"/bin/bash", "-c", command});
+            Process process = builder.start();
 
-			process.waitFor();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		updateProgress(0, 10);
-		String trimmedSearchResult = searchResult.trim();
-		String wikiSearchOutput = trimmedSearchResult.replace(". ", ".\n\n");
+            InputStream stdout = process.getInputStream();
+            BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 
-		return wikiSearchOutput.trim();
-	}
+            String line = null;
+            while ((line = stdoutBuffered.readLine()) != null) {
+                searchResult += line;
+            }
+
+            process.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        updateProgress(0, 10);
+        String trimmedSearchResult = searchResult.trim();
+        String wikiSearchOutput = trimmedSearchResult.replace(". ", ".\n\n");
+
+        return wikiSearchOutput.trim();
+    }
 }

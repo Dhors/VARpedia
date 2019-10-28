@@ -24,26 +24,46 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ImagesSelectionController {
-    @FXML private ImageView _ImageView0;
-    @FXML private ImageView _ImageView1;
-    @FXML private ImageView _ImageView2;
-    @FXML private ImageView _ImageView3;
-    @FXML private ImageView _ImageView4;
-    @FXML private ImageView _ImageView5;
-    @FXML private ImageView _ImageView6;
-    @FXML private ImageView _ImageView7;
-    @FXML private ImageView _ImageView8;
-    @FXML private ImageView _ImageView9;
-    @FXML private CheckBox _checkBox0;
-    @FXML private CheckBox _checkBox1;
-    @FXML private CheckBox _checkBox2;
-    @FXML private CheckBox _checkBox3;
-    @FXML private CheckBox _checkBox4;
-    @FXML private CheckBox _checkBox5;
-    @FXML private CheckBox _checkBox6;
-    @FXML private CheckBox _checkBox7;
-    @FXML private CheckBox _checkBox8;
-    @FXML private CheckBox _checkBox9;
+    @FXML
+    private ImageView _ImageView0;
+    @FXML
+    private ImageView _ImageView1;
+    @FXML
+    private ImageView _ImageView2;
+    @FXML
+    private ImageView _ImageView3;
+    @FXML
+    private ImageView _ImageView4;
+    @FXML
+    private ImageView _ImageView5;
+    @FXML
+    private ImageView _ImageView6;
+    @FXML
+    private ImageView _ImageView7;
+    @FXML
+    private ImageView _ImageView8;
+    @FXML
+    private ImageView _ImageView9;
+    @FXML
+    private CheckBox _checkBox0;
+    @FXML
+    private CheckBox _checkBox1;
+    @FXML
+    private CheckBox _checkBox2;
+    @FXML
+    private CheckBox _checkBox3;
+    @FXML
+    private CheckBox _checkBox4;
+    @FXML
+    private CheckBox _checkBox5;
+    @FXML
+    private CheckBox _checkBox6;
+    @FXML
+    private CheckBox _checkBox7;
+    @FXML
+    private CheckBox _checkBox8;
+    @FXML
+    private CheckBox _checkBox9;
 
     @FXML
     private ToggleButton _backgroundMusicButton;
@@ -86,22 +106,22 @@ public class ImagesSelectionController {
         _searchTerm = NewCreationController.getSearchTerm();
         _imagesFolder = new File(CREATIONS_DIR + _searchTerm);
 
-        _flickrImageViewList = new ArrayList<ImageView>(Arrays.asList(_ImageView0,_ImageView1,_ImageView2,_ImageView3,_ImageView4,_ImageView5
-                ,_ImageView6,_ImageView7,_ImageView8,_ImageView9));
-        _checkBoxIncludeImageList = new ArrayList<CheckBox>(Arrays.asList(_checkBox0,_checkBox1,_checkBox2,_checkBox3,_checkBox4,_checkBox5
-                ,_checkBox6,_checkBox7,_checkBox8,_checkBox9));
+        _flickrImageViewList = new ArrayList<ImageView>(Arrays.asList(_ImageView0, _ImageView1, _ImageView2, _ImageView3, _ImageView4, _ImageView5
+                , _ImageView6, _ImageView7, _ImageView8, _ImageView9));
+        _checkBoxIncludeImageList = new ArrayList<CheckBox>(Arrays.asList(_checkBox0, _checkBox1, _checkBox2, _checkBox3, _checkBox4, _checkBox5
+                , _checkBox6, _checkBox7, _checkBox8, _checkBox9));
 
-        
+
         /**
-		 * Credit to user DVarga
-		 * Full credit in NewCreationController in method setUpBooleanBindings()
-		 */
+         * Credit to user DVarga
+         * Full credit in NewCreationController in method setUpBooleanBindings()
+         */
         // Don't let the user create a creation if they remove the default creation name
         BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
-			_creationNameTextField.getText().trim().isEmpty(),
-			_creationNameTextField.textProperty());
+                        _creationNameTextField.getText().trim().isEmpty(),
+                _creationNameTextField.textProperty());
         _submitButton.disableProperty().bind(textIsEmpty);
-        
+
         downloadFlickrImages();
     }
 
@@ -109,7 +129,7 @@ public class ImagesSelectionController {
     private void handleSubmitButton() {
         int numImagesDeleted = 0;
         for (int i = 0; i < _checkBoxIncludeImageList.size(); i++) {
-        	if (!_checkBoxIncludeImageList.get(i).isSelected()) {
+            if (!_checkBoxIncludeImageList.get(i).isSelected()) {
                 File imageFile = new File(_imagesFolder + "/" + i + ".jpg");
                 imageFile.delete();
                 numImagesDeleted++;
@@ -117,7 +137,7 @@ public class ImagesSelectionController {
         }
 
         _numberOfImages = 10 - numImagesDeleted;
-        if (_numberOfImages ==0) {
+        if (_numberOfImages == 0) {
             Alert noImagesSelectedError = new Alert(Alert.AlertType.WARNING);
             noImagesSelectedError.getDialogPane().getStylesheets().add(("Alert.css"));
             noImagesSelectedError.setTitle("No images selected");
@@ -163,16 +183,16 @@ public class ImagesSelectionController {
     /*The method to create the creation
       This method will pull images from flickr based on user input.
       Using these images a video will be created with the search term added as text.*/
-    private void createVideo(String creationName){
-    	Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
+    private void createVideo(String creationName) {
+        Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
         creationInProgressPopup.getDialogPane().getStylesheets().add(("Alert.css"));
         creationInProgressPopup.setTitle("Creation in progress");
         creationInProgressPopup.setHeaderText("Creation is being made, please wait...");
         creationInProgressPopup.setContentText("You will be informed when the creation is complete.");
         creationInProgressPopup.show();
 
-    	// Thread to ensure that GUI remains concurrent while the video is being created
-        ImageVideoTask flickrImagesTask = new ImageVideoTask (_searchTerm, creationName, _numberOfImages);
+        // Thread to ensure that GUI remains concurrent while the video is being created
+        ImageVideoTask flickrImagesTask = new ImageVideoTask(_searchTerm, creationName, _numberOfImages);
         _team.submit(flickrImagesTask);
 
         // return to main menu
@@ -186,13 +206,13 @@ public class ImagesSelectionController {
             @Override
             public void handle(WorkerStateEvent event) {
                 // close the 'in progress' popup
-            	Button cancelButton = ( Button ) creationInProgressPopup.getDialogPane().lookupButton( ButtonType.OK );
+                Button cancelButton = (Button) creationInProgressPopup.getDialogPane().lookupButton(ButtonType.OK);
                 cancelButton.fire();
 
                 // This will refresh the List of creations only if the user is currently on the List of creations scene
                 // Otherwise when the user enters, the initialize() method of ListCreationsController will
                 // refresh the list of creations.
-                if (Main.getCurrentScene().equals("ListCreationScene")){
+                if (Main.getCurrentScene().equals("ListCreationScene")) {
                     try {
                         Main.changeScene("resources/ListCreationsScene.fxml");
                     } catch (IOException e) {
@@ -203,7 +223,7 @@ public class ImagesSelectionController {
                 Alert creationFinishedPopup = new Alert(Alert.AlertType.INFORMATION);
                 creationFinishedPopup.getDialogPane().getStylesheets().add(("Alert.css"));
                 creationFinishedPopup.setTitle("Creation completed");
-                creationFinishedPopup.setHeaderText("Creation completed: "+ _creationNameTextField.getText() +" is finished");
+                creationFinishedPopup.setHeaderText("Creation completed: " + _creationNameTextField.getText() + " is finished");
                 creationFinishedPopup.setContentText("You can find it in the Creations or Quiz sections");
                 creationFinishedPopup.showAndWait();
             }
@@ -213,7 +233,7 @@ public class ImagesSelectionController {
     // This method will check if the given name is already associated with
     // an existing creation. Returns false if the creation name is already used.
     // Returns true otherwise.
-    private boolean isUniqueCreationName(String creationName){
+    private boolean isUniqueCreationName(String creationName) {
         File creationsFolder = new File(CREATIONS_DIR);
         for (final File creationFile : creationsFolder.listFiles()) {
             if (creationFile.getName().equals("" + creationName + ".mp4")) {
@@ -226,14 +246,14 @@ public class ImagesSelectionController {
 
     // This method is used to find a valid creation name to be used as the
     // predefined creation nae in the application.
-    private String getDefaultCreationName(){
+    private String getDefaultCreationName() {
         int creationNumber = 1;
         String defaultCreationName;
         File quizFileName;
         do {
-        	defaultCreationName = _searchTerm + "-" + creationNumber;
-        	quizFileName = new File(CREATIONS_DIR + defaultCreationName + ".mp4");
-        	creationNumber++;
+            defaultCreationName = _searchTerm + "-" + creationNumber;
+            quizFileName = new File(CREATIONS_DIR + defaultCreationName + ".mp4");
+            creationNumber++;
         } while (quizFileName.exists());
 
         return defaultCreationName;
@@ -242,7 +262,7 @@ public class ImagesSelectionController {
     // Method for retrieving Flickr images. The retrieval is done through a bash process
     // in the task class FlickrImagesTask.
     private void downloadFlickrImages() {
-    	FlickrImagesTask imagesTask = new FlickrImagesTask(_searchTerm);
+        FlickrImagesTask imagesTask = new FlickrImagesTask(_searchTerm);
 
         _imagesProgressBar.progressProperty().bind(imagesTask.progressProperty());
 
@@ -251,7 +271,7 @@ public class ImagesSelectionController {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
                 _progressPane.setVisible(false);
-            	_imageDownloadInProgress.setVisible(false);
+                _imageDownloadInProgress.setVisible(false);
                 _imagesProgressBar.setVisible(false);
                 _clockImage.setVisible(false);
 
@@ -261,23 +281,23 @@ public class ImagesSelectionController {
     }
 
     private void populateFlickrImageViews() {
-    	File[] imageFileArray = _imagesFolder.listFiles();
-    	Arrays.sort(imageFileArray);
-    	for (File imageFile : imageFileArray) {
+        File[] imageFileArray = _imagesFolder.listFiles();
+        Arrays.sort(imageFileArray);
+        for (File imageFile : imageFileArray) {
             if (imageFile.getName().endsWith(".jpg")) {
-            	_imageList.add(new Image(imageFile.toURI().toString()));
+                _imageList.add(new Image(imageFile.toURI().toString()));
             }
         }
 
         for (int i = 0; i < _flickrImageViewList.size(); i++) {
-        	ImageView flickrImageView = _flickrImageViewList.get(i);
-        	flickrImageView.setImage(_imageList.get(i));
+            ImageView flickrImageView = _flickrImageViewList.get(i);
+            flickrImageView.setImage(_imageList.get(i));
         }
 
-        for (ImageView flickrImageView: _flickrImageViewList) {
+        for (ImageView flickrImageView : _flickrImageViewList) {
             flickrImageView.setVisible(true);
         }
-        for (CheckBox checkBoxIcludeImage: _checkBoxIncludeImageList) {
+        for (CheckBox checkBoxIcludeImage : _checkBoxIncludeImageList) {
             checkBoxIcludeImage.setVisible(true);
         }
 
@@ -305,7 +325,7 @@ public class ImagesSelectionController {
 
     @FXML
     private void handleBackgroundMusic() {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
-    	_backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        Main.backgroundMusicPlayer().handleBackgroundMusic(_backgroundMusicButton.isSelected());
+        _backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 }

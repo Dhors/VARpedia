@@ -14,15 +14,16 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 
-
-/** Media video creation will play as soon as the scene is loaded included
-    is a pause/play button, skip forwards, skip backwards and mute button */
+/**
+ * Media video creation will play as soon as the scene is loaded included
+ * is a pause/play button, skip forwards, skip backwards and mute button
+ */
 public class PlayerController {
-	@FXML
-	private ToggleButton _backgroundMusicButton;
-	@FXML
-	private ToggleButton _backgroundMusicButtonInPlayer;
-	@FXML
+    @FXML
+    private ToggleButton _backgroundMusicButton;
+    @FXML
+    private ToggleButton _backgroundMusicButtonInPlayer;
+    @FXML
     private Pane _videoPlayerPane;
     @FXML
     private Button _returnButton;
@@ -36,7 +37,7 @@ public class PlayerController {
     private MediaPlayer _mediaPlayer;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         Main.setCurrentScene("PlayerScene");
 
         // Initialise the media player with a video as soon as scene is loaded.
@@ -46,7 +47,7 @@ public class PlayerController {
         boolean buttonIsSelected = Main.backgroundMusicPlayer().getButtonIsSelected();
         _backgroundMusicButton.setSelected(buttonIsSelected);
         _backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
-        
+
         _videoPlayerPane.getChildren().removeAll();
 
         _videoTitle.setText("  Now Playing: " + ListCreationsController.getSelectedCreationName());
@@ -79,23 +80,23 @@ public class PlayerController {
     // Video will continue to play
     @FXML
     private void handleMuteButton() {
-        _mediaPlayer.setMute( !_mediaPlayer.isMute() );
+        _mediaPlayer.setMute(!_mediaPlayer.isMute());
     }
 
     // Will skip forwards 3 seconds in the video time.
     @FXML
     private void handleForwardButton() {
-    	changeVideoTime(3);
+        changeVideoTime(3);
     }
 
     // Will skip back 3 seconds in the video time.
     @FXML
     private void handleBackwardsButton() {
-    	changeVideoTime(-3);
+        changeVideoTime(-3);
     }
 
     private void changeVideoTime(int secondsToAdd) {
-    	_mediaPlayer.seek( _mediaPlayer.getCurrentTime().add( Duration.seconds(secondsToAdd)) );
+        _mediaPlayer.seek(_mediaPlayer.getCurrentTime().add(Duration.seconds(secondsToAdd)));
     }
 
     // Return to main menu
@@ -108,23 +109,23 @@ public class PlayerController {
 
     @FXML
     private void handleBackgroundMusic() {
-    	boolean buttonIsSelected = _backgroundMusicButton.isSelected();
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	_backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
-    	updateButtonTexts();
+        boolean buttonIsSelected = _backgroundMusicButton.isSelected();
+        Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+        _backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+        updateButtonTexts();
     }
-    
+
     @FXML
     private void handleBackgroundMusicInPlayer() {
-    	boolean buttonIsSelected = _backgroundMusicButtonInPlayer.isSelected();
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
-    	_backgroundMusicButton.setSelected(buttonIsSelected);
-    	updateButtonTexts();
+        boolean buttonIsSelected = _backgroundMusicButtonInPlayer.isSelected();
+        Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+        _backgroundMusicButton.setSelected(buttonIsSelected);
+        updateButtonTexts();
     }
-    
+
     private void updateButtonTexts() {
-    	String buttonText = Main.backgroundMusicPlayer().getButtonText();
-    	_backgroundMusicButton.setText(buttonText);
-    	_backgroundMusicButtonInPlayer.setText(buttonText);
+        String buttonText = Main.backgroundMusicPlayer().getButtonText();
+        _backgroundMusicButton.setText(buttonText);
+        _backgroundMusicButtonInPlayer.setText(buttonText);
     }
 }
