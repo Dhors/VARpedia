@@ -99,7 +99,7 @@ public class PlayerController {
     private void handleReturnButton() throws IOException {
         _mediaPlayer.stop();
         _mediaPlayer.dispose();
-        Main.changeScene("resources/listCreationsScene.fxml");
+        Main.changeScene("resources/ListCreationsScene.fxml");
     }
 
     @FXML

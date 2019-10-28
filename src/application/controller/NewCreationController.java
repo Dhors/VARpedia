@@ -282,7 +282,7 @@ public class NewCreationController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				try {
-					Main.changeScene("resources/ImagesSelection.fxml");
+					Main.changeScene("resources/ImagesSelectionScene.fxml");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

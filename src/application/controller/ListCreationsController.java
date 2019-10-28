@@ -48,7 +48,7 @@ public class ListCreationsController {
 
 	@FXML
 	private void handleNewCreationButton() throws IOException {
-		Main.changeScene("resources/newCreationScene.fxml");
+		Main.changeScene("resources/NewCreationScene.fxml");
 	}
 
 

@@ -177,7 +177,7 @@ public class ImagesSelectionController {
 
                 if (Main.getCurrentScene().equals("ListCreationScene")){
                     try {
-                        Main.changeScene("resources/listCreationsScene.fxml");
+                        Main.changeScene("resources/MainScreenScene.fxml");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
