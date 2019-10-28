@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CreationController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.NewCreationController">
    <children>
       <Button layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Cancel Creation" />
       <ImageView fx:id="_searchImage" fitHeight="340.0" fitWidth="463.0" layoutX="330.0" layoutY="346.0" pickOnBounds="true" preserveRatio="true">

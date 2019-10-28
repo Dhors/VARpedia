@@ -1,14 +1,10 @@
 package application.controller;
 
 import application.Main;
-import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 

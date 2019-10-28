@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="anchor-pane" prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ListController">
+<AnchorPane id="anchor-pane" prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ListCreationsController">
    <children>
       <Button layoutX="319.0" layoutY="655.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="64.0" prefWidth="125.0" styleClass="bigButton" text="Create">
          <font>

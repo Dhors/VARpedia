@@ -12,8 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -21,8 +19,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class QuizController {
-	private final int MEDIA_VIEW_WIDTH = 750;
-	private final int MEDIA_VIEW_HEIGHT = 380;
 	
     private String _quizTerm;
     private File _quizVideo;
@@ -130,9 +126,6 @@ public class QuizController {
         
         //_mediaView = new MediaView(_mediaPlayer);
         _mediaView.setMediaPlayer(_mediaPlayer);
-
-        _mediaView.setFitHeight(MEDIA_VIEW_HEIGHT);
-        _mediaView.setFitWidth(MEDIA_VIEW_WIDTH);
 
         //_quizPlayer.getChildren().add(_mediaView);
 

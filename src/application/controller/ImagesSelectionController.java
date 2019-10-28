@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -85,7 +84,7 @@ public class ImagesSelectionController {
         backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
         backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 
-        _searchTerm = CreationController.getSearchTerm();
+        _searchTerm = NewCreationController.getSearchTerm();
         imagesFolder= new File(CREATIONS_DIR + _searchTerm);
 
         _flickrImageViewList = new ArrayList<ImageView>(Arrays.asList(_ImageView0,_ImageView1,_ImageView2,_ImageView3,_ImageView4,_ImageView5

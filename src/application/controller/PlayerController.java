@@ -3,15 +3,12 @@ package application.controller;
 import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -20,7 +17,7 @@ import java.io.IOException;
 
 /** Media video creation will play as soon as the scene is loaded included
     is a pause/play button, skip forwards, skip backwards and mute button */
-public class playerController {
+public class PlayerController {
 	@FXML
 	private ToggleButton backgroundMusicButton;
 	@FXML
@@ -49,8 +46,8 @@ public class playerController {
         
         _player.getChildren().removeAll();
 
-        _videoTitle.setText("  Now Playing: " + ListController.getSelectedCreationName());
-        Media video = new Media(ListController.getSelectedFile().toURI().toString());
+        _videoTitle.setText("  Now Playing: " + ListCreationsController.getSelectedCreationName());
+        Media video = new Media(ListCreationsController.getSelectedFile().toURI().toString());
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);
 
