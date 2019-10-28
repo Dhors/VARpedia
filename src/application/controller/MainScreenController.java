@@ -21,6 +21,11 @@ public class MainScreenController {
     private void handleListButton() throws IOException {
         Main.changeScene("resources/listCreationsScene.fxml");
     }
+
+    @FXML
+    private void handleNewCreationButton() throws IOException {
+        Main.changeScene("resources/newCreationScene.fxml");
+    }
     
     @FXML
     private void handleQuizButton() throws IOException {

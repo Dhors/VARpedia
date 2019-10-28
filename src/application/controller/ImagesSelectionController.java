@@ -266,7 +266,7 @@ public class ImagesSelectionController {
         // term is already associated with another creation it is serialized.
         _creationNameTextField.setText(getDefaultCreationName());
 
-        _instructions.setVisible(true);
+
         _creationNameTextField.setVisible(true);
         _submitButton.setVisible(true);
         _imagePane.setVisible(true);

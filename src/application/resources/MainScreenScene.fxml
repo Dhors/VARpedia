@@ -12,16 +12,21 @@
          <font>
             <Font size="48.0" />
          </font></Text>
-      <Button layoutX="237.0" layoutY="408.0" mnemonicParsing="false" onAction="#handleListButton" prefHeight="50.0" prefWidth="175.0" styleClass="bigButton" text="Creations">
+      <Button layoutX="177.0" layoutY="408.0" mnemonicParsing="false" onAction="#handleListButton" prefHeight="50.0" prefWidth="175.0" styleClass="bigButton" text="Play">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="612.0" layoutY="408.0" mnemonicParsing="false" onAction="#handleQuizButton" prefHeight="50.0" prefWidth="175.0" styleClass="bigButton" text="Quiz">
+      <Button layoutX="655.0" layoutY="408.0" mnemonicParsing="false" onAction="#handleQuizButton" prefHeight="50.0" prefWidth="175.0" styleClass="bigButton" text="Learn">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
 	  <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
+      <Button layoutX="403.0" layoutY="403.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="75.0" prefWidth="218.0" styleClass="bigButton" text="Create">
+         <font>
+            <Font name="Comic Sans MS" size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -40,7 +40,7 @@ public class playerController {
         
         _player.getChildren().removeAll();
 
-        _videoTitle.setText("Now Playing: " + ListController.getSelectedCreationName());
+        _videoTitle.setText("  Now Playing: " + ListController.getSelectedCreationName());
         Media video = new Media(ListController.getSelectedFile().toURI().toString());
         _mediaPlayer = new MediaPlayer(video);
         _mediaPlayer.setAutoPlay(true);

@@ -104,7 +104,7 @@ public class CreationController {
 	@FXML
 	private void handleCreationCancelButton() throws IOException {
 		// Return to main menu
-		Main.changeScene("resources/listCreationsScene.fxml");
+		Main.changeScene("resources/MainScreenScene.fxml");
 
 		// Cleaning the chunks folder if the creation is cancelled.
 		File chunksFolder = new File(System.getProperty("user.dir") + "/chunks/" );

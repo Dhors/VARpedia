@@ -10,9 +10,9 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.playerController">
    <children>
-      <Button fx:id="_returnButton" layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Return" />
+      <Button fx:id="_returnButton" layoutX="885.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="50.0" prefWidth="125.0" styleClass="bigButton" text="Return" />
       <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
-      <Pane fx:id="_player" layoutX="128.0" layoutY="141.0" prefHeight="535.0" prefWidth="768.0" style="-fx-background-color: WHITE; -fx-background-radius: 0 0 25 25; -fx-border-radius: 25;">
+      <Pane fx:id="_player" layoutX="88.0" layoutY="176.0" prefHeight="535.0" prefWidth="849.0" style="-fx-background-color: WHITE; -fx-background-radius: 0 0 25 25; -fx-border-radius: 25;">
          <children>
             <Button layoutX="328.0" layoutY="471.0" mnemonicParsing="false" onAction="#handlePausePlayButton" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: blue; -fx-border-width: 1;" styleClass="smallButton" text="Pause/Play" />
             <Button layoutX="486.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleForwardButton" prefHeight="50.0" prefWidth="75.0" style="-fx-border-color: blue; -fx-border-width: 1;" styleClass="smallButton" text="&gt;&gt;" />
@@ -21,7 +21,7 @@
             <MediaView fx:id="_mediaView" fitHeight="400.0" fitWidth="600.0" layoutX="61.0" layoutY="28.0" />
          </children>
       </Pane>
-      <Label fx:id="_videoTitle" layoutX="128.0" layoutY="63.0" prefHeight="78.0" prefWidth="768.0" style="-fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-background-color: YELLOW; -fx-border-color: WHITE;" text="Now Playing: " textAlignment="CENTER">
+      <Label fx:id="_videoTitle" layoutX="88.0" layoutY="98.0" prefHeight="78.0" prefWidth="849.0" style="-fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-background-color: YELLOW; -fx-border-color: WHITE;" text="   Now Playing: " textAlignment="CENTER">
          <font>
             <Font size="41.0" />
          </font>

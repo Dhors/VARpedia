@@ -6,42 +6,56 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-border-color: White; -fx-border-width: 5;" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.QuizController">
    <children>
-      <Button layoutX="25.0" layoutY="700.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
+      <Button fx:id="_backButton" layoutX="907.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
 
-      <Pane fx:id="_quizPlayer" layoutX="106.0" layoutY="157.0" prefHeight="511.0" prefWidth="813.0" style="-fx-background-color: WHITE; -fx-border-radius: 30; -fx-border-color: BLUE; -fx-background-radius: 30; -fx-background-radius: 30;" visible="false">
+      <Pane fx:id="_quizPlayer" layoutX="106.0" layoutY="222.0" prefHeight="496.0" prefWidth="813.0" style="-fx-background-color: WHITE; -fx-border-radius: 0 0 25 25; -fx-border-color: BLUE; -fx-background-radius: 0 0 25 25;" visible="false">
          <children>
-            <Button fx:id="_skipButton" layoutX="143.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleSkipButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Skip" textAlignment="CENTER" />
-            <Button fx:id="_pauseButton" layoutX="45.0" layoutY="445.0" mnemonicParsing="false" onAction="#handlePauseButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Pause" textAlignment="CENTER" />
-            <TextField fx:id="_playerAnswerTextField" layoutX="421.0" layoutY="444.0" prefHeight="43.0" prefWidth="250.0" promptText="Enter guess here" style="-fx-background-radius: 25 0 0 25;" />
-            <Button fx:id="_checkButton" layoutX="671.0" layoutY="444.0" mnemonicParsing="false" onAction="#handleCheckButton" prefHeight="43.0" prefWidth="100.0" style="-fx-background-radius: 0 25 25 0; -fx-border-width: 1; -fx-border-radius: 0 25 25 0; -fx-border-color: BLUE;" styleClass="smallButton" text="Check" textAlignment="CENTER" />
-            <MediaView fx:id="_mediaView" fitHeight="380.0" fitWidth="750.0" layoutX="34.0" layoutY="45.0" />
+            <Button fx:id="_skipButton" layoutX="143.0" layoutY="428.0" mnemonicParsing="false" onAction="#handleSkipButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Skip" textAlignment="CENTER" />
+            <Button fx:id="_pauseButton" layoutX="45.0" layoutY="428.0" mnemonicParsing="false" onAction="#handlePauseButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Pause" textAlignment="CENTER" />
+            <TextField fx:id="_playerAnswerTextField" layoutX="421.0" layoutY="427.0" prefHeight="49.0" prefWidth="250.0" promptText="Enter guess here" style="-fx-background-radius: 25 0 0 25;" />
+            <Button fx:id="_checkButton" layoutX="671.0" layoutY="427.0" mnemonicParsing="false" onAction="#handleCheckButton" prefHeight="43.0" prefWidth="100.0" style="-fx-background-radius: 0 25 25 0; -fx-border-width: 1; -fx-border-radius: 0 25 25 0; -fx-border-color: BLUE;" styleClass="smallButton" text="Check" textAlignment="CENTER" />
+            <MediaView fx:id="_mediaView" fitHeight="380.0" fitWidth="750.0" layoutX="34.0" layoutY="28.0" />
          </children></Pane>
-      <Button fx:id="_deleteButton" layoutX="392.0" layoutY="606.0" mnemonicParsing="false" onAction="#handleDeleteButton" styleClass="bigButton" text="Delete" visible="false" />
-      <Button fx:id="_returnButton" layoutX="518.0" layoutY="606.0" mnemonicParsing="false" onAction="#handleReturnButton" styleClass="bigButton" text="Return" visible="false" />
+      <Button fx:id="_deleteButton" layoutX="447.0" layoutY="668.0" mnemonicParsing="false" onAction="#handleDeleteButton" styleClass="bigButton" text="Delete" visible="false" />
+      <Button fx:id="_returnButton" layoutX="904.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleReturnButton" styleClass="bigButton" text="Return" visible="false" />
 
       <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
-      <Text fx:id="_currentScoreText" layoutX="725.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Score" visible="false" wrappingWidth="215.0">
-         <font>
-            <Font size="32.0" />
-         </font></Text>
-      <Label layoutX="312.0" layoutY="50.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: YELLOW; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-width: 5; -fx-border-color: WHITE;" text="     Quiz Game" textAlignment="CENTER">
+      <Label layoutX="312.0" layoutY="50.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: YELLOW; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-width: 5; -fx-border-color: WHITE;" text="        Quiz Game">
          <font>
             <Font name="FreeSans" size="46.0" />
          </font>
       </Label>
       <ToggleButton layoutX="46.0" layoutY="53.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="125.0" style="-fx-background-color: Yellow; -fx-background-radius: 25; -fx-border-radius: 25;" text="Music: On" />
-      <Button fx:id="_startButton" layoutX="190.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="50.0" prefWidth="132.0" styleClass="bigButton" text="Start" />
-      <Button fx:id="_manageQuizButton" layoutX="190.0" layoutY="409.0" mnemonicParsing="false" onAction="#handleManageQuizButton" styleClass="bigButton" text="Manage" />
-      <ImageView fitHeight="334.0" fitWidth="480.0" layoutX="411.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView fx:id="_listOfQuiz" layoutX="130.0" layoutY="180.0" onMouseClicked="#handleSelectedQuiz" prefHeight="396.0" prefWidth="764.0" visible="false" />
+      <Button fx:id="_startButton" layoutX="339.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="90.0" prefWidth="150.0" styleClass="bigButton" text="Start" />
+      <Button fx:id="_manageQuizButton" layoutX="523.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleManageQuizButton" prefHeight="90.0" prefWidth="150.0" styleClass="bigButton" text="Manage" />
+      <ImageView fx:id="_quizImage" fitHeight="405.0" fitWidth="455.0" layoutX="310.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/bookOpen-removebg-preview.png" />
+         </image></ImageView>
+      <ListView fx:id="_listOfQuiz" layoutX="154.0" layoutY="220.0" onMouseClicked="#handleSelectedQuiz" prefHeight="396.0" prefWidth="689.0" visible="false" />
+      <Label fx:id="selectPrompt" layoutX="154.0" layoutY="615.0" prefHeight="43.0" prefWidth="689.0" style="-fx-background-color: YELLOW; -fx-border-radius: 0 0 25 25; -fx-background-radius: 0 0 25 25; -fx-border-color: WHITE;" text="                               Please select a quiz video to continue." visible="false">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="_quizListLabel" layoutX="154.0" layoutY="168.0" prefHeight="53.0" prefWidth="689.0" style="-fx-background-color: YELLOW; -fx-border-radius: 25 25 0 0; -fx-background-radius: 25 25 0 0; -fx-border-color: WHITE;" text="                              Current Quiz Videos" visible="false">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="_currentScoreText" layoutX="106.0" layoutY="170.0" prefHeight="43.0" prefWidth="813.0" style="-fx-background-color: YELLOW; -fx-background-radius: 25 25 0 0; -fx-border-radius: 25 25 0 0; -fx-border-color: BLUE;" text="   Current score: " visible="false">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

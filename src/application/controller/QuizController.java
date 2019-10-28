@@ -7,11 +7,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -50,20 +52,32 @@ public class QuizController {
     @FXML
     private Button _returnButton;
     @FXML
+    private Button _backButton;
+    @FXML
     private Pane _quizPane;
 
     MediaPlayer _mediaPlayer;
     @FXML
     MediaView _mediaView;
+    @FXML
+    private Label selectPrompt;
+    @FXML
+    private Label _quizListLabel;
+    @FXML
+    private Label _currentScoreText;
+    private int _currentScore;
 
     @FXML
-    private Text _currentScoreText;
-    private int _currentScore;
+    private ImageView _quizImage;
 
     public void initialize(){
         Main.setCurrentScene("QuizScene");
         _currentScore=0;
-        _currentScoreText.setText("Current Score: 0");
+        _currentScoreText.setText("   Current Score: 0");
+
+        BooleanBinding noCreationSelected = _listOfQuiz.getSelectionModel().selectedItemProperty().isNull();
+        _deleteButton.disableProperty().bind(noCreationSelected);
+
         backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
         
         _startButton.setVisible(true);
@@ -89,7 +103,7 @@ public class QuizController {
     @FXML
     private void handleStartButton() throws IOException {
         _quizPlayer.setVisible(true);
-
+        _quizImage.setVisible(false);
 
         _currentScoreText.setVisible(true);
         _startButton.setVisible(false);
@@ -133,7 +147,7 @@ public class QuizController {
         if (answerIsCorrect){
             //updating the score
             _currentScore++;
-            _currentScoreText.setText("Current Score: " + _currentScore);
+            _currentScoreText.setText("   Current Score: " + _currentScore);
             _playerAnswerTextField.setText("");
             Alert correctAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
             correctAnswerPopup.setTitle("Correct");
@@ -190,17 +204,28 @@ public class QuizController {
 
     @FXML
     public void handleManageQuizButton(){
+        _quizImage.setVisible(false);
+
+        selectPrompt.setVisible(true);
+        _quizListLabel.setVisible(true);
+
         ListCurrentQuiz();
+        _backButton.setVisible(false);
+        _returnButton.setVisible(true);
         _listOfQuiz.setVisible(true);
         _manageQuizButton.setVisible(false);
         _deleteButton.setVisible(true);
         _startButton.setVisible(false);
-        _returnButton.setVisible(true);
+
     }
 
     @FXML
     public void handleSelectedQuiz() {
+
         _selectedQuiz = _listOfQuiz.getSelectionModel().getSelectedItem();
+        if (!(_selectedQuiz==null)) {
+            selectPrompt.setText("");
+        }
     }
 
     private void ListCurrentQuiz(){
@@ -250,14 +275,17 @@ public class QuizController {
         if (buttonClicked.get() == ButtonType.OK) {
             getSelectedFile().delete();
             ListCurrentQuiz();
+
+            _selectedQuiz = null;
+            selectPrompt.setText("                               " +
+                    "Please select a quiz video to continue.");
         }
     }
 
     //this one exists out of managing
     @FXML
-    private void handleReturnButton(){
-        initialize();
-
+    private void handleReturnButton() throws IOException {
+        Main.changeScene("resources/QuizScene.fxml");
     }
 
     @FXML

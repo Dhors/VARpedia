@@ -14,27 +14,26 @@
 
 <AnchorPane fx:id="_imagePane" prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ImagesSelectionController">
    <children>
-      <Text fx:id="_instructions" layoutX="312.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Select images and enter creation name" textAlignment="CENTER" visible="false" wrappingWidth="400.0" />
-      <Button fx:id="_submitButton" layoutX="589.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleSubmitButton" prefHeight="35.0" prefWidth="125.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" styleClass="smallButton" text="Submit" visible="false" />
-      <TextField fx:id="_creationNameTextField" layoutX="289.0" layoutY="170.0" prefHeight="46.0" prefWidth="300.0" promptText="Enter creation name here" visible="false" />
-      <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
-      <Pane fx:id="_progressPane" layoutX="301.0" layoutY="245.0" prefHeight="100.0" prefWidth="400.0" style="-fx-border-radius: 25; -fx-background-radius: 25; -fx-background-color: WHITE;" visible="false">
-         <children>
-            <ProgressBar fx:id="_imagesProgressBar" layoutX="28.0" layoutY="48.0" prefHeight="35.0" prefWidth="350.0" progress="0.0" />
-            <Text fx:id="_imageDownloadInProgress" layoutX="8.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Downloading images, please wait..." textAlignment="CENTER" wrappingWidth="400.0" />
-         </children>
-      </Pane>
-      <ImageView fx:id="_clockImage" fitHeight="349.0" fitWidth="350.0" layoutX="327.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@../../../../../../home/student/Downloads/image-removebg-preview.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="301.0" layoutY="50.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: YELLOW; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-width: 5; -fx-border-color: WHITE;" text=" Image Selection" textAlignment="CENTER">
+      <Label layoutX="301.0" layoutY="50.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: YELLOW; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-width: 5; -fx-border-color: WHITE;" text="    Image Selection" textAlignment="CENTER">
          <font>
             <Font name="FreeSans" size="46.0" />
          </font>
       </Label>
-      <Pane fx:id="_imagePane" layoutX="62.0" layoutY="221.0" prefHeight="466.0" prefWidth="900.0" style="-fx-background-radius: 25; -fx-border-radius: 25; -fx-background-color: WHITE;" visible="false">
+      <Button fx:id="_submitButton" layoutX="589.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleSubmitButton" prefHeight="46.0" prefWidth="125.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" styleClass="smallButton" text="Submit" visible="false" />
+      <TextField fx:id="_creationNameTextField" layoutX="289.0" layoutY="170.0" prefHeight="54.0" prefWidth="300.0" promptText="Enter creation name here" visible="false" />
+      <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
+      <Pane fx:id="_progressPane" layoutX="301.0" layoutY="245.0" prefHeight="100.0" prefWidth="400.0" style="-fx-border-radius: 25; -fx-background-radius: 25; -fx-background-color: WHITE;">
+         <children>
+            <ProgressBar fx:id="_imagesProgressBar" layoutX="28.0" layoutY="48.0" prefHeight="35.0" prefWidth="350.0" progress="0.0" />
+            <Text fx:id="_imageDownloadInProgress" layoutX="-7.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoText" text="Downloading images, please wait..." textAlignment="CENTER" wrappingWidth="400.0" />
+         </children>
+      </Pane>
+      <ImageView fx:id="_clockImage" fitHeight="349.0" fitWidth="350.0" layoutX="327.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/image-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="_imagePane" layoutX="62.0" layoutY="246.0" prefHeight="466.0" prefWidth="900.0" style="-fx-background-radius: 25; -fx-border-radius: 25; -fx-background-color: WHITE;" visible="false">
          <children>
             <ImageView fx:id="_ImageView0" fitHeight="100.0" fitWidth="150.0" layoutX="28.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="_ImageView1" fitHeight="100.0" fitWidth="150.0" layoutX="196.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" />

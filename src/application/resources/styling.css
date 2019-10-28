@@ -4,6 +4,8 @@
 
 .root {
 	-fx-background-color: #a9e5ff;
+		-fx-border-color: white;
+    	-fx-border-width: 5px;
 }
 
 .button {
@@ -14,7 +16,7 @@
 .bigButton {
 	-fx-background-radius: 20px;
 	-fx-border-radius: 20px;
-	-fx-font-size: 24px;
+	-fx-font-size: 25px;
 }
 .smallButton {
 	-fx-background-radius: 10px;

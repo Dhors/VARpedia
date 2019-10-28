@@ -5,11 +5,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.io.File;
@@ -32,7 +28,7 @@ public class ListController {
 	@FXML
 	private Button deleteButton;
 	@FXML
-	private Text selectPrompt;
+	private Label selectPrompt;
     @FXML
     static private Button _backButton;
 
@@ -47,7 +43,7 @@ public class ListController {
 		BooleanBinding noCreationSelected = listViewCreations.getSelectionModel().selectedItemProperty().isNull();
 		playButton.disableProperty().bind(noCreationSelected);
 		deleteButton.disableProperty().bind(noCreationSelected);
-		selectPrompt.visibleProperty().bind(noCreationSelected);
+		//selectPrompt.textProperty().bind(noCreationSelected);
 	}
 
 	@FXML
@@ -55,10 +51,6 @@ public class ListController {
 		Main.changeScene("resources/newCreationScene.fxml");
 	}
 
-	@FXML
-	private void handleRefreshButton() {
-		ListCurrentFiles();
-	}
 
 	@FXML
 	private void handlePlayButton() throws IOException {
@@ -73,6 +65,9 @@ public class ListController {
 	@FXML
 	public void handleSelectedCreation() {
 		_selectedCreation = listViewCreations.getSelectionModel().getSelectedItem();
+		if (!(_selectedCreation==null)) {
+			selectPrompt.setText("");
+		}
 	}
 	
 	@FXML
@@ -86,6 +81,8 @@ public class ListController {
 		if (buttonClicked.get() == ButtonType.OK) {
 			getSelectedFile().delete();
 			ListCurrentFiles();
+			_selectedCreation = null;
+			selectPrompt.setText("                  Please select a creation to continue.");
 		}
 	}
 
