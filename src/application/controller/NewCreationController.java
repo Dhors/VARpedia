@@ -181,6 +181,9 @@ public class NewCreationController {
 			String voiceChoice = voiceDropDownMenu.getValue();
 
 			// Run bash script using festival to save a .wav file containing the spoken selected text
+
+			String formattedChunk = chunk.replaceAll("[^a-zA-Z0-9_ -]*","");
+
 			SaveTextTask saveTextTask = new SaveTextTask(voiceChoice, chunk);
 			team.submit(saveTextTask);
 

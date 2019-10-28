@@ -30,7 +30,7 @@ public class SaveTextTask extends Task<String> {
 			
 			int i = 1;
 			File creationDir;
-			
+
 			String[] chunkAsWordArrary = _chunk.split("\\s+");
 			
 			// Find unique name for the chunk based on the first five words
