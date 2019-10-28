@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -21,7 +22,9 @@ import java.io.IOException;
     is a pause/play button, skip forwards, skip backwards and mute button */
 public class playerController {
 	@FXML
-	private CheckBox backgroundMusicCheckBox;
+	private ToggleButton backgroundMusicButton;
+	@FXML
+	private ToggleButton backgroundMusicButtonInPlayer;
 	
 	@FXML
     private Pane _player;
@@ -36,7 +39,13 @@ public class playerController {
     
     public void initialize(){
         Main.setCurrentScene("PlayerScene");
-        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        
+        String buttonText = Main.backgroundMusicPlayer().getButtonText();
+        backgroundMusicButton.setText(buttonText);
+        backgroundMusicButtonInPlayer.setText(buttonText);
+        boolean buttonIsSelected = Main.backgroundMusicPlayer().getButtonIsSelected();
+        backgroundMusicButton.setSelected(buttonIsSelected);
+        backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
         
         _player.getChildren().removeAll();
 
@@ -98,6 +107,23 @@ public class playerController {
 
     @FXML
     private void handleBackgroundMusic() throws IOException {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    	boolean buttonIsSelected = backgroundMusicButton.isSelected();
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+    	backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+    	updateButtonTexts();
+    }
+    
+    @FXML
+    private void handleBackgroundMusicInPlayer() throws IOException {
+    	boolean buttonIsSelected = backgroundMusicButtonInPlayer.isSelected();
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+    	backgroundMusicButton.setSelected(buttonIsSelected);
+    	updateButtonTexts();
+    }
+    
+    private void updateButtonTexts() {
+    	String buttonText = Main.backgroundMusicPlayer().getButtonText();
+    	backgroundMusicButton.setText(buttonText);
+    	backgroundMusicButtonInPlayer.setText(buttonText);
     }
 }

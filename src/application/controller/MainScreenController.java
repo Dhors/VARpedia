@@ -3,18 +3,21 @@ package application.controller;
 import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ToggleButton;
 
 import java.io.File;
 import java.io.IOException;
 
 public class MainScreenController {
 	@FXML
-	private CheckBox backgroundMusicCheckBox;
+	private ToggleButton backgroundMusicButton;
 	
 	public void initialize() {
         Main.setCurrentScene("MainScreenScene");
-	    backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
 	}
 	
     @FXML
@@ -42,6 +45,7 @@ public class MainScreenController {
     
     @FXML
     private void handleBackgroundMusic() throws IOException {
-    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
+    	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
 }

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,7 +22,6 @@
       </Label>
       <Button fx:id="_submitButton" layoutX="589.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleSubmitButton" prefHeight="46.0" prefWidth="125.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" styleClass="smallButton" text="Submit" visible="false" />
       <TextField fx:id="_creationNameTextField" layoutX="289.0" layoutY="170.0" prefHeight="54.0" prefWidth="300.0" promptText="Enter creation name here" visible="false" />
-      <CheckBox fx:id="backgroundMusicCheckBox" layoutX="35.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="25.0" text="Play Background Music" />
       <Pane fx:id="_progressPane" layoutX="301.0" layoutY="245.0" prefHeight="100.0" prefWidth="400.0" style="-fx-border-radius: 25; -fx-background-radius: 25; -fx-background-color: WHITE;">
          <children>
             <ProgressBar fx:id="_imagesProgressBar" layoutX="28.0" layoutY="48.0" prefHeight="35.0" prefWidth="350.0" progress="0.0" />
@@ -57,5 +57,6 @@
             <CheckBox fx:id="_checkBox9" layoutX="736.0" layoutY="404.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Image 10" />
          </children>
       </Pane>
+      <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
    </children>
 </AnchorPane>

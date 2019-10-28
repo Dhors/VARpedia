@@ -28,7 +28,10 @@ public class QuizController {
     private File _quizVideo;
 
     @FXML
-	private CheckBox backgroundMusicCheckBox;
+	private ToggleButton backgroundMusicButton;
+    @FXML
+	private ToggleButton backgroundMusicButtonInPlayer;
+    
     @FXML
     private Pane _quizPlayer;
     @FXML
@@ -78,7 +81,8 @@ public class QuizController {
         BooleanBinding noCreationSelected = _listOfQuiz.getSelectionModel().selectedItemProperty().isNull();
         _deleteButton.disableProperty().bind(noCreationSelected);
 
-        backgroundMusicCheckBox.setSelected(Main.backgroundMusicPlayer().checkBoxesAreSelected());
+        backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
+        backgroundMusicButton.setSelected(Main.backgroundMusicPlayer().getButtonIsSelected());
         
         _startButton.setVisible(true);
         _manageQuizButton.setVisible(true);
@@ -91,6 +95,7 @@ public class QuizController {
         _skipButton.setVisible(false);
         _deleteButton.setVisible(false);
         _playerAnswerTextField.setVisible(false);
+        backgroundMusicButtonInPlayer.setVisible(false);
 
         // Don't let the user check their answer until they enter an answer
         BooleanBinding textIsEmpty = Bindings.createBooleanBinding(() ->
@@ -112,6 +117,7 @@ public class QuizController {
         _checkButton.setVisible(true);
         _skipButton.setVisible(true);
         _playerAnswerTextField.setVisible(true);
+        backgroundMusicButtonInPlayer.setVisible(true);
 
         //_quizPlayer.getChildren().removeAll();
         //_quizPlayer.getChildren().clear();
@@ -290,6 +296,23 @@ public class QuizController {
 
     @FXML
     private void handleBackgroundMusic() throws IOException {
-        Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicCheckBox.isSelected());
+    	boolean buttonIsSelected = backgroundMusicButton.isSelected();
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+    	backgroundMusicButtonInPlayer.setSelected(buttonIsSelected);
+    	updateButtonTexts();
+    }
+    
+    @FXML
+    private void handleBackgroundMusicInPlayer() throws IOException {
+    	boolean buttonIsSelected = backgroundMusicButtonInPlayer.isSelected();
+    	Main.backgroundMusicPlayer().handleBackgroundMusic(buttonIsSelected);
+    	backgroundMusicButton.setSelected(buttonIsSelected);
+    	updateButtonTexts();
+    }
+    
+    private void updateButtonTexts() {
+    	String buttonText = Main.backgroundMusicPlayer().getButtonText();
+    	backgroundMusicButton.setText(buttonText);
+    	backgroundMusicButtonInPlayer.setText(buttonText);
     }
 }

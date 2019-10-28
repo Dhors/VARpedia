@@ -29,8 +29,8 @@ public class BackgroundMusicPlayer {
         });
 	}
 	
-	public void handleBackgroundMusic(boolean checkBoxIsSelected) {
-		if (checkBoxIsSelected) {
+	public void handleBackgroundMusic(boolean buttonIsToggled) {
+		if (buttonIsToggled) {
 			_mediaPlayer.play();
 			isPlaying = true;
     	} else {
@@ -39,7 +39,15 @@ public class BackgroundMusicPlayer {
     	}
 	}
 	
-	public boolean checkBoxesAreSelected() {
+	public String getButtonText(){
+		if (isPlaying) {
+			return "Music: On";
+		} else {
+			return "Music: Off";
+		}
+	}
+	
+	public boolean getButtonIsSelected() {
 		return isPlaying;
 	}
 }
