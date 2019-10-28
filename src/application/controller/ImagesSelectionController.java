@@ -192,9 +192,12 @@ public class ImagesSelectionController {
             	Button cancelButton = ( Button ) creationInProgressPopup.getDialogPane().lookupButton( ButtonType.OK );
                 cancelButton.fire();
 
+                // This will refresh the List of creations only if the user is currently on the List of creations scene
+                // Otherwise when the user enters, the initialize() method of ListCreationsController will
+                // refresh the list of creations.
                 if (Main.getCurrentScene().equals("ListCreationScene")){
                     try {
-                        Main.changeScene("resources/MainScreenScene.fxml");
+                        Main.changeScene("resources/ListCreationsScene.fxml");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

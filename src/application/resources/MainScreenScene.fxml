@@ -6,7 +6,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainScreenController">
    <children>
@@ -15,16 +14,12 @@
             <Image url="@../images/bookOpen-removebg-preview.png" />
          </image>
       </ImageView>
-      <Text fontSmoothingType="LCD" layoutX="375.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VARpedia" textAlignment="CENTER" wrappingWidth="250.0">
-         <font>
-            <Font size="48.0" />
-         </font></Text>
       <Button layoutX="148.0" layoutY="324.0" mnemonicParsing="false" onAction="#handleListButton" prefHeight="80.0" prefWidth="200.0" styleClass="homeButton" text="Play">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="671.0" layoutY="323.0" mnemonicParsing="false" onAction="#handleQuizButton" prefHeight="80.0" prefWidth="200.0" styleClass="homeButton" text="Learn">
+      <Button layoutX="671.0" layoutY="324.0" mnemonicParsing="false" onAction="#handleQuizButton" prefHeight="80.0" prefWidth="200.0" styleClass="homeButton" text="Learn">
          <font>
             <Font size="30.0" />
          </font>
@@ -35,24 +30,29 @@
          </font>
       </Button>
       <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
-      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="853.0" layoutY="307.0" onMouseClicked="#handleLearnInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="852.0" layoutY="310.0" onMouseClicked="#handleLearnInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/infoicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="595.0" layoutY="308.0" onMouseClicked="#handleCreateInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="593.0" layoutY="310.0" onMouseClicked="#handleCreateInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/infoicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="331.0" layoutY="308.0" onMouseClicked="#handlePlayInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="329.0" layoutY="310.0" onMouseClicked="#handlePlayInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/infoicon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="64.0" fitWidth="55.0" layoutX="955.0" layoutY="699.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="64.0" fitWidth="55.0" layoutX="955.0" layoutY="699.0" onMouseClicked="#handleVarpediaInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/infoicon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="718.0" layoutX="153.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/varpedia_logo.png" />
          </image>
       </ImageView>
    </children>

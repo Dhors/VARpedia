@@ -80,4 +80,18 @@ public class MainScreenController {
 
     }
 
+    @FXML
+    private void handleVarpediaInformation() throws IOException {
+        Alert varpediaInfo = new Alert(Alert.AlertType.INFORMATION);
+        varpediaInfo.setTitle("Welcome to VARpedia");
+        varpediaInfo.getDialogPane().getStylesheets().add(("Alert.css"));
+        varpediaInfo.setHeaderText("A Visual, Aural and Reading encyclopedia.");
+        varpediaInfo.setContentText("For the feature overview of this application please " +
+                "refer to the User Manual where each feature is explained fully.");
+        varpediaInfo.show();
+
+    }
+
+
+
 }
