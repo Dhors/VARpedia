@@ -165,7 +165,8 @@ public class NewCreationController {
 	@FXML
 	private void handlePreviewChunk() {
 		String chunk = searchResultTextArea.getSelectedText().trim();
-
+		chunk = chunk.replaceAll("[^a-zA-Z0-9-_ ]*", "");
+		
 		if (isValidChunk(chunk)) {
 			// Run bash script using festival tts to speak the selected text to the user
 			PreviewTextTask previewTextTask = new PreviewTextTask(chunk);
@@ -176,6 +177,7 @@ public class NewCreationController {
 	@FXML
 	private void handleSaveChunk() {
 		String chunk = searchResultTextArea.getSelectedText().trim();
+		chunk = chunk.replaceAll("[^a-zA-Z0-9-_ ]*", "");
 
 		if (isValidChunk(chunk)) {
 			String voiceChoice = voiceDropDownMenu.getValue();

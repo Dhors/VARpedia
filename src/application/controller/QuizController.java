@@ -18,8 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class QuizController {
-	
+public class QuizController {	
     private String _quizTerm;
     private File _quizVideo;
 
