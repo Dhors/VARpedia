@@ -32,8 +32,8 @@
       <Button fx:id="searchWikipediaButton" layoutX="644.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSearchWikipedia" prefHeight="50.0" prefWidth="250.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" styleClass="bigButton" text="Search Wikipedia" />
       <TextArea fx:id="searchResultTextArea" layoutX="36.0" layoutY="204.0" prefHeight="410.0" prefWidth="528.0" visible="false" wrapText="true" />
       <ListView fx:id="chunkList" layoutX="602.0" layoutY="206.0" onMouseClicked="#handleSelectedChunk" prefHeight="410.0" prefWidth="381.0" visible="false" />
-      <Button fx:id="previewChunk" layoutX="97.0" layoutY="674.0" mnemonicParsing="false" onAction="#handlePreviewChunk" prefHeight="46.0" prefWidth="184.0" styleClass="smallButton" text="Preview Chunk" visible="false" />
-      <Button fx:id="saveChunk" layoutX="297.0" layoutY="674.0" mnemonicParsing="false" onAction="#handleSaveChunk" prefHeight="46.0" prefWidth="165.0" styleClass="smallButton" text="Save Chunk" visible="false" />
+      <Button fx:id="previewChunk" layoutX="117.0" layoutY="675.0" mnemonicParsing="false" onAction="#handlePreviewChunk" prefHeight="46.0" prefWidth="160.0" styleClass="smallButton" text="Preview Chunk" visible="false" />
+      <Button fx:id="saveChunk" layoutX="317.0" layoutY="675.0" mnemonicParsing="false" onAction="#handleSaveChunk" prefHeight="46.0" prefWidth="160.0" styleClass="smallButton" text="Save Chunk" visible="false" />
       <ChoiceBox fx:id="voiceDropDownMenu" layoutX="377.0" layoutY="620.0" prefHeight="47.0" prefWidth="150.0" style="-fx-background-radius: 0 25 25 0; -fx-border-radius: 0 25 25 0;" visible="false" />
       <Button fx:id="selectButton" layoutX="658.0" layoutY="686.0" mnemonicParsing="false" onAction="#handleSelectButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Confirm Chunks" visible="false" />
       <Button fx:id="_moveUpButton" disable="true" layoutX="714.0" layoutY="624.0" mnemonicParsing="false" onAction="#handleMoveUpButton" prefHeight="46.0" prefWidth="130.0" styleClass="smallButton" text="Move Up" visible="false" />
