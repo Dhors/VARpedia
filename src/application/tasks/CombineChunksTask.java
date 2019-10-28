@@ -3,12 +3,12 @@ package application.tasks;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
-public class CreateCreationTask extends Task<Void>{
+public class CombineChunksTask extends Task<Void>{
 
 	private ObservableList<String> _chunksList;
 	private String _searchTerm;
 	
-	public CreateCreationTask(ObservableList<String> chunksList, String searchTerm) {
+	public CombineChunksTask(ObservableList<String> chunksList, String searchTerm) {
 		_chunksList = chunksList;
 		_searchTerm = searchTerm;
 	}

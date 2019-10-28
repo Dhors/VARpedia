@@ -1,6 +1,6 @@
 package application.controller;
 
-import application.tasks.CreateCreationTask;
+import application.tasks.CombineChunksTask;
 import application.Main;
 import application.tasks.WikiSearchTask;
 import javafx.beans.binding.Bindings;
@@ -280,10 +280,10 @@ public class CreationController {
 		ObservableList<String> chunksList = chunkList.getItems();
 		
 		// Run bash script to create a combined audio of each selected chunk
-		CreateCreationTask createCreationTask = new CreateCreationTask(chunksList, searchTerm);
-		team.submit(createCreationTask);
+		CombineChunksTask combineChunksTask = new CombineChunksTask(chunksList, searchTerm);
+		team.submit(combineChunksTask);
 
-		createCreationTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		combineChunksTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				try {
