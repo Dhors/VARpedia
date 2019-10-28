@@ -14,9 +14,14 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-border-color: White; -fx-border-width: 5;" stylesheets="@styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.QuizController">
    <children>
+      <ImageView fx:id="_quizImage" fitHeight="315.0" fitWidth="408.0" layoutX="309.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/bookStack.png" />
+         </image>
+      </ImageView>
       <Button fx:id="_backButton" layoutX="907.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="50.0" prefWidth="100.0" styleClass="bigButton" text="Back" />
 
-      <Pane fx:id="_quizPlayer" layoutX="106.0" layoutY="222.0" prefHeight="496.0" prefWidth="813.0" style="-fx-background-color: WHITE; -fx-border-radius: 0 0 25 25; -fx-border-color: BLUE; -fx-background-radius: 0 0 25 25;">
+      <Pane fx:id="_quizPlayer" layoutX="106.0" layoutY="222.0" prefHeight="496.0" prefWidth="813.0" style="-fx-background-color: WHITE; -fx-border-radius: 0 0 25 25; -fx-border-color: BLUE; -fx-background-radius: 0 0 25 25;" visible="false">
          <children>
             <Button fx:id="_skipButton" layoutX="143.0" layoutY="428.0" mnemonicParsing="false" onAction="#handleSkipButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Skip" textAlignment="CENTER" />
             <Button fx:id="_pauseButton" layoutX="45.0" layoutY="428.0" mnemonicParsing="false" onAction="#handlePauseButton" prefWidth="90.0" style="-fx-border-color: BLUE; -fx-border-width: 1;" styleClass="smallButton" text="Pause" textAlignment="CENTER" />
@@ -33,12 +38,8 @@
          </font>
       </Label>
       <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
-      <Button fx:id="_startButton" layoutX="339.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="90.0" prefWidth="150.0" styleClass="bigButton" text="Start" />
-      <Button fx:id="_manageQuizButton" layoutX="523.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleManageQuizButton" prefHeight="90.0" prefWidth="150.0" styleClass="bigButton" text="Manage" />
-      <ImageView fx:id="_quizImage" fitHeight="405.0" fitWidth="455.0" layoutX="310.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/bookOpen-removebg-preview.png" />
-         </image></ImageView>
+      <Button fx:id="_startButton" layoutX="331.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="90.0" prefWidth="170.0" styleClass="homeButton" text="Start" />
+      <Button fx:id="_manageQuizButton" layoutX="526.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleManageQuizButton" prefHeight="90.0" prefWidth="170.0" styleClass="homeButton" text="Manage" />
       <ListView fx:id="_listOfQuiz" layoutX="154.0" layoutY="220.0" onMouseClicked="#handleSelectedQuiz" prefHeight="396.0" prefWidth="689.0" visible="false" />
       <Label fx:id="selectPrompt" layoutX="154.0" layoutY="615.0" prefHeight="43.0" prefWidth="689.0" style="-fx-background-color: YELLOW; -fx-border-radius: 0 0 25 25; -fx-background-radius: 0 0 25 25; -fx-border-color: WHITE;" text="                               Please select a quiz video to continue." visible="false">
          <font>

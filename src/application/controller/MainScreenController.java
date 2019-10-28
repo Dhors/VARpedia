@@ -49,16 +49,30 @@ public class MainScreenController {
 
     @FXML
     private void handleCreateInformation() throws IOException {
-          //  File myFile = new File(System.getProperty("user.dir") + "/VARpediaUserManual.pdf");
-          //  Desktop.getDesktop().open(myFile);
+        Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
+        creationInProgressPopup.setTitle("Make a new creation");
+        creationInProgressPopup.setHeaderText("Make a brand cew creation to watch or learn from");
+        creationInProgressPopup.setContentText("YOu will be guided through the creation process step by step." +
+                "You can make a creation from anything that you want");
+        creationInProgressPopup.show();
     }
     @FXML
     private void handlePlayInformation() throws IOException {
-
+        Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
+        creationInProgressPopup.setTitle("Watch a creation");
+        creationInProgressPopup.setHeaderText("Watch any creation you have made.");
+        creationInProgressPopup.setContentText("You will see a list of creations that you have made in the past" +
+                                                " You can play any creation that you want to.");
+        creationInProgressPopup.show();
     }
     @FXML
     private void handleLearnInformation() throws IOException {
-
+        Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
+        creationInProgressPopup.setTitle("Play a game");
+        creationInProgressPopup.setHeaderText("A fun quiz game begins when you press the button.");
+        creationInProgressPopup.setContentText("You will be quizzed based on all past creations you have made." +
+                "Good luck going for the highest score.");
+        creationInProgressPopup.show();
 
     }
 

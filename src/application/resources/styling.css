@@ -13,6 +13,11 @@
 	-fx-border-color: white;
 	-fx-border-width: 2px;
 }
+.homeButton {
+	-fx-background-radius: 25px;
+	-fx-border-radius: 25px;
+	-fx-font-size: 35px;
+}
 .bigButton {
 	-fx-background-radius: 20px;
 	-fx-border-radius: 20px;

@@ -30,7 +30,7 @@
       </Pane>
       <ImageView fx:id="_clockImage" fitHeight="349.0" fitWidth="350.0" layoutX="327.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/image-removebg-preview.png" />
+            <Image url="@../images/image-removebg-preview(1).png" />
          </image>
       </ImageView>
       <Pane fx:id="_imagePane" layoutX="62.0" layoutY="246.0" prefHeight="466.0" prefWidth="900.0" style="-fx-background-radius: 25; -fx-border-radius: 25; -fx-background-color: WHITE;" visible="false">
