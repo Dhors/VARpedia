@@ -15,7 +15,7 @@
          <font>
             <Font size="48.0" />
          </font></Text>
-      <Button layoutX="160.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleListButton" prefHeight="75.0" prefWidth="195.0" styleClass="bigButton" text="Play">
+      <Button layoutX="160.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleListButton" prefHeight="80.0" prefWidth="200.0" styleClass="bigButton" text="Play">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
@@ -23,12 +23,12 @@
             <Tooltip text="hello hi there" />
          </tooltip>
       </Button>
-      <Button layoutX="655.0" layoutY="334.0" mnemonicParsing="false" onAction="#handleQuizButton" prefHeight="50.0" prefWidth="175.0" styleClass="bigButton" text="Learn">
+      <Button layoutX="672.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleQuizButton" prefHeight="80.0" prefWidth="200.0" styleClass="bigButton" text="Learn">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="403.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="75.0" prefWidth="218.0" styleClass="bigButton" text="Create">
+      <Button layoutX="415.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleNewCreationButton" prefHeight="80.0" prefWidth="200.0" styleClass="bigButton" text="Create">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>
@@ -37,17 +37,17 @@
          </tooltip>
       </Button>
       <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
-      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="795.0" layoutY="391.0" onMouseClicked="#handleCreateInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="845.0" layoutY="381.0" onMouseClicked="#handleLearnInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/15355-illustration-of-a-blue-information-button-pv.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="586.0" layoutY="380.0" onMouseClicked="#handleCreateInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="598.0" layoutY="381.0" onMouseClicked="#handleCreateInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/15355-illustration-of-a-blue-information-button-pv.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="330.0" layoutY="380.0" onMouseClicked="#handlePlayInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="35.0" layoutX="343.0" layoutY="381.0" onMouseClicked="#handlePlayInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/15355-illustration-of-a-blue-information-button-pv.png" />
          </image>

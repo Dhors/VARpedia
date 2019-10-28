@@ -87,6 +87,9 @@ public class CreationController {
 
 	@FXML
 	private void initialize() {
+
+		cleanChunks();
+
 		_searchImage.setVisible(true);
 
 		Main.setCurrentScene("CreationScene");
@@ -106,15 +109,7 @@ public class CreationController {
 	private void handleCreationCancelButton() throws IOException {
 		// Return to main menu
 		Main.changeScene("resources/MainScreenScene.fxml");
-
-		// Cleaning the chunks folder if the creation is cancelled.
-		File chunksFolder = new File(System.getProperty("user.dir") + "/chunks/" );
-		if (chunksFolder.exists()) {
-			for (final File chunkFileName : chunksFolder.listFiles()) {
-				chunkFileName.delete();
-			}
-			chunksFolder.delete();
-		}
+		cleanChunks();
 	}
 	
 	@FXML
@@ -420,9 +415,30 @@ public class CreationController {
 		return 	_searchTerm;
 	}
 
+
+
+	// Cleaning the chunks folder if the creation is cancelled.
+	private void cleanChunks(){
+		File chunksFolder = new File(System.getProperty("user.dir") + "/chunks/");
+		if (chunksFolder.exists()) {
+			for (final File chunkFileName : chunksFolder.listFiles()) {
+				chunkFileName.delete();
+			}
+			chunksFolder.delete();
+		}
+	}
+
+
+
 	@FXML
     private void handleBackgroundMusic() throws IOException {
 		Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
+
+
+
+
+
+
 }

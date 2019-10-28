@@ -1,12 +1,14 @@
 package application.controller;
 
 import application.Main;
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -48,4 +50,20 @@ public class MainScreenController {
     	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
     }
+
+    @FXML
+    private void handleCreateInformation() throws IOException {
+          //  File myFile = new File(System.getProperty("user.dir") + "/VARpediaUserManual.pdf");
+          //  Desktop.getDesktop().open(myFile);
+    }
+    @FXML
+    private void handlePlayInformation() throws IOException {
+
+    }
+    @FXML
+    private void handleLearnInformation() throws IOException {
+
+
+    }
+
 }

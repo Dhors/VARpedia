@@ -58,5 +58,6 @@
          </children>
       </Pane>
       <ToggleButton fx:id="backgroundMusicButton" layoutX="35.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleBackgroundMusic" prefHeight="50.0" prefWidth="135.0" styleClass="musicButton" text="Music: Off" />
+      <Button layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCreationCancelButton" prefHeight="50.0" prefWidth="250.0" styleClass="bigButton" text="Cancel Creation" />
    </children>
 </AnchorPane>

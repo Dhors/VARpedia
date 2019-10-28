@@ -275,6 +275,33 @@ public class ImagesSelectionController {
     }
 
     @FXML
+    private void handleCreationCancelButton() throws IOException {
+        // Return to main menu
+        Main.changeScene("resources/MainScreenScene.fxml");
+        cleanFolder();
+    }
+
+
+    // This method will clean the temporary fold that stored the audio chunks, the flikr images
+    // the no audio .mp4 file the .wav file as well as the folders themselves.
+    private void cleanFolder() {
+        // The creations directory where all creations are stored.
+        File creationFolder = new File(System.getProperty("user.dir") + "/creations/" + _searchTerm+ "/" );
+        for (final File creationFileName : creationFolder.listFiles()) {
+            creationFileName.delete();
+        }
+        creationFolder.delete();
+
+        // The chunks directory where all audio chunks are stored.
+        File chunksFolder = new File(System.getProperty("user.dir") + "/chunks/" );
+        for (final File chunkFileName : chunksFolder.listFiles()) {
+            chunkFileName.delete();
+        }
+        chunksFolder.delete();
+    }
+
+
+    @FXML
     private void handleBackgroundMusic() throws IOException {
     	Main.backgroundMusicPlayer().handleBackgroundMusic(backgroundMusicButton.isSelected());
     	backgroundMusicButton.setText(Main.backgroundMusicPlayer().getButtonText());
