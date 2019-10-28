@@ -73,6 +73,7 @@ public class ListCreationsController {
 	@FXML
 	private void handleDeleteButton(){
 		Alert deleteConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+		deleteConfirmation.getDialogPane().getStylesheets().add(("Alert.css"));
 		deleteConfirmation.setTitle("Confirm Deletion");
 		deleteConfirmation.setHeaderText("Delete " + getSelectedCreationName() + "?");
 		deleteConfirmation.setContentText("Are you sure you want to delete this creation?");

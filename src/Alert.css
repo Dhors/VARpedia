@@ -1,0 +1,35 @@
+* {
+	-fx-font-family: "Dyuthi";
+}
+
+.dialog-pane {
+    -fx-background-color: #00BFFF;
+    -fx-font-size: 25px;
+}
+
+.dialog-pane:header .header-panel .label{
+    -fx-text-fill: #000000;
+    -fx-font-size: 23px;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: #87CEEB;
+}
+
+
+
+.dialog-pane .content {
+    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #00FFFF;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #696969;
+}
+

@@ -146,6 +146,7 @@ public class NewCreationController {
 						searchInProgress.setVisible(false);
 
 						Alert invalidSearchAlert = new Alert(Alert.AlertType.ERROR);
+						invalidSearchAlert.getDialogPane().getStylesheets().add(("Alert.css"));
 						invalidSearchAlert.setTitle("That term cannot be searched");
 						invalidSearchAlert.setHeaderText(null);
 						invalidSearchAlert.setContentText("Please enter a different search term");
@@ -371,6 +372,7 @@ public class NewCreationController {
 		// If the user selects 30 or more words, they must confirm that they want to continue
 		String warningMessage = "Chunks longer than 30 words can result in a lower sound quality. Are you sure you want to create this chunk?";
 		Alert alert = new Alert(AlertType.WARNING, warningMessage, ButtonType.CANCEL, ButtonType.YES);
+		alert.getDialogPane().getStylesheets().add(("Alert.css"));
 		// Display the confirmation alert and store the button pressed
 		Optional<ButtonType> buttonClicked = alert.showAndWait();
 

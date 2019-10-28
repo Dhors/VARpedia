@@ -109,6 +109,7 @@ public class ImagesSelectionController {
         numberOfImages = 10 - numImagesDeleted;
         if (numberOfImages==0) {
             Alert noImagesSelectedError = new Alert(Alert.AlertType.WARNING);
+            noImagesSelectedError.getDialogPane().getStylesheets().add(("Alert.css"));
             noImagesSelectedError.setTitle("No images selected");
             noImagesSelectedError.setContentText("Please select at last one image.");
             noImagesSelectedError.showAndWait();
@@ -120,12 +121,14 @@ public class ImagesSelectionController {
         	// do nothing
         } else if (!_creationNameTextField.getText().matches("[a-zA-Z0-9_-]*")) {
             Alert invalidCreationNameError = new Alert(Alert.AlertType.WARNING);
+            invalidCreationNameError.getDialogPane().getStylesheets().add(("Alert.css"));
             invalidCreationNameError.setTitle("Invalid Creation name");
             invalidCreationNameError.setContentText("Please enter a valid creation name consisting of alphabet letters, digits, underscores, and hyphens only.");
             invalidCreationNameError.showAndWait();
         } else if (!isUniqueCreationName(_creationNameTextField.getText())) {
             // throw alerts
             Alert overrideExistingCreationPopup = new Alert(Alert.AlertType.CONFIRMATION);
+            overrideExistingCreationPopup.getDialogPane().getStylesheets().add(("Alert.css"));
             overrideExistingCreationPopup.setTitle("Override");
             overrideExistingCreationPopup.setHeaderText("Creation name already exists");
             overrideExistingCreationPopup.setContentText("Would you like to override the existing creation?");
@@ -152,6 +155,7 @@ public class ImagesSelectionController {
       Using these images a video will be created with the search term added as text.*/
     private void createVideo(String creationName){
     	Alert creationInProgressPopup = new Alert(Alert.AlertType.INFORMATION);
+        creationInProgressPopup.getDialogPane().getStylesheets().add(("Alert.css"));
         creationInProgressPopup.setTitle("Creation in progress");
         creationInProgressPopup.setHeaderText("Creation is being made, please wait...");
         creationInProgressPopup.setContentText("You will be informed when the creation is complete.");
@@ -184,6 +188,7 @@ public class ImagesSelectionController {
                 }
 
                 Alert creationFinishedPopup = new Alert(Alert.AlertType.INFORMATION);
+                creationFinishedPopup.getDialogPane().getStylesheets().add(("Alert.css"));
                 creationFinishedPopup.setTitle("Creation completed");
                 creationFinishedPopup.setHeaderText("Creation completed: "+ _creationNameTextField.getText() +" is finished");
                 creationFinishedPopup.setContentText("You can find it in the Creations or Quiz sections");

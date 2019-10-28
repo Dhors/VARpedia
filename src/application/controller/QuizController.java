@@ -149,16 +149,18 @@ public class QuizController {
             _currentScoreText.setText("   Current Score: " + _currentScore);
             _playerAnswerTextField.setText("");
             Alert correctAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
-            correctAnswerPopup.setTitle("Correct");
+            correctAnswerPopup.getDialogPane().getStylesheets().add(("Alert.css"));
+            correctAnswerPopup.setTitle("Well done that was right.");
             correctAnswerPopup.setHeaderText(null);
-            correctAnswerPopup.setContentText("Now try the next one");
+            correctAnswerPopup.setContentText("Good luck in the next one.");
             correctAnswerPopup.showAndWait();
             _startButton.fire();
         } else {
             Alert incorrectAnswerPopup = new Alert(Alert.AlertType.INFORMATION);
-            incorrectAnswerPopup.setTitle("Incorrect");
+            incorrectAnswerPopup.getDialogPane().getStylesheets().add(("Alert.css"));
+            incorrectAnswerPopup.setTitle("Sorry that was wrong.");
             incorrectAnswerPopup.setHeaderText(null);
-            incorrectAnswerPopup.setContentText("Please try again");
+            incorrectAnswerPopup.setContentText("Please try again.");
             incorrectAnswerPopup.showAndWait();
             _mediaPlayer.play();
         }
@@ -266,6 +268,7 @@ public class QuizController {
     @FXML
     private void handleDeleteButton(){
         Alert deleteConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteConfirmation.getDialogPane().getStylesheets().add(("Alert.css"));
         deleteConfirmation.setTitle("Confirm Deletion");
         deleteConfirmation.setHeaderText("Delete " + getSelectedQuizName() + "?");
         deleteConfirmation.setContentText("Are you sure you want to delete this quiz?");
